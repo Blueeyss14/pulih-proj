@@ -18,10 +18,10 @@ MonoBehaviour:
     m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.192
+    m_Value: 0.449
   response:
     m_OverrideState: 1
-    m_Value: 0.661
+    m_Value: 0.602
   texture:
     m_OverrideState: 1
     m_Value: {fileID: 0}
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42ef2681fa3dc8c4fa031f044e68c63f, type: 3}
   m_Name: GlobalIllumination
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.GlobalIllumination
-  active: 1
+  active: 0
   quality:
     m_OverrideState: 1
     m_Value: 3
@@ -347,16 +347,16 @@ MonoBehaviour:
     m_Value: 509.4
   m_NearSampleCount:
     m_OverrideState: 1
-    m_Value: 5
+    m_Value: 4
   m_NearMaxBlur:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: 0
   m_FarSampleCount:
     m_OverrideState: 1
-    m_Value: 16
+    m_Value: 3
   m_FarMaxBlur:
     m_OverrideState: 1
-    m_Value: 0.03
+    m_Value: 0.2
   m_Resolution:
     m_OverrideState: 0
     m_Value: 2
@@ -466,10 +466,10 @@ MonoBehaviour:
     m_Value: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 1.12
+    m_Value: 0.522
   directLightingStrength:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.921
   radius:
     m_OverrideState: 1
     m_Value: 2
@@ -538,7 +538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 384c4d03a551c44448145f4093304119, type: 3}
   m_Name: ScreenSpaceReflection
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.ScreenSpaceReflection
-  active: 1
+  active: 0
   quality:
     m_OverrideState: 1
     m_Value: 1
@@ -669,7 +669,7 @@ MonoBehaviour:
     m_Value: 0.52
   intensity:
     m_OverrideState: 1
-    m_Value: 0.524
+    m_Value: 0.703
   scatter:
     m_OverrideState: 1
     m_Value: 0.821
@@ -1058,7 +1058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ddcec8a8eb2d684d833ac8f5d26aebd, type: 3}
   m_Name: HDShadowSettings
   m_EditorClassIdentifier: Unity.RenderPipelines.HighDefinition.Runtime::UnityEngine.Rendering.HighDefinition.HDShadowSettings
-  active: 0
+  active: 1
   interCascadeBorders: 1
   maxShadowDistance:
     m_OverrideState: 1

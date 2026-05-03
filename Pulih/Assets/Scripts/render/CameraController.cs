@@ -14,10 +14,22 @@ public class CamerController : MonoBehaviour
     private float pitchCamX = 15f;
     private float distance;
 
+    
+    private Plane[] frustumPlanes;
+    public Plane[] FrustumPlanes => frustumPlanes;
+    private Renderer[] allRenderers;
+
     void Start()
     {
         distance = offset.magnitude;
         Cursor.lockState = CursorLockMode.Locked;
+        allRenderers = FindObjectsByType<Renderer>(FindObjectsSortMode.None);
+    }
+
+    void Awake()
+    {
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 0;
     }
 
     void LateUpdate()
@@ -44,5 +56,14 @@ public class CamerController : MonoBehaviour
 
         transform.position = desiredPos;
         transform.rotation = rotation;
+
+        frustumPlanes = GeometryUtility.CalculateFrustumPlanes(GetComponent<Camera>());
+        foreach (var rend in allRenderers)
+        {
+            if (rend == null) continue;
+            rend.gameObject.SetActive(
+                GeometryUtility.TestPlanesAABB(frustumPlanes, rend.bounds)
+            );
+        }
     }
 }

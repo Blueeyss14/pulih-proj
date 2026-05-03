@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: grass
-  m_Shader: {fileID: -6465566751694194690, guid: 1504d89fabd55c34a91a7ec84a76fe64, type: 3}
+  m_Shader: {fileID: 4800000, guid: 6e4ae4064600d784cac1e41a9e6f2e59, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
@@ -16,11 +16,10 @@ Material:
   - _DISABLE_SSR_TRANSPARENT
   - _DOUBLESIDED_ON
   - _ENABLE_FOG_ON_TRANSPARENT
-  - _SURFACE_TYPE_TRANSPARENT
-  m_InvalidKeywords:
-  - _MASKMAP
   - _NORMALMAP
   - _NORMALMAP_TANGENT_SPACE
+  - _SURFACE_TYPE_TRANSPARENT
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
@@ -87,11 +86,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: b2f0cb665d3c8874996d1dc8486439d6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
-        m_Texture: {fileID: 2800000, guid: 5f594ffdf7b442745b206a7b4b5e563f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Metallic:
@@ -161,11 +160,11 @@ Material:
     - _ATDistance: 1
     - _AddPrecomputedVelocity: 0
     - _AlbedoAffectEmissive: 0
-    - _AlphaCutoff: 0.5
+    - _AlphaCutoff: 0.519
     - _AlphaCutoffEnable: 1
     - _AlphaCutoffPostpass: 0.5
     - _AlphaCutoffPrepass: 0.5
-    - _AlphaCutoffShadow: 0.5
+    - _AlphaCutoffShadow: 0.95
     - _AlphaDstBlend: 10
     - _AlphaRemapMax: 1
     - _AlphaRemapMin: 0
@@ -177,7 +176,7 @@ Material:
     - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 0
     - _CullModeForward: 0
-    - _Cutoff: 0.5
+    - _Cutoff: 0.519
     - _DepthOffsetEnable: 0
     - _DetailAlbedoScale: 1
     - _DetailNormalScale: 1
@@ -222,7 +221,7 @@ Material:
     - _MetallicRemapMin: 0
     - _NORMAL_VALUE: 0
     - _NormalMapSpace: 0
-    - _NormalScale: 1
+    - _NormalScale: 0.59
     - _ObjectSpaceUVMapping: 0
     - _ObjectSpaceUVMappingEmissive: 0
     - _OpaqueCullMode: 2
@@ -239,7 +238,7 @@ Material:
     - _RenderQueueType: 4
     - _RequireSplitLighting: 0
     - _Scale: 0
-    - _Smoothness: 0.5
+    - _Smoothness: 0.369
     - _SmoothnessRemapMax: 0.27756652
     - _SmoothnessRemapMin: 0.27756652
     - _SpecularAAScreenSpaceVariance: 0.1
@@ -287,8 +286,8 @@ Material:
     - _roughness_slider: 0.27
     - _saturation: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.3018868, g: 0.101103604, b: 0.101103604, a: 1}
+    - _BaseColor: {r: 1, g: 0.89665395, b: 0.4198113, a: 1}
+    - _Color: {r: 1, g: 0.89665395, b: 0.41981128, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}

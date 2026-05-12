@@ -17,10 +17,16 @@ public class CamerController : MonoBehaviour
     private Plane[] frustumPlanes;
     public Plane[] FrustumPlanes => frustumPlanes;
 
+    private Camera cachedCamera;
+    private Vector3 lastCameraPosition;
+    private Quaternion lastCameraRotation;
+
     void Awake()
     {
         Application.targetFrameRate = 60;
         QualitySettings.vSyncCount = 0;
+        
+        cachedCamera = GetComponent<Camera>();
     }
 
     void Start()
@@ -54,6 +60,12 @@ public class CamerController : MonoBehaviour
         transform.position = desiredPos;
         transform.rotation = rotation;
 
-        frustumPlanes = GeometryUtility.CalculateFrustumPlanes(GetComponent<Camera>());
+        // update frustum planes saat kamera bergerak saja
+        if (lastCameraPosition != desiredPos || lastCameraRotation != rotation)
+        {
+            frustumPlanes = GeometryUtility.CalculateFrustumPlanes(cachedCamera);
+            lastCameraPosition = desiredPos;
+            lastCameraRotation = rotation;
+        }
     }
 }

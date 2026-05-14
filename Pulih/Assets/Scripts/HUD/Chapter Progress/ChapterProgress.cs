@@ -5,32 +5,42 @@ using TMPro;
 
 public class ChapterProgress : MonoBehaviour
 {
-    public int chapterNumber; 
+    [Header("Data Source")]
+    public GameObject dataHolder;
+    private List<BaseChapterMission> allChapters = new List<BaseChapterMission>();
+    public int currentChapterIndex = 0;
+
+    [Header("Icons")]
     public Sprite checklistIcon;
     public Sprite questionmarkIcon;
-
-    [System.Serializable]
-    public class Mission {
-        public string missionTitle;
-        public bool isCompleted;
-    }
-
-    public List<Mission> missions = new List<Mission>();
 
     [Header("UI References")]
     public TextMeshProUGUI chapterText;
     public TextMeshProUGUI progressCounterText;
+    public TextMeshProUGUI objectiveText;
     public GameObject contentPrefab;
     public Transform container;
 
     void Start()
     {
+        if (dataHolder != null)
+        {
+            allChapters.AddRange(dataHolder.GetComponents<BaseChapterMission>());
+        }
         GenerateChapterUI();
     }
 
     public void GenerateChapterUI()
     {
-        if (chapterText != null) chapterText.text = "Chapter " + chapterNumber;
+        if (allChapters.Count == 0 || currentChapterIndex >= allChapters.Count) return;
+
+        BaseChapterMission currentData = allChapters[currentChapterIndex];
+
+        if (chapterText != null) 
+            chapterText.text = "Chapter " + currentData.chapterNumber;
+
+        if (objectiveText != null)
+            objectiveText.text = currentData.objectiveHint;
 
         foreach (Transform child in container) {
             if (child.name != "HEAD") Destroy(child.gameObject);
@@ -38,7 +48,7 @@ public class ChapterProgress : MonoBehaviour
 
         int completedCount = 0;
 
-        foreach (Mission m in missions)
+        foreach (var m in currentData.missions)
         {
             GameObject newRow = Instantiate(contentPrefab, container);
             
@@ -55,7 +65,21 @@ public class ChapterProgress : MonoBehaviour
         }
 
         if (progressCounterText != null) {
-            progressCounterText.text = completedCount + "/" + missions.Count;
+            progressCounterText.text = completedCount + "/" + currentData.missions.Count;
         }
+
+        if (completedCount == currentData.missions.Count && currentChapterIndex < allChapters.Count - 1)
+        {
+            if (!IsInvoking("NextChapter"))
+            {
+                Invoke("NextChapter", 2f);
+            }
+        }
+    }
+
+    public void NextChapter()
+    {
+        currentChapterIndex++;
+        GenerateChapterUI();
     }
 }

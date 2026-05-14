@@ -198483,7 +198483,7 @@ GameObject:
   - component: {fileID: 1242135295}
   - component: {fileID: 1242135294}
   m_Layer: 5
-  m_Name: ObjectiveText
+  m_Name: Hint Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -297329,7 +297329,6 @@ GameObject:
   - component: {fileID: 1867025046}
   - component: {fileID: 1867025047}
   - component: {fileID: 1867025048}
-  - component: {fileID: 1867025049}
   m_Layer: 0
   m_Name: HUD
   m_TagString: Untagged
@@ -297387,24 +297386,11 @@ MonoBehaviour:
   checklistIcon: {fileID: 21300000, guid: ad5e503d2ca68f044aaa7421c9340307, type: 3}
   questionmarkIcon: {fileID: 21300000, guid: f0d8ad023cacaf24daf481153f2636df, type: 3}
   chapterText: {fileID: 978071180}
+  newChapterText: {fileID: 1651252898}
   progressCounterText: {fileID: 1811999445}
+  objectiveText: {fileID: 1242135294}
   contentPrefab: {fileID: 2948558613704391083, guid: 30338f4cefe3e53409e1d01fd6376331, type: 3}
   container: {fileID: 1992071099}
-  overlayAnimation: {fileID: 1867025049}
---- !u!114 &1867025049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1867025045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e03b7dedda3740e4f958d8e5177a1fc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::OverlayAnimation
-  newChapterText: {fileID: 1651252898}
-  objectiveText: {fileID: 1242135294}
 --- !u!1 &1868025538
 GameObject:
   m_ObjectHideFlags: 0

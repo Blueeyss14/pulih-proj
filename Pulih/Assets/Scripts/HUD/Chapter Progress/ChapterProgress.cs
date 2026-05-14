@@ -7,7 +7,9 @@ public class ChapterProgress : MonoBehaviour
 {
     [Header("Data Source")]
     public GameObject dataHolder;
+
     private List<BaseChapterMission> allChapters = new List<BaseChapterMission>();
+
     public int currentChapterIndex = 0;
 
     [Header("Icons")]
@@ -17,9 +19,12 @@ public class ChapterProgress : MonoBehaviour
     [Header("UI References")]
     public TextMeshProUGUI chapterText;
     public TextMeshProUGUI progressCounterText;
-    public TextMeshProUGUI objectiveText;
+
     public GameObject contentPrefab;
     public Transform container;
+
+    [Header("Overlay Animation")]
+    public OverlayAnimation overlayAnimation;
 
     void Start()
     {
@@ -27,23 +32,34 @@ public class ChapterProgress : MonoBehaviour
         {
             allChapters.AddRange(dataHolder.GetComponents<BaseChapterMission>());
         }
+
         GenerateChapterUI();
     }
 
     public void GenerateChapterUI()
     {
-        if (allChapters.Count == 0 || currentChapterIndex >= allChapters.Count) return;
+        if (allChapters.Count == 0 || currentChapterIndex >= allChapters.Count)
+            return;
 
         BaseChapterMission currentData = allChapters[currentChapterIndex];
 
-        if (chapterText != null) 
-            chapterText.text = "Chapter " + currentData.chapterNumber;
+        string chapterTitle = "Chapter " + currentData.chapterNumber;
 
-        if (objectiveText != null)
-            objectiveText.text = currentData.objectiveHint;
+        if (chapterText != null)
+            chapterText.text = chapterTitle;
 
-        foreach (Transform child in container) {
-            if (child.name != "HEAD") Destroy(child.gameObject);
+        if (overlayAnimation != null)
+        {
+            overlayAnimation.Play(
+                chapterTitle,
+                currentData.objectiveHint
+            );
+        }
+
+        foreach (Transform child in container)
+        {
+            if (child.name != "HEAD")
+                Destroy(child.gameObject);
         }
 
         int completedCount = 0;
@@ -51,28 +67,39 @@ public class ChapterProgress : MonoBehaviour
         foreach (var m in currentData.missions)
         {
             GameObject newRow = Instantiate(contentPrefab, container);
-            
+
             TextMeshProUGUI txt = newRow.GetComponentInChildren<TextMeshProUGUI>();
-            if (txt != null) txt.text = m.missionTitle;
+
+            if (txt != null)
+                txt.text = m.missionTitle;
 
             Transform iconObj = newRow.transform.Find("icons");
-            if (iconObj != null) {
+
+            if (iconObj != null)
+            {
                 Image img = iconObj.GetComponent<Image>();
-                img.sprite = m.isCompleted ? checklistIcon : questionmarkIcon;
+
+                img.sprite = m.isCompleted
+                    ? checklistIcon
+                    : questionmarkIcon;
             }
 
-            if (m.isCompleted) completedCount++;
+            if (m.isCompleted)
+                completedCount++;
         }
 
-        if (progressCounterText != null) {
-            progressCounterText.text = completedCount + "/" + currentData.missions.Count;
-        }
-
-        if (completedCount == currentData.missions.Count && currentChapterIndex < allChapters.Count - 1)
+        if (progressCounterText != null)
         {
-            if (!IsInvoking("NextChapter"))
+            progressCounterText.text =
+                completedCount + "/" + currentData.missions.Count;
+        }
+
+        if (completedCount == currentData.missions.Count &&
+            currentChapterIndex < allChapters.Count - 1)
+        {
+            if (!IsInvoking(nameof(NextChapter)))
             {
-                Invoke("NextChapter", 2f);
+                Invoke(nameof(NextChapter), 2f);
             }
         }
     }
@@ -80,6 +107,7 @@ public class ChapterProgress : MonoBehaviour
     public void NextChapter()
     {
         currentChapterIndex++;
+
         GenerateChapterUI();
     }
 }

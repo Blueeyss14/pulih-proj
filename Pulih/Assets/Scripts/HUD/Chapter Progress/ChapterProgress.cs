@@ -51,7 +51,7 @@ public class ChapterProgress : MonoBehaviour
         if (overlayAnimation != null)
         {
             overlayAnimation.Play(
-                chapterTitle,
+                currentData.chapterNumber.ToString(),
                 currentData.objectiveHint
             );
         }

@@ -60,7 +60,7 @@ public class OverlayAnimation : MonoBehaviour
 
         newChapterCanvas.alpha = 1f;
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3.5f);
 
         t = 0f;
 

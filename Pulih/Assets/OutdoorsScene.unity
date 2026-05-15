@@ -343340,6 +343340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   useBothHands: 0
+  leftFirst: 0
   rightPositionOffset: {x: 0.03, y: 0.069, z: -0.136}
   rightRotationOffset: {x: 176.584, y: 92.906, z: 107.996}
   rightScaleOffset: {x: 0.03246737, y: 0.03246737, z: 0.03246737}
@@ -354398,6 +354399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   useBothHands: 0
+  leftFirst: 1
   rightPositionOffset: {x: 0.03, y: 0.069, z: -0.136}
   rightRotationOffset: {x: 176.584, y: 92.906, z: 107.996}
   rightScaleOffset: {x: 0.03246737, y: 0.03246737, z: 0.03246737}

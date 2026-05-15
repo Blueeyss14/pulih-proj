@@ -72,32 +72,65 @@ public class PickupController : MonoBehaviour
             return;
         }
 
-        if (rightHandItem == null)
+        if (item.leftFirst)
         {
-            rightHandItem = target;
+            if (leftHandItem == null)
+            {
+                leftHandItem = target;
 
-            target.transform.SetParent(rightHandTransform);
+                target.transform.SetParent(leftHandTransform);
 
-            target.transform.localPosition = Vector3.zero;
-            target.transform.localRotation = Quaternion.identity;
+                target.transform.localPosition = Vector3.zero;
+                target.transform.localRotation = Quaternion.identity;
 
-            ApplyHoldTransform(target, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
+                ApplyHoldTransform(target, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
 
-            return;
+                return;
+            }
+
+            if (rightHandItem == null)
+            {
+                rightHandItem = target;
+
+                target.transform.SetParent(rightHandTransform);
+
+                target.transform.localPosition = Vector3.zero;
+                target.transform.localRotation = Quaternion.identity;
+
+                ApplyHoldTransform(target, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
+
+                return;
+            }
         }
-
-        if (leftHandItem == null)
+        else
         {
-            leftHandItem = target;
+            if (rightHandItem == null)
+            {
+                rightHandItem = target;
 
-            target.transform.SetParent(leftHandTransform);
+                target.transform.SetParent(rightHandTransform);
 
-            target.transform.localPosition = Vector3.zero;
-            target.transform.localRotation = Quaternion.identity;
+                target.transform.localPosition = Vector3.zero;
+                target.transform.localRotation = Quaternion.identity;
 
-            ApplyHoldTransform(target, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
+                ApplyHoldTransform(target, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
 
-            return;
+                return;
+            }
+
+            if (leftHandItem == null)
+            {
+                leftHandItem = target;
+
+                target.transform.SetParent(leftHandTransform);
+
+                target.transform.localPosition = Vector3.zero;
+                target.transform.localRotation = Quaternion.identity;
+
+                ApplyHoldTransform(target, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
+
+                return;
+            }
         }
 
         Debug.Log("kedua tangan penuh");

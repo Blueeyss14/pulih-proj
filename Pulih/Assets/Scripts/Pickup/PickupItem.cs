@@ -5,6 +5,7 @@ public class PickupItem : MonoBehaviour
 
     ///Dell: kalau useBothHand nya true yg dipake cuma Right aja bg, sengaja bikin gini biar gampang ntar nyesuain rotasi beberapa item
     public bool useBothHands;
+    public bool leftFirst;
 
     [Header("Right Hand / Both Hand Offset")]
     public Vector3 rightPositionOffset = Vector3.zero;

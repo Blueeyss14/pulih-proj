@@ -290505,7 +290505,7 @@ MonoBehaviour:
   sideOffset: 0.43
   sensitivity: 1.5
   minYAngle: -40
-  maxYAngle: 50
+  maxYAngle: 70
 --- !u!114 &1823688470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290520,7 +290520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CrosshairAim
   crosshair: {fileID: 705487825}
   playerCamera: {fileID: 1823688466}
-  distance: 20
+  distance: 7
   itemLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -343341,6 +343341,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   useBothHands: 0
   leftFirst: 0
+  animationTrigger: Pickup
+  delayPickup: 0.5
   rightPositionOffset: {x: 0.03, y: 0.069, z: -0.136}
   rightRotationOffset: {x: 176.584, y: 92.906, z: 107.996}
   rightScaleOffset: {x: 0.03246737, y: 0.03246737, z: 0.03246737}
@@ -354401,6 +354403,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   useBothHands: 0
   leftFirst: 1
+  animationTrigger: Pickup
+  delayPickup: 0.5
   rightPositionOffset: {x: 0.03, y: 0.069, z: -0.136}
   rightRotationOffset: {x: 176.584, y: 92.906, z: 107.996}
   rightScaleOffset: {x: 0.03246737, y: 0.03246737, z: 0.03246737}

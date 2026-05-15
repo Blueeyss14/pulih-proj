@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class PickupController : MonoBehaviour
 {
@@ -12,6 +13,13 @@ public class PickupController : MonoBehaviour
     GameObject rightHandItem;
     GameObject leftHandItem;
     GameObject bothHandItem;
+
+    AliceController aliceController;
+
+    void Start()
+    {
+        aliceController = FindObjectOfType<AliceController>();
+    }
 
     void Update()
     {
@@ -28,6 +36,89 @@ public class PickupController : MonoBehaviour
 
         if (scaleOffset != Vector3.zero)
             target.transform.localScale = scaleOffset;
+    }
+
+    IEnumerator DelayedPickup(PickupItem item, GameObject target)
+    {
+        yield return new WaitForSeconds(item.delayPickup);
+
+        if (item.useBothHands)
+        {
+            bothHandItem = target;
+
+            target.transform.SetParent(bothHandTransform);
+
+            target.transform.localPosition = Vector3.zero;
+            target.transform.localRotation = Quaternion.identity;
+
+            ApplyHoldTransform(target, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
+        }
+        else if (item.leftFirst)
+        {
+            if (leftHandItem == null)
+            {
+                leftHandItem = target;
+
+                target.transform.SetParent(leftHandTransform);
+
+                target.transform.localPosition = Vector3.zero;
+                target.transform.localRotation = Quaternion.identity;
+
+                ApplyHoldTransform(target, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
+            }
+            else if (rightHandItem == null)
+            {
+                rightHandItem = target;
+
+                target.transform.SetParent(rightHandTransform);
+
+                target.transform.localPosition = Vector3.zero;
+                target.transform.localRotation = Quaternion.identity;
+
+                ApplyHoldTransform(target, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
+            }
+        }
+        else
+        {
+            if (rightHandItem == null)
+            {
+                rightHandItem = target;
+
+                target.transform.SetParent(rightHandTransform);
+
+                target.transform.localPosition = Vector3.zero;
+                target.transform.localRotation = Quaternion.identity;
+
+                ApplyHoldTransform(target, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
+            }
+            else if (leftHandItem == null)
+            {
+                leftHandItem = target;
+
+                target.transform.SetParent(leftHandTransform);
+
+                target.transform.localPosition = Vector3.zero;
+                target.transform.localRotation = Quaternion.identity;
+
+                ApplyHoldTransform(target, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
+            }
+        }
+
+        if (animator != null)
+        {
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(1);
+
+            while (stateInfo.normalizedTime < 1f)
+            {
+                stateInfo = animator.GetCurrentAnimatorStateInfo(1);
+                yield return null;
+            }
+        }
+
+        if (aliceController != null)
+        {
+            aliceController.enabled = true;
+        }
     }
 
     void PickupObject()
@@ -52,7 +143,16 @@ public class PickupController : MonoBehaviour
 
         if (animator != null)
         {
-            animator.SetTrigger("Pickup");
+            string triggerName = string.IsNullOrEmpty(item.animationTrigger)
+                ? "Pickup"
+                : item.animationTrigger;
+
+            if (aliceController != null)
+            {
+                aliceController.enabled = false;
+            }
+
+            animator.SetTrigger(triggerName);
         }
 
         if (item.useBothHands)
@@ -67,75 +167,23 @@ public class PickupController : MonoBehaviour
                 return;
             }
 
-            bothHandItem = target;
-
-            target.transform.SetParent(bothHandTransform);
-
-            target.transform.localPosition = Vector3.zero;
-            target.transform.localRotation = Quaternion.identity;
-
-            ApplyHoldTransform(target, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
-
+            StartCoroutine(DelayedPickup(item, target));
             return;
         }
 
         if (item.leftFirst)
         {
-            if (leftHandItem == null)
+            if (leftHandItem == null || rightHandItem == null)
             {
-                leftHandItem = target;
-
-                target.transform.SetParent(leftHandTransform);
-
-                target.transform.localPosition = Vector3.zero;
-                target.transform.localRotation = Quaternion.identity;
-
-                ApplyHoldTransform(target, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
-
-                return;
-            }
-
-            if (rightHandItem == null)
-            {
-                rightHandItem = target;
-
-                target.transform.SetParent(rightHandTransform);
-
-                target.transform.localPosition = Vector3.zero;
-                target.transform.localRotation = Quaternion.identity;
-
-                ApplyHoldTransform(target, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
-
+                StartCoroutine(DelayedPickup(item, target));
                 return;
             }
         }
         else
         {
-            if (rightHandItem == null)
+            if (rightHandItem == null || leftHandItem == null)
             {
-                rightHandItem = target;
-
-                target.transform.SetParent(rightHandTransform);
-
-                target.transform.localPosition = Vector3.zero;
-                target.transform.localRotation = Quaternion.identity;
-
-                ApplyHoldTransform(target, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
-
-                return;
-            }
-
-            if (leftHandItem == null)
-            {
-                leftHandItem = target;
-
-                target.transform.SetParent(leftHandTransform);
-
-                target.transform.localPosition = Vector3.zero;
-                target.transform.localRotation = Quaternion.identity;
-
-                ApplyHoldTransform(target, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
-
+                StartCoroutine(DelayedPickup(item, target));
                 return;
             }
         }

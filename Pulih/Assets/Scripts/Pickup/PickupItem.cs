@@ -7,6 +7,10 @@ public class PickupItem : MonoBehaviour
     public bool useBothHands;
     public bool leftFirst;
 
+    [Header("Animation")]
+    public string animationTrigger = "Pickup";
+    public float delayPickup = 0.5f;
+
     [Header("Right Hand / Both Hand Offset")]
     public Vector3 rightPositionOffset = Vector3.zero;
     public Vector3 rightRotationOffset = Vector3.zero;

@@ -1,0 +1,68 @@
+using UnityEngine;
+using TMPro;
+
+public class PickupUsingPlastic : MonoBehaviour
+{
+    public TMP_Text trashCounterText;
+    public int maxTrash = 10;
+    
+    private int currentTrash = 0;
+    private PickupController pickupController;
+    private bool isHeld = false;
+
+    void Start()
+    {
+        UpdateUI();
+    }
+
+    void Update()
+    {
+        if (transform.parent != null && !isHeld)
+        {
+            pickupController = GetComponentInParent<PickupController>();
+            if (pickupController != null)
+            {
+                isHeld = true;
+            }
+        }
+        else if (transform.parent == null)
+        {
+            isHeld = false;
+            pickupController = null;
+        }
+
+        if (isHeld && pickupController != null)
+        {
+            CheckHandForTrash(pickupController.rightHandTransform);
+            CheckHandForTrash(pickupController.leftHandTransform);
+        }
+    }
+
+    void CheckHandForTrash(Transform handTransform)
+    {
+        if (handTransform == null) return;
+
+        for (int i = handTransform.childCount - 1; i >= 0; i--)
+        {
+            Transform child = handTransform.GetChild(i);
+            
+            if (child.CompareTag("Trash"))
+            {
+                if (currentTrash < maxTrash)
+                {
+                    currentTrash++;
+                    UpdateUI();
+                    Destroy(child.gameObject); 
+                }
+            }
+        }
+    }
+
+    void UpdateUI()
+    {
+        if (trashCounterText != null)
+        {
+            trashCounterText.text = currentTrash + "/" + maxTrash;
+        }
+    }
+}

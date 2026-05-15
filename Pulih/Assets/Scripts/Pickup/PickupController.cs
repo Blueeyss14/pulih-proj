@@ -18,7 +18,7 @@ public class PickupController : MonoBehaviour
 
     void Start()
     {
-        aliceController = FindObjectOfType<AliceController>();
+        aliceController = Object.FindFirstObjectByType <AliceController>();
     }
 
     void Update()

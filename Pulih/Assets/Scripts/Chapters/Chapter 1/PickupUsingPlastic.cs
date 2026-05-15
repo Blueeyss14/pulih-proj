@@ -1,63 +1,70 @@
 using UnityEngine;
 using TMPro;
-
 public class PickupUsingPlastic : MonoBehaviour
 {
     public TMP_Text trashCounterText;
     public int maxTrash = 10;
-    
+    public InteractUiPosition uiPosition;
+
     private int currentTrash = 0;
     private PickupController pickupController;
     private bool isHeld = false;
 
     void Start()
     {
+        if (uiPosition != null) uiPosition.SetUI(false);
         UpdateUI();
     }
-
     void Update()
     {
-        if (transform.parent != null && !isHeld)
+        if (transform.parent != null)
         {
-            pickupController = GetComponentInParent<PickupController>();
-            if (pickupController != null)
+            PickupController foundController = GetComponentInParent<PickupController>();
+            if (foundController != null)
             {
-                isHeld = true;
+                if (!isHeld)
+                {
+                    pickupController = foundController;
+                    isHeld = true;
+                    if (uiPosition != null) uiPosition.SetUI(true);
+                }
+            }
+            else
+            {
+                if (isHeld && uiPosition != null) uiPosition.SetUI(false);
+                isHeld = false;
+                pickupController = null;
             }
         }
-        else if (transform.parent == null)
+        else
         {
+            if (isHeld && uiPosition != null) uiPosition.SetUI(false);
             isHeld = false;
             pickupController = null;
         }
-
         if (isHeld && pickupController != null)
         {
             CheckHandForTrash(pickupController.rightHandTransform);
             CheckHandForTrash(pickupController.leftHandTransform);
         }
     }
-
     void CheckHandForTrash(Transform handTransform)
     {
         if (handTransform == null) return;
-
         for (int i = handTransform.childCount - 1; i >= 0; i--)
         {
             Transform child = handTransform.GetChild(i);
-            
             if (child.CompareTag("Trash"))
             {
                 if (currentTrash < maxTrash)
                 {
                     currentTrash++;
                     UpdateUI();
-                    Destroy(child.gameObject); 
+                    Destroy(child.gameObject);
                 }
             }
         }
     }
-
     void UpdateUI()
     {
         if (trashCounterText != null)

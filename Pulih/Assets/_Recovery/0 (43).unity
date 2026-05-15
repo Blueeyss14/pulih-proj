@@ -270346,7 +270346,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PickupUsingPlastic
   trashCounterText: {fileID: 1950602699}
   maxTrash: 10
-  uiPosition: {fileID: 1537883492}
 --- !u!1 &1698337393
 GameObject:
   m_ObjectHideFlags: 0

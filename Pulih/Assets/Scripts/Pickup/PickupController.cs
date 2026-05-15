@@ -18,7 +18,7 @@ public class PickupController : MonoBehaviour
 
     void Start()
     {
-        aliceController = Object.FindFirstObjectByType <AliceController>();
+        aliceController = Object.FindFirstObjectByType<AliceController>();
     }
 
     void Update()
@@ -141,6 +141,17 @@ public class PickupController : MonoBehaviour
             rb.isKinematic = true;
         }
 
+        bool isFull =
+            (item.useBothHands && (rightHandItem != null || leftHandItem != null || bothHandItem != null)) ||
+            (!item.useBothHands && item.leftFirst && (leftHandItem != null && rightHandItem != null)) ||
+            (!item.useBothHands && !item.leftFirst && (rightHandItem != null && leftHandItem != null));
+
+        if (isFull)
+        {
+            Debug.Log("kedua tangan penuh");
+            return;
+        }
+
         if (animator != null)
         {
             string triggerName = string.IsNullOrEmpty(item.animationTrigger)
@@ -155,39 +166,6 @@ public class PickupController : MonoBehaviour
             animator.SetTrigger(triggerName);
         }
 
-        if (item.useBothHands)
-        {
-            if (
-                rightHandItem != null ||
-                leftHandItem != null ||
-                bothHandItem != null
-            )
-            {
-                Debug.Log("tidak dapat diambil");
-                return;
-            }
-
-            StartCoroutine(DelayedPickup(item, target));
-            return;
-        }
-
-        if (item.leftFirst)
-        {
-            if (leftHandItem == null || rightHandItem == null)
-            {
-                StartCoroutine(DelayedPickup(item, target));
-                return;
-            }
-        }
-        else
-        {
-            if (rightHandItem == null || leftHandItem == null)
-            {
-                StartCoroutine(DelayedPickup(item, target));
-                return;
-            }
-        }
-
-        Debug.Log("kedua tangan penuh");
+        StartCoroutine(DelayedPickup(item, target));
     }
 }

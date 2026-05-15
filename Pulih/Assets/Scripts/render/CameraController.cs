@@ -23,7 +23,7 @@ public class CamerController : MonoBehaviour
 
     void Awake()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 120;
         QualitySettings.vSyncCount = 0;
         
         cachedCamera = GetComponent<Camera>();

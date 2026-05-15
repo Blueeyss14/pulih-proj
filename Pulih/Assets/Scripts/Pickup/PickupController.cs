@@ -7,6 +7,8 @@ public class PickupController : MonoBehaviour
     public Transform leftHandTransform;
     public Transform bothHandTransform;
 
+    public Animator animator;
+
     GameObject rightHandItem;
     GameObject leftHandItem;
     GameObject bothHandItem;
@@ -46,6 +48,11 @@ public class PickupController : MonoBehaviour
         if (rb != null)
         {
             rb.isKinematic = true;
+        }
+
+        if (animator != null)
+        {
+            animator.SetTrigger("Pickup");
         }
 
         if (item.useBothHands)

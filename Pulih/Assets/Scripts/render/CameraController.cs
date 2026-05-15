@@ -100,8 +100,8 @@ public class CamerController : MonoBehaviour
     {
         if (target == null || Mouse.current == null) return;
 
-        mouseX += Mouse.current.delta.x.ReadValue() * sensitivity;
-        mouseY -= Mouse.current.delta.y.ReadValue() * sensitivity;
+        mouseX += Mouse.current.delta.x.ReadValue() * sensitivity * Time.deltaTime;
+        mouseY -= Mouse.current.delta.y.ReadValue() * sensitivity * Time.deltaTime;
         mouseY = Mathf.Clamp(mouseY, minYAngle, maxYAngle);
 
         Quaternion rotation = Quaternion.Euler(mouseY, mouseX, 0f);

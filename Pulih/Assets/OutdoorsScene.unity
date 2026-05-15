@@ -290503,9 +290503,9 @@ MonoBehaviour:
   distance: 2.2
   heightOffset: 3.3
   sideOffset: 0.43
-  sensitivity: 0.1
+  sensitivity: 1.5
   minYAngle: -40
-  maxYAngle: 60
+  maxYAngle: 50
 --- !u!114 &1823688470
 MonoBehaviour:
   m_ObjectHideFlags: 0

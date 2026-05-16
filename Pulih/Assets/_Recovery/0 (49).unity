@@ -353410,7 +353410,6 @@ GameObject:
   - component: {fileID: 1711813854769883728}
   - component: {fileID: 1300510424}
   - component: {fileID: 3469287838497267355}
-  - component: {fileID: 3469287838497267356}
   m_Layer: 6
   m_Name: stone hammer (4)
   m_TagString: Trash
@@ -353626,6 +353625,10 @@ MonoBehaviour:
   pickupController: {fileID: 919132148850514764}
   playerCamera: {fileID: 1823688466}
   animator: {fileID: 904750622}
+  dropAnimation: PIckup
+  throwForce: 10
+  throwUpwardForce: 2
+  delayDrop: 0.3
 --- !u!1 &919132148875962842
 GameObject:
   m_ObjectHideFlags: 0
@@ -361214,22 +361217,6 @@ MonoBehaviour:
   leftPositionOffset: {x: 0.016, y: 0.088, z: -0.131}
   leftRotationOffset: {x: 8.878, y: -104.873, z: -73.925}
   leftScaleOffset: {x: 0.03246737, y: 0.03246737, z: 0.03246737}
---- !u!114 &3469287838497267356
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132148173704069}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b8e56701d5f4af41adcd38d2fc8e172, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DropItem
-  dropAnimation: Pickup
-  delayDrop: 0.3
-  throwForce: 3
-  throwUpwardForce: 2
 --- !u!33 &3469287838521872105
 MeshFilter:
   m_ObjectHideFlags: 0

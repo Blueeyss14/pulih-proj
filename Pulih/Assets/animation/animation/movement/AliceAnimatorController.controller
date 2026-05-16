@@ -141,7 +141,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 270, y: 230, z: 0}
+  m_ExitPosition: {x: 290, y: 230, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 4308328069930847769}
 --- !u!1101 &-3512240823267721565
@@ -239,7 +239,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: Pick Up
     m_StateMachine: {fileID: -4356682417053698313}
-    m_Mask: {fileID: 0}
+    m_Mask: {fileID: 31900000, guid: 4ae6e9a0b4cb8ac4db4a3cc0b5ddedf4, type: 2}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 0

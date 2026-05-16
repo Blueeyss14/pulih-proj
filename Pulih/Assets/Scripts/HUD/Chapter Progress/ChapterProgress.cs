@@ -11,6 +11,7 @@ public class ChapterProgress : MonoBehaviour
     private List<BaseChapterMission> allChapters = new List<BaseChapterMission>();
 
     public int currentChapterIndex = 0;
+    private int lastAnimatedChapter = -1;
 
     [Header("Icons")]
     public Sprite checklistIcon;
@@ -48,12 +49,13 @@ public class ChapterProgress : MonoBehaviour
         if (chapterText != null)
             chapterText.text = chapterTitle;
 
-        if (overlayAnimation != null)
+        if (overlayAnimation != null && lastAnimatedChapter != currentChapterIndex)
         {
             overlayAnimation.Play(
                 currentData.chapterNumber.ToString(),
                 currentData.objectiveHint
             );
+            lastAnimatedChapter = currentChapterIndex;
         }
 
         foreach (Transform child in container)

@@ -5,10 +5,10 @@ public class InteractUiPosition : MonoBehaviour
     public Vector3 offset;
     public float marginX = 50f;
     public float marginY = 50f;
-    
+
     private Camera mainCamera;
 
-    void Start()
+    void Awake()
     {
         mainCamera = Camera.main;
         if (uiElement != null) uiElement.gameObject.SetActive(false);

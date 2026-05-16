@@ -318311,15 +318311,20 @@ MonoBehaviour:
   missions:
   - missionTitle: Go the object
     isCompleted: 0
+    auraPoint: 100
   - missionTitle: Pick up trash
     isCompleted: 0
+    auraPoint: 150
   - missionTitle: Find a trash grabber
     isCompleted: 0
+    auraPoint: 100
   - missionTitle: Pick trash from the river
     isCompleted: 0
+    auraPoint: 100
   interactUI: {fileID: 1861989094}
   chapterProgress: {fileID: 1867025048}
   objectiveZone: {fileID: 1861989093}
+  auraController: {fileID: 1867025047}
 --- !u!114 &1987639860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318337,6 +318342,7 @@ MonoBehaviour:
   missions:
   - missionTitle: SDSFSF
     isCompleted: 0
+    auraPoint: 0
 --- !u!1 &1987933083
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,8 @@ public class Chapter1Mission : BaseChapterMission
     public InteractUiPosition interactUI;
     public ChapterProgress chapterProgress;
     public ObjectiveZone objectiveZone; 
+    
+    public AuraController auraController; 
 
     void Start()
     {
@@ -32,6 +34,12 @@ public class Chapter1Mission : BaseChapterMission
             if (!mission.isCompleted)
             {
                 mission.isCompleted = true;
+                
+                if (auraController != null)
+                {
+                    auraController.AddAura(mission.auraPoint);
+                }
+                
                 break; 
             }
         }
@@ -42,5 +50,3 @@ public class Chapter1Mission : BaseChapterMission
         }
     }
 }
-
-

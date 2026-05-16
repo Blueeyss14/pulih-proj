@@ -32,6 +32,12 @@ public class AuraController : MonoBehaviour
         UpdateUI();
     }
 
+    public void AddAura(float amount)
+    {
+        currentAura += amount;
+        UpdateUI();
+    }
+
     void UpdateUI()
     {
         auraLevel = Mathf.FloorToInt(currentAura / auraPerLevel) + 1;

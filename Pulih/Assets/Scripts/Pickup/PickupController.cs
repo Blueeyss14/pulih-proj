@@ -10,19 +10,44 @@ public class PickupController : MonoBehaviour
 
     public Animator animator;
 
+    public float layerBlendSpeed = 5f;
+
+    float targetBothWeight = 1f;
+    float targetLeftWeight = 0f;
+
     GameObject rightHandItem;
     GameObject leftHandItem;
     GameObject bothHandItem;
 
     AliceController aliceController;
 
+    bool isPickupPlaying;
+
     void Start()
     {
         aliceController = Object.FindFirstObjectByType<AliceController>();
+
+        if (animator != null)
+        {
+            animator.SetLayerWeight(2, 1f);
+            animator.SetLayerWeight(3, 0f);
+        }
     }
 
     void Update()
     {
+        if (animator != null)
+        {
+            float bothWeight = animator.GetLayerWeight(2);
+            float leftWeight = animator.GetLayerWeight(3);
+
+            float smoothBothWeight = Mathf.Lerp(bothWeight, targetBothWeight, Time.deltaTime * layerBlendSpeed);
+            float smoothLeftWeight = Mathf.Lerp(leftWeight, targetLeftWeight, Time.deltaTime * layerBlendSpeed);
+
+            animator.SetLayerWeight(2, smoothBothWeight);
+            animator.SetLayerWeight(3, smoothLeftWeight);
+        }
+
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
             PickupObject();
@@ -52,6 +77,11 @@ public class PickupController : MonoBehaviour
 
     IEnumerator DelayedPickup(PickupItem item, GameObject target)
     {
+        isPickupPlaying = true;
+
+        targetBothWeight = 0f;
+        targetLeftWeight = 1f;
+
         yield return new WaitForSeconds(item.delayPickup);
 
         Collider col = target.GetComponent<Collider>();
@@ -103,7 +133,12 @@ public class PickupController : MonoBehaviour
 
                 yield return null;
             }
+
+            targetBothWeight = 1f;
+            targetLeftWeight = 0f;
         }
+
+        isPickupPlaying = false;
 
         if (aliceController != null)
         {
@@ -114,6 +149,9 @@ public class PickupController : MonoBehaviour
     void PickupObject()
     {
         if (CrosshairAim.currentTarget == null)
+            return;
+
+        if (isPickupPlaying)
             return;
 
         PickupItem item =

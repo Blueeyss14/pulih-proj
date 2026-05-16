@@ -5,8 +5,10 @@ TagManager:
   serializedVersion: 3
   tags:
   - Item
-  - Plastic
   - Trash
+  - Trash Can
+  - Plastic
+  - Dumpster
   layers:
   - Default
   - TransparentFX

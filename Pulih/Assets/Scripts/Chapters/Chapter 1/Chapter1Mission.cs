@@ -4,9 +4,8 @@ using UnityEngine;
 CHAPTER 1 - MISSIONS
 - Go to the object
 - Pick up trash [
-    - pickup a trash
-    - find a plastic bag
-    - pickup a trash with plastic bag
+    - find a trash a can
+    - pickup a trash with trash can
 ]
 - Find a trash grabber
 - Pick trash from the river
@@ -20,6 +19,8 @@ public class Chapter1Mission : BaseChapterMission
     
     public AuraController auraController; 
 
+    private bool trashCanFound;
+
     void Start()
     {
         if (interactUI != null) interactUI.SetUI(true);
@@ -30,9 +31,16 @@ public class Chapter1Mission : BaseChapterMission
         }
     }
 
+    void Update()
+    {
+        FindTrashCanMission();
+    }
+
+    /// MISSION 1: go to object
     private void OnObjectiveHit()
     {
         if (interactUI != null) interactUI.SetUI(false);
+
         foreach (var mission in missions)
         {
             if (!mission.isCompleted)
@@ -53,4 +61,34 @@ public class Chapter1Mission : BaseChapterMission
             chapterProgress.GenerateChapterUI();
         }
     }
+
+    ///MISSION 2: find a trash can
+    private void FindTrashCanMission()
+    {
+        if (trashCanFound) return;
+
+        GameObject trashCan = GameObject.FindGameObjectWithTag("Trash Can");
+
+        if (trashCan == null) return;
+
+        if (trashCan.transform.parent == null) return;
+
+        if (trashCan.GetComponentInParent<PickupController>() == null) return;
+
+        SubMission subMission = missions.Find(x => !x.isCompleted)
+            ?.subMissions.Find(x => !x.isCompleted);
+
+        if (subMission == null) return;
+
+        subMission.isCompleted = true;
+
+        trashCanFound = true;
+
+        if (chapterProgress != null)
+        {
+            chapterProgress.GenerateChapterUI();
+        }
+    }
+    
+    ///MISSION 2: pickup a trash with trash can
 }

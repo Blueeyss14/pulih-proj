@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class PickupItem : MonoBehaviour
 {
-
     ///Dell: kalau useBothHand nya true yg dipake cuma Right aja bg, sengaja bikin gini biar gampang ntar nyesuain rotasi beberapa item
     public bool useBothHands;
     public bool leftFirst;
 
     [Header("Animation")]
-    public string animationTrigger = "Pickup";
+    public string pickupAnimation = "Pickup"; 
+    public string holdAnimation = "BothHold"; 
     public float delayPickup = 0.5f;
 
     [Header("Right Hand / Both Hand Offset")]

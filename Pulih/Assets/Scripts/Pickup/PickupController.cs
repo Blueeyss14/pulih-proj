@@ -38,69 +38,58 @@ public class PickupController : MonoBehaviour
             target.transform.localScale = scaleOffset;
     }
 
+    void AttachItem(ref GameObject handItem, GameObject target, Transform handTransform, Vector3 positionOffset, Vector3 rotationOffset, Vector3 scaleOffset)
+    {
+        handItem = target;
+
+        target.transform.SetParent(handTransform);
+
+        target.transform.localPosition = Vector3.zero;
+        target.transform.localRotation = Quaternion.identity;
+
+        ApplyHoldTransform(target, positionOffset, rotationOffset, scaleOffset);
+    }
+
     IEnumerator DelayedPickup(PickupItem item, GameObject target)
     {
         yield return new WaitForSeconds(item.delayPickup);
 
+        Collider col = target.GetComponent<Collider>();
+
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
         if (item.useBothHands)
         {
-            bothHandItem = target;
+            AttachItem(ref bothHandItem, target, bothHandTransform, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
 
-            target.transform.SetParent(bothHandTransform);
-
-            target.transform.localPosition = Vector3.zero;
-            target.transform.localRotation = Quaternion.identity;
-
-            ApplyHoldTransform(target, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
+            if (animator != null && !string.IsNullOrEmpty(item.holdAnimation))
+            {
+                animator.SetBool(item.holdAnimation, true);
+            }
         }
         else if (item.leftFirst)
         {
             if (leftHandItem == null)
             {
-                leftHandItem = target;
-
-                target.transform.SetParent(leftHandTransform);
-
-                target.transform.localPosition = Vector3.zero;
-                target.transform.localRotation = Quaternion.identity;
-
-                ApplyHoldTransform(target, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
+                AttachItem(ref leftHandItem, target, leftHandTransform, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
             }
             else if (rightHandItem == null)
             {
-                rightHandItem = target;
-
-                target.transform.SetParent(rightHandTransform);
-
-                target.transform.localPosition = Vector3.zero;
-                target.transform.localRotation = Quaternion.identity;
-
-                ApplyHoldTransform(target, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
+                AttachItem(ref rightHandItem, target, rightHandTransform, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
             }
         }
         else
         {
             if (rightHandItem == null)
             {
-                rightHandItem = target;
-
-                target.transform.SetParent(rightHandTransform);
-
-                target.transform.localPosition = Vector3.zero;
-                target.transform.localRotation = Quaternion.identity;
-
-                ApplyHoldTransform(target, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
+                AttachItem(ref rightHandItem, target, rightHandTransform, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
             }
             else if (leftHandItem == null)
             {
-                leftHandItem = target;
-
-                target.transform.SetParent(leftHandTransform);
-
-                target.transform.localPosition = Vector3.zero;
-                target.transform.localRotation = Quaternion.identity;
-
-                ApplyHoldTransform(target, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
+                AttachItem(ref leftHandItem, target, leftHandTransform, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
             }
         }
 
@@ -111,6 +100,7 @@ public class PickupController : MonoBehaviour
             while (stateInfo.normalizedTime < 1f)
             {
                 stateInfo = animator.GetCurrentAnimatorStateInfo(1);
+
                 yield return null;
             }
         }
@@ -149,14 +139,15 @@ public class PickupController : MonoBehaviour
         if (isFull)
         {
             Debug.Log("kedua tangan penuh");
+
             return;
         }
 
         if (animator != null)
         {
-            string triggerName = string.IsNullOrEmpty(item.animationTrigger)
+            string triggerName = string.IsNullOrEmpty(item.pickupAnimation)
                 ? "Pickup"
-                : item.animationTrigger;
+                : item.pickupAnimation;
 
             if (aliceController != null)
             {

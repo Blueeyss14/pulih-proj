@@ -51939,7 +51939,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 12
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!1 &330466012
 GameObject:
@@ -173867,7 +173867,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 1000}
+  m_SizeDelta: {x: 100, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1086437555
 MonoBehaviour:
@@ -173919,8 +173919,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb045f19a2fd0984ba8479ebbfc76ebf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScaleAnimation
-  startWidth: 50
-  endWidth: 80
+  startWidth: 100
+  endWidth: 150
   duration: 1
 --- !u!1 &1086456414
 GameObject:

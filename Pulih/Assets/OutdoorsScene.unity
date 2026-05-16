@@ -298803,9 +298803,6 @@ MonoBehaviour:
   dialogueDone: {fileID: 21300000, guid: c2c0172885b0611439704b12f80c3b00, type: 3}
   dialogueSelected: {fileID: 21300000, guid: 45bc8d32b58718f4ba0353feddb3bffa, type: 3}
   dialogueIdle: {fileID: 21300000, guid: 81beee1a776c99d4ea0497b3caccc414, type: 3}
-  slideSpeed: 500
-  delayBetweenItems: 0.15
-  startXOffset: 200
 --- !u!1 &1868025538
 GameObject:
   m_ObjectHideFlags: 0
@@ -318562,6 +318559,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1987639858}
+  - component: {fileID: 1987639861}
   - component: {fileID: 1987639859}
   - component: {fileID: 1987639860}
   m_Layer: 0
@@ -318653,6 +318651,20 @@ MonoBehaviour:
     isCompleted: 0
     auraPoint: 0
     subMissions: []
+--- !u!114 &1987639861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987639857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f3ac4142a92f14bb89e4c0432838db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChapterManager
+  currentChapter: 1
+  chapterProgress: {fileID: 1867025048}
 --- !u!1 &1987933083
 GameObject:
   m_ObjectHideFlags: 0

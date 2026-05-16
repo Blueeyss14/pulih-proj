@@ -10,6 +10,7 @@ public class ChapterProgress : MonoBehaviour
 
     private List<BaseChapterMission> allChapters = new List<BaseChapterMission>();
 
+    [HideInInspector]
     public int currentChapterIndex = 0;
     private int lastAnimatedChapter = -1;
 
@@ -34,8 +35,14 @@ public class ChapterProgress : MonoBehaviour
 
     void Start()
     {
+        InitializeChapters();
+    }
+
+    public void InitializeChapters()
+    {
         if (dataHolder != null)
         {
+            allChapters.Clear();
             allChapters.AddRange(dataHolder.GetComponents<BaseChapterMission>());
         }
 
@@ -137,6 +144,10 @@ public class ChapterProgress : MonoBehaviour
     public void NextChapter()
     {
         currentChapterIndex++;
+        
+        ChapterManager manager = GetComponent<ChapterManager>();
+        if(manager == null) manager = FindObjectOfType<ChapterManager>();
+        if(manager != null) manager.currentChapter = allChapters[currentChapterIndex].chapterNumber;
 
         GenerateChapterUI();
     }

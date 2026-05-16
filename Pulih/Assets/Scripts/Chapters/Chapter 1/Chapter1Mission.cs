@@ -3,7 +3,11 @@ using UnityEngine;
 /*
 CHAPTER 1 - MISSIONS
 - Go to the object
-- Pick up trash
+- Pick up trash [
+    - pickup a trash
+    - find a plastic bag
+    - pickup a trash with plastic bag
+]
 - Find a trash grabber
 - Pick trash from the river
 */

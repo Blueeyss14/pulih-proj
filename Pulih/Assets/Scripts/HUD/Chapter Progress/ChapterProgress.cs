@@ -17,6 +17,11 @@ public class ChapterProgress : MonoBehaviour
     public Sprite checklistIcon;
     public Sprite questionmarkIcon;
 
+    [Header("Sub-Mission")]
+    public SubmissionDialogue subMissionDialogue; 
+    public GameObject dialoguePrefab;
+    public Transform dialogueContainer;
+
     [Header("UI References")]
     public TextMeshProUGUI chapterText;
     public TextMeshProUGUI progressCounterText;
@@ -64,10 +69,23 @@ public class ChapterProgress : MonoBehaviour
                 Destroy(child.gameObject);
         }
 
+        if (dialogueContainer != null)
+        {
+            foreach (Transform child in dialogueContainer) Destroy(child.gameObject);
+        }
+
         int completedCount = 0;
+        bool foundActive = false;
 
         foreach (var m in currentData.missions)
         {
+            if (m.subMissions != null && m.subMissions.Count > 0)
+            {
+                bool allSubDone = true;
+                foreach (var s in m.subMissions) { if (!s.isCompleted) { allSubDone = false; break; } }
+                m.isCompleted = allSubDone;
+            }
+
             GameObject newRow = Instantiate(contentPrefab, container);
 
             TextMeshProUGUI txt = newRow.GetComponentInChildren<TextMeshProUGUI>();
@@ -87,7 +105,17 @@ public class ChapterProgress : MonoBehaviour
             }
 
             if (m.isCompleted)
+            {
                 completedCount++;
+            }
+            else if (!foundActive)
+            {
+                if (m.subMissions != null && m.subMissions.Count > 0 && subMissionDialogue != null)
+                {
+                    subMissionDialogue.GenerateDialogueUI(m.subMissions, dialoguePrefab, dialogueContainer);
+                }
+                foundActive = true;
+            }
         }
 
         if (progressCounterText != null)

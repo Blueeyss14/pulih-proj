@@ -7,10 +7,17 @@ public abstract class BaseChapterMission : MonoBehaviour
     public string objectiveHint; 
     
     [System.Serializable]
+    public class SubMission {
+        public string subMissionTitle;
+        public bool isCompleted;
+    }
+
+    [System.Serializable]
     public class Mission {
         public string missionTitle;
         public bool isCompleted;
         public float auraPoint;
+        public List<SubMission> subMissions = new List<SubMission>();
     }
 
     public List<Mission> missions = new List<Mission>();

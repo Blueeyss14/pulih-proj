@@ -99381,6 +99381,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8e56701d5f4af41adcd38d2fc8e172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropItem
+  dropAnimation: Pickup
+  delayDrop: 0.3
+  throwForce: 3
+  throwUpwardForce: 2
 --- !u!114 &613110765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176166,7 +176170,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1064257582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353743,6 +353747,7 @@ GameObject:
   - component: {fileID: 904750622}
   - component: {fileID: 904750623}
   - component: {fileID: 919132148850514764}
+  - component: {fileID: 919132148850514765}
   m_Layer: 0
   m_Name: Alice Wu
   m_TagString: Player
@@ -353767,11 +353772,21 @@ MonoBehaviour:
   bothHandTransform: {fileID: 1710993490}
   animator: {fileID: 904750622}
   layerBlendSpeed: 5
-  targetBothWeight: 1
-  targetLeftWeight: 0
-  rightHandItem: {fileID: 0}
-  leftHandItem: {fileID: 0}
-  bothHandItem: {fileID: 0}
+--- !u!114 &919132148850514765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148850514763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01a6b48349ee7b242a693189115451c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropController
+  pickupController: {fileID: 919132148850514764}
+  playerCamera: {fileID: 1823688466}
+  animator: {fileID: 904750622}
 --- !u!1 &919132148875962842
 GameObject:
   m_ObjectHideFlags: 0
@@ -361299,6 +361314,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8e56701d5f4af41adcd38d2fc8e172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropItem
+  dropAnimation: Pickup
+  delayDrop: 0.3
+  throwForce: 3
+  throwUpwardForce: 2
 --- !u!33 &3469287837153913334
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -361398,6 +361417,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8e56701d5f4af41adcd38d2fc8e172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropItem
+  dropAnimation: Pickup
+  delayDrop: 0.3
+  throwForce: 3
+  throwUpwardForce: 2
 --- !u!33 &3469287838521872105
 MeshFilter:
   m_ObjectHideFlags: 0

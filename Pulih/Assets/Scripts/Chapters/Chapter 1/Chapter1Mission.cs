@@ -10,7 +10,6 @@ CHAPTER 1 - MISSIONS
 - Find a trash grabber
 - Pick trash from the river
 */
-
 public class Chapter1Mission : BaseChapterMission 
 {
     public InteractUiPosition interactUI;
@@ -18,8 +17,12 @@ public class Chapter1Mission : BaseChapterMission
     public ObjectiveZone objectiveZone; 
     
     public AuraController auraController; 
+    public PickupUsingPlastic pickupUsingPlastic;
+    public int requiredTrash = 10;
 
     private bool trashCanFound;
+    private bool trashPickupDone;
+    public bool trashFull;
 
     void Start()
     {
@@ -34,6 +37,7 @@ public class Chapter1Mission : BaseChapterMission
     void Update()
     {
         FindTrashCanMission();
+        PickupTrashMission();
     }
 
     /// MISSION 1: go to object
@@ -62,7 +66,7 @@ public class Chapter1Mission : BaseChapterMission
         }
     }
 
-    ///MISSION 2: find a trash can
+    /// MISSION 2: find a trash can
     private void FindTrashCanMission()
     {
         if (trashCanFound) return;
@@ -89,6 +93,41 @@ public class Chapter1Mission : BaseChapterMission
             chapterProgress.GenerateChapterUI();
         }
     }
-    
-    ///MISSION 2: pickup a trash with trash can
+
+    /// MISSION 2: pickup a trash with trash can
+    private void PickupTrashMission()
+    {
+        if (trashPickupDone) return;
+        if (trashFull) return;
+        if (!trashCanFound) return;
+        if (pickupUsingPlastic == null) return;
+        if (pickupUsingPlastic.currentTrash < requiredTrash) return;
+
+        trashFull = true;
+
+        if (interactUI != null) interactUI.SetUI(true);
+    }
+
+    public void OnTrashDumped()
+    {
+        if (trashPickupDone) return;
+
+        if (interactUI != null) interactUI.SetUI(false);
+
+        SubMission subMission = missions.Find(x => !x.isCompleted)
+            ?.subMissions.Find(x => !x.isCompleted);
+
+        if (subMission == null) return;
+
+        subMission.isCompleted = true;
+
+        trashPickupDone = true;
+
+        if (chapterProgress != null)
+        {
+            chapterProgress.GenerateChapterUI();
+        }
+
+        Debug.Log("ambil sampah udah kelar");
+    }
 }

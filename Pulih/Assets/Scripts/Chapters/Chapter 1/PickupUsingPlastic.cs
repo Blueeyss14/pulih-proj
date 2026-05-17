@@ -9,7 +9,7 @@ public class PickupUsingPlastic : MonoBehaviour
 
     public SmokeAnimation smokeAnimation;
 
-    private int currentTrash = 0;
+    [HideInInspector] public int currentTrash = 0;
     private PickupController pickupController;
     private bool isHeld = false;
 

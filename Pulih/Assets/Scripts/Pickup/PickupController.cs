@@ -12,12 +12,12 @@ public class PickupController : MonoBehaviour
 
     public float layerBlendSpeed = 5f;
 
-    float targetBothWeight = 1f;
-    float targetLeftWeight = 0f;
+    [HideInInspector] public float targetBothWeight = 1f;
+    [HideInInspector] public float targetLeftWeight = 0f;
 
-    GameObject rightHandItem;
-    GameObject leftHandItem;
-    GameObject bothHandItem;
+    [HideInInspector] public GameObject rightHandItem;
+    [HideInInspector] public GameObject leftHandItem;
+    [HideInInspector] public GameObject bothHandItem;
 
     AliceController aliceController;
 
@@ -51,6 +51,56 @@ public class PickupController : MonoBehaviour
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
             PickupObject();
+        }
+
+        if (Keyboard.current.gKey.wasPressedThisFrame)
+        {
+            DropItem();
+        }
+    }
+
+    void DropItem()
+    {
+        GameObject itemToDrop = null;
+
+        if (bothHandItem != null)
+        {
+            itemToDrop = bothHandItem;
+            bothHandItem = null;
+        }
+        else if (rightHandItem != null)
+        {
+            itemToDrop = rightHandItem;
+            rightHandItem = null;
+        }
+        else if (leftHandItem != null)
+        {
+            itemToDrop = leftHandItem;
+            leftHandItem = null;
+        }
+
+        if (itemToDrop == null)
+            return;
+
+        itemToDrop.transform.SetParent(null);
+
+        Rigidbody rb = itemToDrop.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+            rb.AddForce(transform.forward * 2f, ForceMode.Impulse);
+        }
+
+        Collider col = itemToDrop.GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = true;
+        }
+
+        if (rightHandItem == null && leftHandItem == null && bothHandItem == null)
+        {
+            targetBothWeight = 0f;
+            targetLeftWeight = 0f;
         }
     }
 
@@ -130,7 +180,6 @@ public class PickupController : MonoBehaviour
             while (stateInfo.normalizedTime < 1f)
             {
                 stateInfo = animator.GetCurrentAnimatorStateInfo(1);
-
                 yield return null;
             }
 
@@ -177,7 +226,6 @@ public class PickupController : MonoBehaviour
         if (isFull)
         {
             Debug.Log("kedua tangan penuh");
-
             return;
         }
 

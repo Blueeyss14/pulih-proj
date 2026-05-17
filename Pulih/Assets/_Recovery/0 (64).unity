@@ -61484,7 +61484,7 @@ Transform:
   m_GameObject: {fileID: 357270720}
   serializedVersion: 2
   m_LocalRotation: {x: -0.6438245, y: -0.29238674, z: -0.29238662, w: 0.6438246}
-  m_LocalPosition: {x: 0.035, y: -0.127, z: 0.032}
+  m_LocalPosition: {x: 0.035, y: 0.274, z: 0.032}
   m_LocalScale: {x: 0.04032152, y: 0.04032152, z: 0.0343747}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74060,13 +74060,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f4bc4732aa492340a96fd913862d21f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
-  useBothHands: 1
-  leftFirst: 0
+  useBothHands: 0
+  leftFirst: 1
   pickupAnimation: Pickup
   holdAnimation: BothHold
   delayPickup: 0.5
-  rightPositionOffset: {x: -0.144, y: 0.138, z: -0.19}
-  rightRotationOffset: {x: 80.73, y: -115.879, z: -50.826}
+  rightPositionOffset: {x: -0.047, y: -0.074, z: -0.416}
+  rightRotationOffset: {x: 81.411, y: 0, z: -5.653}
   rightScaleOffset: {x: 1.09861, y: 1.28867, z: 1.09861}
   leftPositionOffset: {x: 0, y: 0, z: 0}
   leftRotationOffset: {x: 0, y: 0, z: 0}
@@ -83048,7 +83048,7 @@ RectTransform:
   m_Father: {fileID: 2129720976}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 5, y: -0.000030517578}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 1, y: 0.5}
@@ -94436,9 +94436,9 @@ RectTransform:
   - {fileID: 79010151}
   m_Father: {fileID: 1789485480}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80, y: -34.75125}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &584552462
@@ -99383,8 +99383,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DropItem
   dropAnimation: Drop
   delayDrop: 0.3
-  throwForce: 10
-  throwUpwardForce: 10
+  throwForce: 3
+  throwUpwardForce: 2
 --- !u!114 &613110765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116571,7 +116571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &701676274
 Transform:
   m_ObjectHideFlags: 0
@@ -204270,9 +204270,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 944256631}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 667.5, y: -25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 597.5, y: 50}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1242135294
@@ -254495,9 +254495,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 944256631}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -25}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1563594919
@@ -256906,9 +256906,9 @@ RectTransform:
   - {fileID: 2003605858}
   m_Father: {fileID: 180366535}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 32.5, y: -35}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 65, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1577649470
@@ -272799,7 +272799,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1676089263
 Transform:
   m_ObjectHideFlags: 0
@@ -275749,7 +275749,6 @@ GameObject:
   - component: {fileID: 1697742731}
   - component: {fileID: 1697742730}
   - component: {fileID: 1697742733}
-  - component: {fileID: 1697742734}
   m_Layer: 6
   m_Name: Cube
   m_TagString: Plastic
@@ -275873,22 +275872,6 @@ MonoBehaviour:
   leftPositionOffset: {x: 0, y: 0, z: 0}
   leftRotationOffset: {x: 0, y: 0, z: 0}
   leftScaleOffset: {x: 0, y: 0, z: 0}
---- !u!114 &1697742734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697742728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b8e56701d5f4af41adcd38d2fc8e172, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DropItem
-  dropAnimation: Drop
-  delayDrop: 0.3
-  throwForce: 3
-  throwUpwardForce: 2
 --- !u!1 &1698337393
 GameObject:
   m_ObjectHideFlags: 0
@@ -276543,9 +276526,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1789485480}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100, y: -27.25125}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 44.004997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1701986516
@@ -280635,9 +280618,9 @@ RectTransform:
   - {fileID: 1811999444}
   m_Father: {fileID: 1992071099}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50.55, y: -35}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 101.1, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1733518922
@@ -282453,7 +282436,7 @@ RectTransform:
   m_Father: {fileID: 79010151}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -290561,9 +290544,9 @@ RectTransform:
   - {fileID: 584552461}
   m_Father: {fileID: 180366535}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 165, y: -35}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1789485481
@@ -324760,7 +324743,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -87.8, y: 81.60156}
-  m_SizeDelta: {x: 101.1, y: 70}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1992071100
 MonoBehaviour:
@@ -352233,7 +352216,7 @@ Transform:
   m_GameObject: {fileID: 919132149594750686}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 52.160004, y: 0.523, z: -37.609985}
+  m_LocalPosition: {x: 52.160004, y: -0.4130001, z: -37.609985}
   m_LocalScale: {x: 1.9068115, y: 2.2366898, z: 1.9068115}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -353786,7 +353769,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PickupController
   rightHandTransform: {fileID: 7619720237801280085}
   leftHandTransform: {fileID: 6082107163343018907}
-  bothHandTransform: {fileID: 6082107163343018907}
+  bothHandTransform: {fileID: 1710993490}
   animator: {fileID: 904750622}
   layerBlendSpeed: 5
   targetBothWeight: 1
@@ -361337,9 +361320,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropItem
   dropAnimation: Pickup
-  delayDrop: 0
-  throwForce: 7
-  throwUpwardForce: 3
+  delayDrop: 0.3
+  throwForce: 0.2
+  throwUpwardForce: 10
 --- !u!33 &3469287837153913334
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -361417,7 +361400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
   useBothHands: 0
-  leftFirst: 0
+  leftFirst: 1
   pickupAnimation: Pickup
   holdAnimation: BothHold
   delayPickup: 0.5
@@ -361441,8 +361424,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DropItem
   dropAnimation: Drop
   delayDrop: 0.3
-  throwForce: 10
-  throwUpwardForce: 10
+  throwForce: 3
+  throwUpwardForce: 2
 --- !u!33 &3469287838521872105
 MeshFilter:
   m_ObjectHideFlags: 0

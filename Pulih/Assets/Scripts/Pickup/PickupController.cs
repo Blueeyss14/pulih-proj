@@ -52,56 +52,6 @@ public class PickupController : MonoBehaviour
         {
             PickupObject();
         }
-
-        if (Keyboard.current.gKey.wasPressedThisFrame)
-        {
-            DropItem();
-        }
-    }
-
-    void DropItem()
-    {
-        GameObject itemToDrop = null;
-
-        if (bothHandItem != null)
-        {
-            itemToDrop = bothHandItem;
-            bothHandItem = null;
-        }
-        else if (rightHandItem != null)
-        {
-            itemToDrop = rightHandItem;
-            rightHandItem = null;
-        }
-        else if (leftHandItem != null)
-        {
-            itemToDrop = leftHandItem;
-            leftHandItem = null;
-        }
-
-        if (itemToDrop == null)
-            return;
-
-        itemToDrop.transform.SetParent(null);
-
-        Rigidbody rb = itemToDrop.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = false;
-            rb.AddForce(transform.forward * 2f, ForceMode.Impulse);
-        }
-
-        Collider col = itemToDrop.GetComponent<Collider>();
-        if (col != null)
-        {
-            col.enabled = true;
-        }
-
-        if (rightHandItem == null && leftHandItem == null && bothHandItem == null)
-        {
-            targetBothWeight = 0f;
-            targetLeftWeight = 0f;
-        }
     }
 
     void ApplyHoldTransform(GameObject target, Vector3 posOffset, Vector3 rotOffset, Vector3 scaleOffset)
@@ -135,11 +85,7 @@ public class PickupController : MonoBehaviour
         yield return new WaitForSeconds(item.delayPickup);
 
         Collider col = target.GetComponent<Collider>();
-
-        if (col != null)
-        {
-            col.enabled = false;
-        }
+        if (col != null) col.enabled = false;
 
         if (item.useBothHands)
         {
@@ -203,8 +149,7 @@ public class PickupController : MonoBehaviour
         if (isPickupPlaying)
             return;
 
-        PickupItem item =
-            CrosshairAim.currentTarget.GetComponent<PickupItem>();
+        PickupItem item = CrosshairAim.currentTarget.GetComponent<PickupItem>();
 
         if (item == null)
             return;
@@ -212,10 +157,12 @@ public class PickupController : MonoBehaviour
         GameObject target = CrosshairAim.currentTarget;
 
         Rigidbody rb = target.GetComponent<Rigidbody>();
-
         if (rb != null)
         {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
             rb.isKinematic = true;
+            rb.interpolation = RigidbodyInterpolation.None;
         }
 
         bool isFull =

@@ -74065,8 +74065,8 @@ MonoBehaviour:
   pickupAnimation: Pickup
   holdAnimation: BothHold
   delayPickup: 0.5
-  rightPositionOffset: {x: -0.144, y: 0.138, z: -0.19}
-  rightRotationOffset: {x: 80.73, y: -115.879, z: -50.826}
+  rightPositionOffset: {x: 0.321, y: 0.073, z: -0.395}
+  rightRotationOffset: {x: 76.591, y: -129.276, z: -63.973}
   rightScaleOffset: {x: 1.09861, y: 1.28867, z: 1.09861}
   leftPositionOffset: {x: 0, y: 0, z: 0}
   leftRotationOffset: {x: 0, y: 0, z: 0}
@@ -272799,7 +272799,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1676089263
 Transform:
   m_ObjectHideFlags: 0
@@ -361338,8 +361338,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DropItem
   dropAnimation: Pickup
   delayDrop: 0
-  throwForce: 7
-  throwUpwardForce: 3
+  throwForce: 10
+  throwUpwardForce: 5
 --- !u!33 &3469287837153913334
 MeshFilter:
   m_ObjectHideFlags: 0

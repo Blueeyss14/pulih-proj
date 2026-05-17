@@ -1,103 +1,121 @@
-// using UnityEngine;
-// using UnityEngine.InputSystem;
-// using System.Collections;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using System.Collections;
 
-// public class DropController : MonoBehaviour
-// {
-//     [Header("References")]
-//     public PickupController pickupController;
-//     public Camera playerCamera;
-//     public Animator animator;
+public class DropController : MonoBehaviour
+{
+    [Header("References")]
+    public PickupController pickupController;
+    public Camera playerCamera;
+    public Animator animator;
 
-//     void Update()
-//     {
-//         if (Keyboard.current.gKey.wasPressedThisFrame)
-//         {
-//             TryDrop();
-//         }
-//     }
+    void Update()
+    {
+        if (Keyboard.current.gKey.wasPressedThisFrame)
+            TryDrop();
+    }
 
-//     void TryDrop()
-//     {
-//         GameObject itemToDrop = GetItemToDrop(out string hand);
+    void TryDrop()
+    {
+        GameObject itemToDrop = GetItemToDrop(out string hand);
 
-//         if (itemToDrop == null) return;
+        if (itemToDrop == null) return;
 
-//         DropItem dropItem = itemToDrop.GetComponent<DropItem>();
+        DropItem dropItem = itemToDrop.GetComponent<DropItem>();
 
-//         if (dropItem == null) return;
+        if (dropItem == null) return;
 
+        StartCoroutine(DropRoutine(itemToDrop, dropItem, hand));
+    }
 
-//         StartCoroutine(DropRoutine(itemToDrop, dropItem, hand));
-//     }
+    GameObject GetItemToDrop(out string hand)
+    {
+        if (pickupController.bothHandItem  != null) { hand = "both";  return pickupController.bothHandItem;  }
+        if (pickupController.rightHandItem != null) { hand = "right"; return pickupController.rightHandItem; }
+        if (pickupController.leftHandItem  != null) { hand = "left";  return pickupController.leftHandItem;  }
 
-//     GameObject GetItemToDrop(out string hand)
-//     {
-//         var type = typeof(PickupController);
-//         var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+        hand = null;
+        return null;
+    }
 
-//         GameObject bothHandItem = type.GetField("bothHandItem", flags)?.GetValue(pickupController) as GameObject;
-//         GameObject rightHandItem = type.GetField("rightHandItem", flags)?.GetValue(pickupController) as GameObject;
-//         GameObject leftHandItem  = type.GetField("leftHandItem",  flags)?.GetValue(pickupController) as GameObject;
+    void ClearHandItem(string hand)
+    {
+        switch (hand)
+        {
+            case "both":  pickupController.bothHandItem  = null; break;
+            case "right": pickupController.rightHandItem = null; break;
+            case "left":  pickupController.leftHandItem  = null; break;
+        }
 
-//         if (bothHandItem  != null) { hand = "both";  return bothHandItem;  }
-//         if (rightHandItem != null) { hand = "right"; return rightHandItem; }
-//         if (leftHandItem  != null) { hand = "left";  return leftHandItem;  }
+        if (pickupController.rightHandItem == null &&
+            pickupController.leftHandItem  == null &&
+            pickupController.bothHandItem  == null)
+        {
+            pickupController.targetBothWeight = 0f;
+            pickupController.targetLeftWeight = 0f;
+        }
+    }
 
-//         hand = null;
-//         return null;
-//     }
+    IEnumerator DropRoutine(GameObject item, DropItem dropItem, string hand)
+    {
+        PickupItem pickupItem = item.GetComponent<PickupItem>();
 
-//     void ClearHandItem(string hand)
-//     {
-//         var type  = typeof(PickupController);
-//         var flags = System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance;
+        if (animator != null && !string.IsNullOrEmpty(dropItem.dropAnimation))
+            animator.SetTrigger(dropItem.dropAnimation);
 
-//         string fieldName = hand switch
-//         {
-//             "both"  => "bothHandItem",
-//             "right" => "rightHandItem",
-//             "left"  => "leftHandItem",
-//             _       => null
-//         };
+        if (pickupItem != null && animator != null && !string.IsNullOrEmpty(pickupItem.holdAnimation))
+            animator.SetBool(pickupItem.holdAnimation, false);
 
-//         if (fieldName != null)
-//             type.GetField(fieldName, flags)?.SetValue(pickupController, null);
-//     }
+        pickupController.targetBothWeight = 1f;
+        pickupController.targetLeftWeight = 0f;
 
-//     IEnumerator DropRoutine(GameObject item, DropItem dropItem, string hand)
-//     {
-//         if (animator != null && !string.IsNullOrEmpty(dropItem.dropAnimation))
-//             animator.SetTrigger(dropItem.dropAnimation);
+        ClearHandItem(hand);
 
-//         yield return new WaitForSeconds(dropItem.delayDrop);
+        yield return new WaitForSeconds(dropItem.delayDrop);
 
-//         item.transform.SetParent(null);
+        item.transform.SetParent(null);
 
-//         Collider col = item.GetComponent<Collider>();
-//         if (col != null) col.enabled = false;
+        Collider col = item.GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = true;
+            if (col is MeshCollider meshCol)
+            {
+                meshCol.convex = true;
+            }
+        }
 
-//         if (item.GetComponent<BoxCollider>() == null)
-//             item.AddComponent<BoxCollider>();
+        Rigidbody rb = item.GetComponent<Rigidbody>();
+        if (rb == null) rb = item.AddComponent<Rigidbody>();
 
-//         Rigidbody rb = item.GetComponent<Rigidbody>();
-//         if (rb == null) rb = item.AddComponent<Rigidbody>();
+        rb.isKinematic = false;
+        rb.useGravity = true;
+        rb.constraints = RigidbodyConstraints.None;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
 
-//         rb.isKinematic = false;
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        Vector3 targetPoint;
 
-//         Vector3 throwDirection = playerCamera.transform.forward
-//                                + playerCamera.transform.up * dropItem.throwUpwardForce;
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+        {
+            targetPoint = hit.point;
+        }
+        else
+        {
+            targetPoint = ray.GetPoint(100f);
+        }
 
-//         rb.AddForce(throwDirection.normalized * dropItem.throwForce, ForceMode.Impulse);
-//         rb.AddTorque(Random.insideUnitSphere * dropItem.throwForce * 0.3f, ForceMode.Impulse);
+        Vector3 throwDir = (targetPoint - item.transform.position).normalized;
+        Vector3 finalThrowDir = throwDir + playerCamera.transform.up * dropItem.throwUpwardForce;
 
-//         if (hand == "both")
-//         {
-//             PickupItem pickupItem = item.GetComponent<PickupItem>();
-//             if (pickupItem != null && animator != null && !string.IsNullOrEmpty(pickupItem.holdAnimation))
-//                 animator.SetBool(pickupItem.holdAnimation, false);
-//         }
+        rb.AddForce(finalThrowDir.normalized * dropItem.throwForce, ForceMode.Impulse);
+        rb.AddTorque(Random.insideUnitSphere * dropItem.throwForce * 0.3f, ForceMode.Impulse);
 
-//         ClearHandItem(hand);
-//     }
-// }
+        AliceController aliceController = Object.FindFirstObjectByType<AliceController>();
+        if (aliceController != null)
+            aliceController.enabled = true;
+    }
+}

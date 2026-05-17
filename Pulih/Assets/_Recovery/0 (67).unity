@@ -74060,13 +74060,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f4bc4732aa492340a96fd913862d21f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupItem
-  useBothHands: 1
+  useBothHands: 0
   leftFirst: 0
   pickupAnimation: Pickup
   holdAnimation: BothHold
   delayPickup: 0.5
-  rightPositionOffset: {x: -0.144, y: 0.138, z: -0.19}
-  rightRotationOffset: {x: 80.73, y: -115.879, z: -50.826}
+  rightPositionOffset: {x: 0.321, y: 0.073, z: -0.395}
+  rightRotationOffset: {x: 76.591, y: -129.276, z: -63.973}
   rightScaleOffset: {x: 1.09861, y: 1.28867, z: 1.09861}
   leftPositionOffset: {x: 0, y: 0, z: 0}
   leftRotationOffset: {x: 0, y: 0, z: 0}
@@ -361337,9 +361337,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropItem
   dropAnimation: Pickup
-  delayDrop: 0
-  throwForce: 7
-  throwUpwardForce: 3
+  delayDrop: 0.3
+  throwForce: 2
+  throwUpwardForce: 10
 --- !u!33 &3469287837153913334
 MeshFilter:
   m_ObjectHideFlags: 0

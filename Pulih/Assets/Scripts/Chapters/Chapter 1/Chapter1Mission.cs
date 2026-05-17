@@ -2,6 +2,7 @@ using UnityEngine;
 
 /*
 CHAPTER 1 - MISSIONS
+
 - Go to the object
 - Pick up trash [
     - find a trash a can
@@ -10,15 +11,16 @@ CHAPTER 1 - MISSIONS
 - Find a trash grabber
 - Pick trash from the river
 */
-public class Chapter1Mission : BaseChapterMission 
+
+public class Chapter1Mission : BaseChapterMission
 {
     public InteractUiPosition interactUI;
     public ChapterProgress chapterProgress;
-    public ObjectiveZone objectiveZone; 
-    
-    public AuraController auraController; 
+    public ObjectiveZone objectiveZone;
+   
+    public AuraController auraController;
     public PickupUsingPlastic pickupUsingPlastic;
-    public int requiredTrash = 10;
+    public int requiredTrash = 2;
 
     private bool trashCanFound;
     private bool trashPickupDone;
@@ -50,13 +52,13 @@ public class Chapter1Mission : BaseChapterMission
             if (!mission.isCompleted)
             {
                 mission.isCompleted = true;
-                
+               
                 if (auraController != null)
                 {
                     auraController.AddAura(mission.auraPoint);
                 }
-                
-                break; 
+               
+                break;
             }
         }
 
@@ -74,9 +76,7 @@ public class Chapter1Mission : BaseChapterMission
         GameObject trashCan = GameObject.FindGameObjectWithTag("Trash Can");
 
         if (trashCan == null) return;
-
         if (trashCan.transform.parent == null) return;
-
         if (trashCan.GetComponentInParent<PickupController>() == null) return;
 
         SubMission subMission = missions.Find(x => !x.isCompleted)

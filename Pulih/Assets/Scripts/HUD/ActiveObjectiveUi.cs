@@ -29,19 +29,21 @@ public class ActiveObjectUi : MonoBehaviour
     {
         if (uiElement == null) return;
 
-        if (activeNumber != currentActiveNumber)
-        {
-            uiElement.gameObject.SetActive(false);
-            return;
-        }
-
         if (currentActiveNumber <= 0)
         {
             uiElement.gameObject.SetActive(false);
             return;
         }
 
-        uiElement.gameObject.SetActive(true);
+        if (activeNumber != currentActiveNumber)
+        {
+            return;
+        }
+        else
+        {
+            uiElement.gameObject.SetActive(true);
+        }
+
         Vector3 screenPos = mainCamera.WorldToScreenPoint(transform.position + offset);
         Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
 

@@ -23,6 +23,7 @@ public class Chapter1Mission : BaseChapterMission
 
     private bool trashCanFound;
     private bool trashPickupDone;
+    private bool trashGrabberFound;
     public bool hasReachedRequiredTrash;
 
     void Start()
@@ -39,6 +40,7 @@ public class Chapter1Mission : BaseChapterMission
     {
         FindTrashCanMission();
         PickupTrashMission();
+        FindTrashGrabber();
     }
 
     /// MISSION 1: go to object
@@ -111,12 +113,11 @@ public class Chapter1Mission : BaseChapterMission
 
         ActiveObjectUi.SetCurrentActiveNumber(3);
     }
-    
+
     public void OnTrashDumped()
     {
         if (trashPickupDone) return;
 
-        ActiveObjectUi.SetCurrentActiveNumber(0);
 
         SubMission subMission = missions.Find(x => !x.isCompleted)?.subMissions.Find(x => !x.isCompleted);
         if (subMission == null) return;
@@ -124,9 +125,48 @@ public class Chapter1Mission : BaseChapterMission
 
         trashPickupDone = true;
 
+        ActiveObjectUi.SetCurrentActiveNumber(4);
+
         if (chapterProgress != null)
         {
             chapterProgress.GenerateChapterUI();
         }
     }
+
+    /// MISSION 3: find a trash grabber
+    private void FindTrashGrabber()
+    {
+        if (trashGrabberFound) return;
+
+        GameObject trashGrabber = GameObject.FindGameObjectWithTag("Trash Grabber");
+
+        if (trashGrabber == null) return;
+        if (trashGrabber.transform.parent == null) return;
+        if (trashGrabber.GetComponentInParent<PickupController>() == null) return;
+
+        foreach (var mission in missions)
+        {
+            if (!mission.isCompleted)
+            {
+                mission.isCompleted = true;
+
+                if (auraController != null)
+                {
+                    auraController.AddAura(mission.auraPoint);
+                }
+
+                break;
+            }
+        }
+
+        trashGrabberFound = true;
+
+        ActiveObjectUi.SetCurrentActiveNumber(0);
+
+        if (chapterProgress != null)
+        {
+            chapterProgress.GenerateChapterUI();
+        }
+    }
+
 }

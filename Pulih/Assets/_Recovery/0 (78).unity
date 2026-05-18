@@ -364005,10 +364005,9 @@ GameObject:
   - component: {fileID: 3469287837611376230}
   - component: {fileID: 3469287837611376231}
   - component: {fileID: 3469287837611376232}
-  - component: {fileID: 3469287837611376233}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: trash grabber
-  m_TagString: Trash Grabber
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -371878,8 +371877,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b8e56701d5f4af41adcd38d2fc8e172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropItem
-  dropAnimation: 
-  delayDrop: 0
+  dropAnimation: Drop
+  delayDrop: 0.3
   throwForce: 3
   throwUpwardForce: 2
 --- !u!114 &3469287837611376232
@@ -371899,27 +371898,6 @@ MonoBehaviour:
   marginX: 100
   marginY: 100
   activeNumber: 4
---- !u!65 &3469287837611376233
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132147960769402}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.23306769, y: 6.470652, z: 0.21670014}
-  m_Center: {x: -0.0019632934, y: 3.2354877, z: -0.07633547}
 --- !u!33 &3469287837874667146
 MeshFilter:
   m_ObjectHideFlags: 0

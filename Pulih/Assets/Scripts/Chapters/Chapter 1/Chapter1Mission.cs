@@ -23,7 +23,7 @@ public class Chapter1Mission : BaseChapterMission
 
     private bool trashCanFound;
     private bool trashPickupDone;
-    public bool trashFull;
+    public bool hasReachedRequiredTrash;
 
     void Start()
     {
@@ -67,7 +67,10 @@ public class Chapter1Mission : BaseChapterMission
         }
     }
 
-    /// MISSION 2: find a trash can
+    /*
+    MISSION 2:
+    Submission 1: find a trash can
+    */
     private void FindTrashCanMission()
     {
         if (trashCanFound) return;
@@ -78,11 +81,8 @@ public class Chapter1Mission : BaseChapterMission
         if (trashCan.transform.parent == null) return;
         if (trashCan.GetComponentInParent<PickupController>() == null) return;
 
-        SubMission subMission = missions.Find(x => !x.isCompleted)
-            ?.subMissions.Find(x => !x.isCompleted);
-
+        SubMission subMission = missions.Find(x => !x.isCompleted)?.subMissions.Find(x => !x.isCompleted);
         if (subMission == null) return;
-
         subMission.isCompleted = true;
 
         trashCanFound = true;
@@ -95,31 +95,31 @@ public class Chapter1Mission : BaseChapterMission
         }
     }
 
-    /// MISSION 2: pickup a trash with trash can
+    /*
+    MISSION 2:
+    Submission 2: pickup a trash with trash can & throw to dumpster
+    */
     private void PickupTrashMission()
     {
         if (trashPickupDone) return;
-        if (trashFull) return;
+        if (hasReachedRequiredTrash) return;
         if (!trashCanFound) return;
         if (pickupUsingPlastic == null) return;
         if (pickupUsingPlastic.currentTrash < requiredTrash) return;
 
-        trashFull = true;
+        hasReachedRequiredTrash = true;
 
-        // ActiveObjectUi.SetCurrentActiveNumber(4);
+        ActiveObjectUi.SetCurrentActiveNumber(3);
     }
-
+    
     public void OnTrashDumped()
     {
         if (trashPickupDone) return;
 
         ActiveObjectUi.SetCurrentActiveNumber(0);
 
-        SubMission subMission = missions.Find(x => !x.isCompleted)
-            ?.subMissions.Find(x => !x.isCompleted);
-
+        SubMission subMission = missions.Find(x => !x.isCompleted)?.subMissions.Find(x => !x.isCompleted);
         if (subMission == null) return;
-
         subMission.isCompleted = true;
 
         trashPickupDone = true;
@@ -128,7 +128,5 @@ public class Chapter1Mission : BaseChapterMission
         {
             chapterProgress.GenerateChapterUI();
         }
-
-        Debug.Log("ambil sampah udah kelar");
     }
 }

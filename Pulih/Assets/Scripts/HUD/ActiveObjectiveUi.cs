@@ -2,62 +2,60 @@ using UnityEngine;
 
 public class ActiveObjectUi : MonoBehaviour
 {
-    // public int targetChapter = 1;
-    // public int targetMission = 1;
-    // [Tooltip("0 kalau ga punya submission")]
-    // public int targetSubmission = 0; 
+    public RectTransform uiElement;
+    public Vector3 offset;
+    public float marginX = 100f;
+    public float marginY = 100f;
+    private Camera mainCamera;
+    public int activeNumber = 0;
+    static int currentActiveNumber = 0;
 
-    // [Header("Referensi")]
-    // public ChapterProgress chapterProgress;
-    // private InteractUiPosition interactUiPosition;
+    void Awake()
+    {
+        mainCamera = Camera.main;
 
-    // void Start()
-    // {
-    //     interactUiPosition = GetComponent<InteractUiPosition>();
-    // }
+        if (uiElement != null)
+        {
+            uiElement.gameObject.SetActive(false);
+        }
+    }
 
-    // void Update()
-    // {
-    //     if (chapterProgress == null || interactUiPosition == null || chapterProgress.dataHolder == null) return;
+    public static void SetCurrentActiveNumber(int number)
+    {
+        currentActiveNumber = number;
+    }
 
-    //     bool shouldBeActive = CheckIfActive();
+    void Update()
+    {
+        if (uiElement == null) return;
 
-    //     interactUiPosition.enabled = shouldBeActive;
-    //     interactUiPosition.SetUI(shouldBeActive);
-    // }
+        if (activeNumber != currentActiveNumber)
+        {
+            uiElement.gameObject.SetActive(false);
+            return;
+        }
 
-    // private bool CheckIfActive()
-    // {
-    //     int chapterIndex = targetChapter - 1;
-    //     int missionIndex = targetMission - 1;
+        if (currentActiveNumber <= 0)
+        {
+            uiElement.gameObject.SetActive(false);
+            return;
+        }
 
-    //     if (chapterProgress.currentChapterIndex != chapterIndex) return false;
+        uiElement.gameObject.SetActive(true);
+        Vector3 screenPos = mainCamera.WorldToScreenPoint(transform.position + offset);
+        Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
 
-    //     BaseChapterMission[] chapters = chapterProgress.dataHolder.GetComponents<BaseChapterMission>();
-    //     if (chapterIndex >= chapters.Length || chapterIndex < 0) return false;
+        if (screenPos.z < 0)
+        {
+            screenPos -= screenCenter;
+            screenPos *= -1;
+            screenPos = screenCenter + screenPos.normalized * 10000f;
+        }
 
-    //     BaseChapterMission currentChapter = chapters[chapterIndex];
+        screenPos.x = Mathf.Clamp(screenPos.x, marginX, Screen.width - marginX);
+        screenPos.y = Mathf.Clamp(screenPos.y, marginY, Screen.height - marginY);
+        screenPos.z = 0;
 
-    //     int activeMissionIndex = currentChapter.missions.FindIndex(m => !m.isCompleted);
-        
-    //     if (activeMissionIndex != missionIndex) return false;
-
-    //     if (targetSubmission != 0)
-    //     {
-    //         int subIndex = targetSubmission - 1;
-    //         var activeMission = currentChapter.missions[activeMissionIndex];
-            
-    //         if (activeMission.subMissions != null)
-    //         {
-    //             int activeSubIndex = activeMission.subMissions.FindIndex(s => !s.isCompleted);
-    //             if (activeSubIndex != subIndex) return false;
-    //         }
-    //         else
-    //         {
-    //             return false;
-    //         }
-    //     }
-
-    //     return true;
-    // }
+        uiElement.position = screenPos;
+    }
 }

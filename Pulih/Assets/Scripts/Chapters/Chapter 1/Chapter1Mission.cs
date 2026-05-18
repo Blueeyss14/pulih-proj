@@ -14,10 +14,9 @@ CHAPTER 1 - MISSIONS
 
 public class Chapter1Mission : BaseChapterMission
 {
-    public InteractUiPosition interactUI;
     public ChapterProgress chapterProgress;
     public ObjectiveZone objectiveZone;
-   
+
     public AuraController auraController;
     public PickupUsingPlastic pickupUsingPlastic;
     public int requiredTrash = 2;
@@ -28,7 +27,7 @@ public class Chapter1Mission : BaseChapterMission
 
     void Start()
     {
-        if (interactUI != null) interactUI.SetUI(true);
+        ActiveObjectUi.SetCurrentActiveNumber(1);
 
         if (objectiveZone != null)
         {
@@ -45,19 +44,19 @@ public class Chapter1Mission : BaseChapterMission
     /// MISSION 1: go to object
     private void OnObjectiveHit()
     {
-        if (interactUI != null) interactUI.SetUI(false);
+        ActiveObjectUi.SetCurrentActiveNumber(2);
 
         foreach (var mission in missions)
         {
             if (!mission.isCompleted)
             {
                 mission.isCompleted = true;
-               
+
                 if (auraController != null)
                 {
                     auraController.AddAura(mission.auraPoint);
                 }
-               
+
                 break;
             }
         }
@@ -88,6 +87,8 @@ public class Chapter1Mission : BaseChapterMission
 
         trashCanFound = true;
 
+        ActiveObjectUi.SetCurrentActiveNumber(0);
+
         if (chapterProgress != null)
         {
             chapterProgress.GenerateChapterUI();
@@ -105,14 +106,14 @@ public class Chapter1Mission : BaseChapterMission
 
         trashFull = true;
 
-        if (interactUI != null) interactUI.SetUI(true);
+        // ActiveObjectUi.SetCurrentActiveNumber(4);
     }
 
     public void OnTrashDumped()
     {
         if (trashPickupDone) return;
 
-        if (interactUI != null) interactUI.SetUI(false);
+        ActiveObjectUi.SetCurrentActiveNumber(0);
 
         SubMission subMission = missions.Find(x => !x.isCompleted)
             ?.subMissions.Find(x => !x.isCompleted);

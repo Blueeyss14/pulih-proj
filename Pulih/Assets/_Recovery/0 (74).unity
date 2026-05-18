@@ -74101,7 +74101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractUiPosition
   uiElement: {fileID: 231005981}
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 1, z: 0}
   marginX: 100
   marginY: 100
 --- !u!64 &439436183
@@ -303197,11 +303197,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 724ad489ec5add743b37012b67967a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActiveObjectUi
-  uiElement: {fileID: 1086437554}
+  uiElement: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
   marginX: 100
   marginY: 100
-  activeNumber: 1
+  activeNumber: 0
 --- !u!1 &1862413879
 GameObject:
   m_ObjectHideFlags: 0
@@ -323960,9 +323960,11 @@ MonoBehaviour:
     isCompleted: 0
     auraPoint: 150
     subMissions:
-    - subMissionTitle: Find trash can
+    - subMissionTitle: gaslah
       isCompleted: 0
-    - subMissionTitle: Pickup at least 10 trash
+    - subMissionTitle: okelah
+      isCompleted: 0
+    - subMissionTitle: dfsdsdf
       isCompleted: 0
   - missionTitle: Find a trash grabber
     isCompleted: 0
@@ -323972,8 +323974,8 @@ MonoBehaviour:
     isCompleted: 0
     auraPoint: 100
     subMissions: []
+  objectiveUI: {fileID: 1086437554}
   chapterProgress: {fileID: 1867025048}
-  objectiveZone: {fileID: 1861989093}
   auraController: {fileID: 1867025047}
   pickupUsingPlastic: {fileID: 439436178}
   requiredTrash: 2
@@ -361351,11 +361353,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 724ad489ec5add743b37012b67967a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActiveObjectUi
-  uiElement: {fileID: 1086437554}
+  uiElement: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
   marginX: 100
   marginY: 100
-  activeNumber: 2
+  activeNumber: 0
 --- !u!33 &3469287837153913334
 MeshFilter:
   m_ObjectHideFlags: 0

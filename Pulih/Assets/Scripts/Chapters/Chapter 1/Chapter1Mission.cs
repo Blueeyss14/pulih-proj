@@ -12,11 +12,14 @@ CHAPTER 1 - MISSIONS
 - Pick trash from the river
 */
 
+public enum Chapter1Step { Mission1, Mission2Sub1, Mission2Sub2, Mission3, Completed }
+
 public class Chapter1Mission : BaseChapterMission
 {
+    public Chapter1Step currentStep = Chapter1Step.Mission1; 
+
     public ChapterProgress chapterProgress;
     public ObjectiveZone objectiveZone;
-
     public AuraController auraController;
     public PickupUsingPlastic pickupUsingPlastic;
     public int requiredTrash = 2;
@@ -29,11 +32,7 @@ public class Chapter1Mission : BaseChapterMission
     void Start()
     {
         ActiveObjectUi.SetCurrentActiveNumber(1);
-
-        if (objectiveZone != null)
-        {
-            objectiveZone.onObjectiveReached.AddListener(OnObjectiveHit);
-        }
+        if (objectiveZone != null) objectiveZone.onObjectiveReached.AddListener(OnObjectiveHit);
     }
 
     void Update()
@@ -43,130 +42,99 @@ public class Chapter1Mission : BaseChapterMission
         FindTrashGrabber();
     }
 
-    /// MISSION 1: go to object
-    private void OnObjectiveHit()
+    private void CompleteCurrentMission()
     {
-        ActiveObjectUi.SetCurrentActiveNumber(2);
-
-        foreach (var mission in missions)
+        var mission = missions.Find(x => !x.isCompleted);
+        if (mission != null)
         {
-            if (!mission.isCompleted)
-            {
-                mission.isCompleted = true;
-
-                if (auraController != null)
-                {
-                    auraController.AddAura(mission.auraPoint);
-                }
-
-                break;
-            }
+            mission.isCompleted = true;
+            if (auraController != null) auraController.AddAura(mission.auraPoint);
         }
+        chapterProgress?.GenerateChapterUI();
+    }
 
-        if (chapterProgress != null)
+    private void CompleteCurrentSubMission()
+    {
+        var mission = missions.Find(x => !x.isCompleted);
+        var subMission = mission?.subMissions.Find(x => !x.isCompleted);
+        if (subMission != null) subMission.isCompleted = true;
+        
+        if (mission != null && mission.subMissions.TrueForAll(x => x.isCompleted))
         {
-            chapterProgress.GenerateChapterUI();
+            mission.isCompleted = true;
         }
     }
 
-    /*
-    MISSION 2:
+    /// MISSION 1: go to object
+    private void OnObjectiveHit()
+    {
+        if (currentStep != Chapter1Step.Mission1) return;
+
+        ActiveObjectUi.SetCurrentActiveNumber(2);
+        CompleteCurrentMission();
+        
+        currentStep = Chapter1Step.Mission2Sub1; 
+    }
+
+    /* MISSION 2
     Submission 1: find a trash can
     */
     private void FindTrashCanMission()
     {
         if (trashCanFound) return;
+        if (currentStep != Chapter1Step.Mission2Sub1) return;
 
         GameObject trashCan = GameObject.FindGameObjectWithTag("Trash Can");
+        if (trashCan == null || trashCan.transform.parent == null || trashCan.GetComponentInParent<PickupController>() == null) return;
 
-        if (trashCan == null) return;
-        if (trashCan.transform.parent == null) return;
-        if (trashCan.GetComponentInParent<PickupController>() == null) return;
-
-        SubMission subMission = missions.Find(x => !x.isCompleted)?.subMissions.Find(x => !x.isCompleted);
-        if (subMission == null) return;
-        subMission.isCompleted = true;
-
+        CompleteCurrentSubMission();
         trashCanFound = true;
-
         ActiveObjectUi.SetCurrentActiveNumber(0);
+        chapterProgress?.GenerateChapterUI();
 
-        if (chapterProgress != null)
-        {
-            chapterProgress.GenerateChapterUI();
-        }
+        currentStep = Chapter1Step.Mission2Sub2; 
     }
 
-    /*
-    MISSION 2:
-    Submission 2: pickup a trash with trash can & throw to dumpster
+    /* MISSION 2
+    Submission 2:
+    pickup a trash with trash can
     */
     private void PickupTrashMission()
     {
-        if (trashPickupDone) return;
-        if (hasReachedRequiredTrash) return;
-        if (!trashCanFound) return;
-        if (pickupUsingPlastic == null) return;
-        if (pickupUsingPlastic.currentTrash < requiredTrash) return;
+        if (trashPickupDone || hasReachedRequiredTrash || !trashCanFound) return;
+        if (currentStep != Chapter1Step.Mission2Sub2) return;
+        if (pickupUsingPlastic == null || pickupUsingPlastic.currentTrash < requiredTrash) return;
 
         hasReachedRequiredTrash = true;
-
         ActiveObjectUi.SetCurrentActiveNumber(3);
     }
 
     public void OnTrashDumped()
     {
         if (trashPickupDone) return;
+        if (currentStep != Chapter1Step.Mission2Sub2) return;
 
-
-        SubMission subMission = missions.Find(x => !x.isCompleted)?.subMissions.Find(x => !x.isCompleted);
-        if (subMission == null) return;
-        subMission.isCompleted = true;
-
+        CompleteCurrentSubMission();
         trashPickupDone = true;
-
         ActiveObjectUi.SetCurrentActiveNumber(4);
+        chapterProgress?.GenerateChapterUI();
 
-        if (chapterProgress != null)
-        {
-            chapterProgress.GenerateChapterUI();
-        }
+        currentStep = Chapter1Step.Mission3; 
     }
 
     /// MISSION 3: find a trash grabber
     private void FindTrashGrabber()
     {
         if (trashGrabberFound) return;
+        if (currentStep != Chapter1Step.Mission3) return;
 
         GameObject trashGrabber = GameObject.FindGameObjectWithTag("Trash Grabber");
+        if (trashGrabber == null || trashGrabber.transform.parent == null || trashGrabber.GetComponentInParent<PickupController>() == null) return;
 
-        if (trashGrabber == null) return;
-        if (trashGrabber.transform.parent == null) return;
-        if (trashGrabber.GetComponentInParent<PickupController>() == null) return;
-
-        foreach (var mission in missions)
-        {
-            if (!mission.isCompleted)
-            {
-                mission.isCompleted = true;
-
-                if (auraController != null)
-                {
-                    auraController.AddAura(mission.auraPoint);
-                }
-
-                break;
-            }
-        }
-
+        CompleteCurrentMission();
         trashGrabberFound = true;
-
         ActiveObjectUi.SetCurrentActiveNumber(0);
-
-        if (chapterProgress != null)
-        {
-            chapterProgress.GenerateChapterUI();
-        }
+        
+        currentStep = Chapter1Step.Completed; 
     }
-
 }

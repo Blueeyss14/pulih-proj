@@ -6,8 +6,9 @@ public class CamerController : MonoBehaviour
     public Transform target;
 
     [Header("Camera Position")]
-    public float distance = 2.2f; 
-    public float heightOffset = 3.3f; 
+    public float distance = 1.55f;
+    public float rightMouseDistance = 0.8f;
+    public float heightOffset = 3f;
     public float sideOffset = 0.43f;
 
     [Header("Mouse Settings")]
@@ -40,6 +41,13 @@ public class CamerController : MonoBehaviour
     {
         if (target == null || Mouse.current == null) return;
 
+        float currentDistance = distance;
+
+        if (Mouse.current.rightButton.isPressed)
+        {
+            currentDistance -= rightMouseDistance;
+        }
+
         mouseX += Mouse.current.delta.x.ReadValue() * sensitivity * Time.deltaTime;
         mouseY -= Mouse.current.delta.y.ReadValue() * sensitivity * Time.deltaTime;
         mouseY = Mathf.Clamp(mouseY, minYAngle, maxYAngle);
@@ -48,7 +56,7 @@ public class CamerController : MonoBehaviour
 
         Vector3 focusPoint = target.position + Vector3.up * heightOffset;
 
-        Vector3 finalPosition = focusPoint - (rotation * Vector3.forward * distance) + (rotation * Vector3.right * sideOffset);
+        Vector3 finalPosition = focusPoint - (rotation * Vector3.forward * currentDistance) + (rotation * Vector3.right * sideOffset);
 
         transform.position = finalPosition;
         transform.rotation = rotation;

@@ -93,10 +93,15 @@ public class PickupUsingTrashGrabber : MonoBehaviour
                         child.SetParent(grabberCollider.transform);
                         child.localPosition = Vector3.zero;
                     }
+
+                    if (pickupController.rightHandItem == child.gameObject) pickupController.rightHandItem = null;
+                    if (pickupController.leftHandItem == child.gameObject) pickupController.leftHandItem = null;
+                    if (pickupController.bothHandItem == child.gameObject) pickupController.bothHandItem = null;
                 }
             }
         }
     }
+
     void UpdateUI()
     {
         if (trashCounterText != null)

@@ -12,22 +12,27 @@ CHAPTER 1 - MISSIONS
 - Pick trash from the river
 */
 
-public enum Chapter1Step { Mission1, Mission2Sub1, Mission2Sub2, Mission3, Completed }
+public enum Chapter1Step { Mission1, Mission2Sub1, Mission2Sub2, Mission3, Mission4, Completed }
 
 public class Chapter1Mission : BaseChapterMission
 {
-    public Chapter1Step currentStep = Chapter1Step.Mission1; 
+    public Chapter1Step currentStep = Chapter1Step.Mission1;
 
     public ChapterProgress chapterProgress;
     public ObjectiveZone objectiveZone;
     public AuraController auraController;
     public PickupUsingPlastic pickupUsingPlastic;
+    public PickupUsingTrashGrabber pickupUsingGrabber;
     public int requiredTrash = 2;
+    public int requiredTrashInGrabber = 2;
 
     private bool trashCanFound;
     private bool trashPickupDone;
-    private bool trashGrabberFound;
     public bool hasReachedRequiredTrash;
+
+    private bool trashGrabberFound;
+    private bool trashPickupDoneByGrabber;
+    public bool hasReachedReqTrashByGrabber;
 
     void Start()
     {
@@ -40,6 +45,7 @@ public class Chapter1Mission : BaseChapterMission
         FindTrashCanMission();
         PickupTrashMission();
         FindTrashGrabber();
+        PickupTrashUsingGrabber();
     }
 
     private void CompleteCurrentMission()
@@ -58,7 +64,7 @@ public class Chapter1Mission : BaseChapterMission
         var mission = missions.Find(x => !x.isCompleted);
         var subMission = mission?.subMissions.Find(x => !x.isCompleted);
         if (subMission != null) subMission.isCompleted = true;
-        
+
         if (mission != null && mission.subMissions.TrueForAll(x => x.isCompleted))
         {
             mission.isCompleted = true;
@@ -72,8 +78,8 @@ public class Chapter1Mission : BaseChapterMission
 
         ActiveObjectUi.SetCurrentActiveNumber(2);
         CompleteCurrentMission();
-        
-        currentStep = Chapter1Step.Mission2Sub1; 
+
+        currentStep = Chapter1Step.Mission2Sub1;
     }
 
     /* MISSION 2
@@ -92,7 +98,7 @@ public class Chapter1Mission : BaseChapterMission
         ActiveObjectUi.SetCurrentActiveNumber(0);
         chapterProgress?.GenerateChapterUI();
 
-        currentStep = Chapter1Step.Mission2Sub2; 
+        currentStep = Chapter1Step.Mission2Sub2;
     }
 
     /* MISSION 2
@@ -119,7 +125,7 @@ public class Chapter1Mission : BaseChapterMission
         ActiveObjectUi.SetCurrentActiveNumber(4);
         chapterProgress?.GenerateChapterUI();
 
-        currentStep = Chapter1Step.Mission3; 
+        currentStep = Chapter1Step.Mission3;
     }
 
     /// MISSION 3: find a trash grabber
@@ -134,7 +140,19 @@ public class Chapter1Mission : BaseChapterMission
         CompleteCurrentMission();
         trashGrabberFound = true;
         ActiveObjectUi.SetCurrentActiveNumber(0);
-        
-        currentStep = Chapter1Step.Completed; 
+
+        currentStep = Chapter1Step.Mission4;
+    }
+
+    /// MISSION 4: Pickup Trash from the river
+    private void PickupTrashUsingGrabber()
+    {
+        if (trashPickupDoneByGrabber || hasReachedReqTrashByGrabber || !trashGrabberFound) return;
+        if (currentStep != Chapter1Step.Mission4) return;
+        if (pickupUsingGrabber == null || pickupUsingGrabber.currentTrash < requiredTrashInGrabber) return;
+
+        hasReachedReqTrashByGrabber = true;
+        CompleteCurrentMission();
+        currentStep = Chapter1Step.Completed;
     }
 }

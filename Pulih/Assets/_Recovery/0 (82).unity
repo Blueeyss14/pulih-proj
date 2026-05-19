@@ -287334,7 +287334,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1676089263
 Transform:
   m_ObjectHideFlags: 0
@@ -339309,11 +339309,8 @@ MonoBehaviour:
   objectiveZone: {fileID: 1861989093}
   auraController: {fileID: 1867025047}
   pickupUsingPlastic: {fileID: 439436178}
-  pickupUsingGrabber: {fileID: 3469287837611376234}
   requiredTrash: 2
-  requiredTrashInGrabber: 2
   hasReachedRequiredTrash: 0
-  hasReachedReqTrashByGrabber: 0
 --- !u!114 &1987639860
 MonoBehaviour:
   m_ObjectHideFlags: 0

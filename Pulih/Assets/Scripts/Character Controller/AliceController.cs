@@ -10,16 +10,19 @@ public class AliceController : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float walkSpeed;
-    [SerializeField] private float runSpeed;
+    [SerializeField] private float walkSpeed = 2f;
+    [SerializeField] private float runSpeed = 3f;
+
+    [Header("Animation Smooth")]
+    [SerializeField] private float animationSmoothTime = 0.3f;
 
     [Header("Angle Velocity")]
-    [SerializeField] private float calmTime;
+    [SerializeField] private float calmTime = 0.3f;
     private float turnVelocity;
 
     [Header("Jump")]
     [SerializeField] private float jumpVelocity;
-    [SerializeField] private float gravity;
+    [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float jumpValue;
 
     // [Header("Footstep")]
@@ -110,21 +113,21 @@ public class AliceController : MonoBehaviour
 
     private void PlayerIdle()
     {
-        playerAnime.SetFloat("Move", 0f, 0.1f, Time.deltaTime);
+        playerAnime.SetFloat("Move", 0f, animationSmoothTime, Time.deltaTime);
         moveSpeed = 0f;
         footstepTimer = 0f;
     }
 
     private void PlayerWalk()
     {
-        playerAnime.SetFloat("Move", 0.5f, 0.1f, Time.deltaTime);
+        playerAnime.SetFloat("Move", 0.5f, animationSmoothTime, Time.deltaTime);
         moveSpeed = walkSpeed;
         // PlayFootstep(walkStepInterval);
     }
 
     private void PlayerRun()
     {
-        playerAnime.SetFloat("Move", 1f, 0.1f, Time.deltaTime);
+        playerAnime.SetFloat("Move", 1f, animationSmoothTime, Time.deltaTime);
         moveSpeed = runSpeed;
         // PlayFootstep(runStepInterval);
     }

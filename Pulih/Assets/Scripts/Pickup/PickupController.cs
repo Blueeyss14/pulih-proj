@@ -95,6 +95,10 @@ public class PickupController : MonoBehaviour
             {
                 animator.SetBool(item.holdAnimation, true);
             }
+            else
+            {
+                animator.SetBool(item.holdAnimation, false);
+            }
         }
         else if (item.leftFirst)
         {

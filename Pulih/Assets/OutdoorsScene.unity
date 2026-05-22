@@ -151684,7 +151684,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 3e9626d6db008e94a86b55d2dede4004, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
@@ -151707,10 +151707,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AliceController
   cam: {fileID: 1823688467}
   moveSpeed: 0
-  walkSpeed: 2
-  runSpeed: 3
-  animationSmoothTime: 0.3
-  calmTime: 0.3
+  walkSpeed: 4
+  runSpeed: 10
+  animationSmoothTime: 0.2
+  calmTime: 0.2
   jumpVelocity: 0
   gravity: -9.81
   jumpValue: 0
@@ -273351,6 +273351,7 @@ GameObject:
   - component: {fileID: 1614093953}
   - component: {fileID: 1614093952}
   - component: {fileID: 1614093955}
+  - component: {fileID: 1614093956}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -273446,6 +273447,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TerrainChunkCuller
   cameraController: {fileID: 1823688469}
+--- !u!114 &1614093956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614093951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 258debfdcc96dac4f949670538d45c1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropUsingTrashGrabber
+  targetPosition: {x: 0, y: 0, z: 0}
+  targetRotation: {x: 0, y: 0, z: 0}
+  delayDestroy: 0.5
+  trashGrabber: {fileID: 0}
+  characterParent: {fileID: 0}
 --- !u!1 &1614128377
 GameObject:
   m_ObjectHideFlags: 0
@@ -370389,6 +370407,7 @@ GameObject:
   - component: {fileID: 157057379}
   - component: {fileID: 157057380}
   - component: {fileID: 157057381}
+  - component: {fileID: 3469287837368510738}
   m_Layer: 6
   m_Name: trash grabber
   m_TagString: Trash Grabber
@@ -377885,6 +377904,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132149310929934}
   m_Mesh: {fileID: -5495902117074765545, guid: 7286cf8ad2d940744b2e29c8d0ac70a3, type: 3}
+--- !u!114 &3469287837368510738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149310929934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 258debfdcc96dac4f949670538d45c1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropTrashUsingGrabber
+  targetPosition: {x: 100, y: 5.01, z: 13.8}
+  targetRotation: {x: 56, y: 23, z: 54}
+  delayDestroy: 0
+  trashGrabber: {fileID: 157057381}
+  characterParent: {fileID: 0}
 --- !u!33 &3469287837531974254
 MeshFilter:
   m_ObjectHideFlags: 0

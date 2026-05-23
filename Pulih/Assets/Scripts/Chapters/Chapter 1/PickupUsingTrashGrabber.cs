@@ -10,15 +10,22 @@ public class PickupUsingTrashGrabber : MonoBehaviour
     public Collider grabberCollider;
 
     [Header("Crosshair")]
-    public float extraPickupDistance = 0f;
+    public float extraPickupDistance = 10f;
+
+    [Header("Animation")]
+    public string pickupAnimation = "PickupUsingGrabber";
 
     [HideInInspector] public int currentTrash = 0;
     private PickupController pickupController;
     public bool isHeld = false;
 
+    private Animator animator;
+
     void Start()
     {
         if (uiPosition != null) uiPosition.SetUI(false);
+
+        animator = GetComponentInParent<Animator>();
 
         UpdateUI();
     }
@@ -35,6 +42,8 @@ public class PickupUsingTrashGrabber : MonoBehaviour
                 {
                     pickupController = foundController;
                     isHeld = true;
+
+                    pickupController.overridePickupAnimation = pickupAnimation;
 
                     CrosshairAim crosshairAim = Object.FindFirstObjectByType<CrosshairAim>();
 
@@ -59,6 +68,8 @@ public class PickupUsingTrashGrabber : MonoBehaviour
                     {
                         crosshairAim.distance -= extraPickupDistance;
                     }
+
+                    pickupController.overridePickupAnimation = "";
                 }
 
                 if (isHeld && uiPosition != null)
@@ -79,6 +90,16 @@ public class PickupUsingTrashGrabber : MonoBehaviour
                 if (crosshairAim != null)
                 {
                     crosshairAim.distance -= extraPickupDistance;
+                }
+
+                if (animator != null)
+                {
+                    animator.SetTrigger(pickupAnimation);
+                }
+
+                if (pickupController != null)
+                {
+                    pickupController.overridePickupAnimation = "";
                 }
             }
 

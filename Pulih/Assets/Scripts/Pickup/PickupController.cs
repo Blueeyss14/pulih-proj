@@ -19,6 +19,8 @@ public class PickupController : MonoBehaviour
     [HideInInspector] public GameObject leftHandItem;
     [HideInInspector] public GameObject bothHandItem;
 
+    [HideInInspector] public string overridePickupAnimation = "";
+
     AliceController aliceController;
 
     bool isPickupPlaying;
@@ -90,18 +92,10 @@ public class PickupController : MonoBehaviour
         if (item.useBothHands)
         {
             AttachItem(ref bothHandItem, target, bothHandTransform, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
-
-            if (animator != null && !string.IsNullOrEmpty(item.holdAnimation))
-            {
-                animator.SetBool(item.holdAnimation, true);
-            }
-            else
-            {
-                animator.SetBool(item.holdAnimation, false);
-            }
         }
         else if (item.leftFirst)
         {
+            // animator.SetBool(item.holdAnimation, false);
             if (leftHandItem == null)
             {
                 AttachItem(ref leftHandItem, target, leftHandTransform, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
@@ -113,6 +107,7 @@ public class PickupController : MonoBehaviour
         }
         else
         {
+            // animator.SetBool(item.holdAnimation, false);
             if (rightHandItem == null)
             {
                 AttachItem(ref rightHandItem, target, rightHandTransform, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
@@ -120,6 +115,19 @@ public class PickupController : MonoBehaviour
             else if (leftHandItem == null)
             {
                 AttachItem(ref leftHandItem, target, leftHandTransform, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
+            }
+        }
+
+        if (animator != null)
+        {
+            if (!string.IsNullOrEmpty(item.holdAnimation))
+            {
+                // animator.SetBool(item.holdAnimation, true);
+                animator.SetTrigger(item.holdAnimation);
+            }
+            else
+            {
+                animator.SetTrigger("EmptyHold");
             }
         }
 
@@ -182,9 +190,11 @@ public class PickupController : MonoBehaviour
 
         if (animator != null)
         {
-            string triggerName = string.IsNullOrEmpty(item.pickupAnimation)
-                ? "Pickup"
-                : item.pickupAnimation;
+            string triggerName = !string.IsNullOrEmpty(overridePickupAnimation)
+                ? overridePickupAnimation
+                : string.IsNullOrEmpty(item.pickupAnimation)
+                    ? "Pickup"
+                    : item.pickupAnimation;
 
             if (aliceController != null)
             {

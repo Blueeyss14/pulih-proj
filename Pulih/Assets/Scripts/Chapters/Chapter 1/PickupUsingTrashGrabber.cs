@@ -14,7 +14,7 @@ public class PickupUsingTrashGrabber : MonoBehaviour
 
     [HideInInspector] public int currentTrash = 0;
     private PickupController pickupController;
-    private bool isHeld = false;
+    public bool isHeld = false;
 
     void Start()
     {

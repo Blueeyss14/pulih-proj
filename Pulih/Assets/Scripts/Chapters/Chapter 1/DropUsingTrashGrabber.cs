@@ -10,45 +10,70 @@ public class DropTrashUsingGrabber : MonoBehaviour
 
     [Header("Settings")]
     public float delayDestroy = 0.5f;
+    public float moveSpeed = 5f;
 
-    [Header("References")]
-    public PickupUsingTrashGrabber trashGrabber;
-
+    private PickupUsingTrashGrabber trashGrabber;
     private AliceController aliceController;
     private DropController dropController;
 
-    void Start()
+    void Awake()
     {
+        trashGrabber = GetComponent<PickupUsingTrashGrabber>();
         aliceController = Object.FindFirstObjectByType<AliceController>();
         dropController = Object.FindFirstObjectByType<DropController>();
     }
 
     void Update()
     {
+        if (aliceController == null) aliceController = Object.FindFirstObjectByType<AliceController>();
+        if (dropController == null) dropController = Object.FindFirstObjectByType<DropController>();
+
         if (Keyboard.current == null) return;
 
-        bool isAimingDumpster = CrosshairAim.currentTarget != null &&
-                                CrosshairAim.currentTarget.CompareTag("Dumpster");
+        bool isAimingDumpster = CrosshairAim.currentTarget != null && CrosshairAim.currentTarget.CompareTag("Dumpster");
 
         if (dropController != null)
         {
             dropController.enabled = !isAimingDumpster;
         }
 
-        if (Keyboard.current.gKey.wasPressedThisFrame)
+        if (isAimingDumpster && trashGrabber != null && trashGrabber.isHeld && trashGrabber.currentTrash > 0)
         {
-            if (isAimingDumpster && trashGrabber != null && trashGrabber.currentTrash > 0)
+            if (Keyboard.current.gKey.wasPressedThisFrame)
             {
-                StartCoroutine(DropTrashRoutine());
+                StartCoroutine(MoveAndDropRoutine());
             }
         }
     }
 
-    private IEnumerator DropTrashRoutine()
+    private IEnumerator MoveAndDropRoutine()
     {
         if (aliceController != null)
         {
-            // aliceController.TeleportTo(targetPosition, Quaternion.Euler(targetRotation));
+            CharacterController cc = aliceController.GetComponent<CharacterController>();
+
+            Vector3 worldTarget = aliceController.transform.parent != null
+                ? aliceController.transform.parent.TransformPoint(targetPosition)
+                : targetPosition;
+
+            Quaternion targetRot = Quaternion.Euler(targetRotation);
+
+            aliceController.isTeleporting = true;
+            if (cc != null) cc.enabled = false;
+
+            while (Vector3.Distance(aliceController.transform.position, worldTarget) > 0.01f)
+            {
+                aliceController.PlayerWalk();
+                aliceController.transform.position = Vector3.MoveTowards(aliceController.transform.position, worldTarget, moveSpeed * Time.deltaTime);
+                aliceController.transform.localRotation = Quaternion.Lerp(aliceController.transform.localRotation, targetRot, moveSpeed * Time.deltaTime);
+                yield return null;
+            }
+
+            aliceController.transform.position = worldTarget;
+            aliceController.transform.localRotation = targetRot;
+
+            if (cc != null) cc.enabled = true;
+            aliceController.isTeleporting = false;
         }
 
         yield return new WaitForSeconds(delayDestroy);

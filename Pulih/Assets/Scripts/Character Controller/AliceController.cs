@@ -42,6 +42,8 @@ public class AliceController : MonoBehaviour
 
     private Vector3 moveDirection = Vector3.zero;
 
+    [HideInInspector] public bool isTeleporting = false;
+
     void Start()
     {
         playerController = GetComponent<CharacterController>();
@@ -50,6 +52,8 @@ public class AliceController : MonoBehaviour
 
     void Update()
     {
+        if (isTeleporting) return;
+
         PlayerMoveFn();
         PlayerJump();
 
@@ -118,7 +122,7 @@ public class AliceController : MonoBehaviour
         footstepTimer = 0f;
     }
 
-    private void PlayerWalk()
+    public void PlayerWalk()
     {
         playerAnime.SetFloat("Move", 0.5f, animationSmoothTime, Time.deltaTime);
         moveSpeed = walkSpeed;

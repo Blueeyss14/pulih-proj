@@ -25731,6 +25731,7 @@ MonoBehaviour:
   uiPosition: {fileID: 1812779094}
   smokeAnimation: {fileID: 1634684681}
   grabberCollider: {fileID: 1812779092}
+  extraPickupDistance: 10
   currentTrash: 0
 --- !u!1 &157111056
 GameObject:
@@ -160655,6 +160656,7 @@ MonoBehaviour:
   uiPosition: {fileID: 0}
   smokeAnimation: {fileID: 0}
   grabberCollider: {fileID: 0}
+  extraPickupDistance: 0
   currentTrash: 0
 --- !u!114 &950745659
 MonoBehaviour:
@@ -273463,7 +273465,6 @@ MonoBehaviour:
   targetRotation: {x: 0, y: 0, z: 0}
   delayDestroy: 0.5
   trashGrabber: {fileID: 0}
-  characterParent: {fileID: 0}
 --- !u!1 &1614128377
 GameObject:
   m_ObjectHideFlags: 0
@@ -377920,7 +377921,6 @@ MonoBehaviour:
   targetRotation: {x: 56, y: 23, z: 54}
   delayDestroy: 0
   trashGrabber: {fileID: 157057381}
-  characterParent: {fileID: 0}
 --- !u!33 &3469287837531974254
 MeshFilter:
   m_ObjectHideFlags: 0

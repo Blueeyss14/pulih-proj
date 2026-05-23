@@ -7,7 +7,7 @@ public class CrosshairAim : MonoBehaviour
 
     public Image crosshair;
     public Camera playerCamera;
-    public float distance = 20f;
+    public float distance = 7f;
     public LayerMask itemLayer;
 
     private Color white = Color.white;

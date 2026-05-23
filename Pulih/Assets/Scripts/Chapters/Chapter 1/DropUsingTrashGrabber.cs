@@ -48,7 +48,7 @@ public class DropTrashUsingGrabber : MonoBehaviour
     {
         if (aliceController != null)
         {
-            aliceController.TeleportTo(targetPosition, Quaternion.Euler(targetRotation));
+            // aliceController.TeleportTo(targetPosition, Quaternion.Euler(targetRotation));
         }
 
         yield return new WaitForSeconds(delayDestroy);

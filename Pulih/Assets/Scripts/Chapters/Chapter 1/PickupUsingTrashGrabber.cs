@@ -8,6 +8,10 @@ public class PickupUsingTrashGrabber : MonoBehaviour
     public InteractUiPosition uiPosition;
     public SmokeAnimation smokeAnimation;
     public Collider grabberCollider;
+
+    [Header("Crosshair")]
+    public float extraPickupDistance = 0f;
+
     [HideInInspector] public int currentTrash = 0;
     private PickupController pickupController;
     private bool isHeld = false;
@@ -32,6 +36,13 @@ public class PickupUsingTrashGrabber : MonoBehaviour
                     pickupController = foundController;
                     isHeld = true;
 
+                    CrosshairAim crosshairAim = Object.FindFirstObjectByType<CrosshairAim>();
+
+                    if (crosshairAim != null)
+                    {
+                        crosshairAim.distance += extraPickupDistance;
+                    }
+
                     if (uiPosition != null)
                     {
                         uiPosition.SetUI(true);
@@ -40,6 +51,16 @@ public class PickupUsingTrashGrabber : MonoBehaviour
             }
             else
             {
+                if (isHeld)
+                {
+                    CrosshairAim crosshairAim = Object.FindFirstObjectByType<CrosshairAim>();
+
+                    if (crosshairAim != null)
+                    {
+                        crosshairAim.distance -= extraPickupDistance;
+                    }
+                }
+
                 if (isHeld && uiPosition != null)
                 {
                     uiPosition.SetUI(false);
@@ -51,6 +72,16 @@ public class PickupUsingTrashGrabber : MonoBehaviour
         }
         else
         {
+            if (isHeld)
+            {
+                CrosshairAim crosshairAim = Object.FindFirstObjectByType<CrosshairAim>();
+
+                if (crosshairAim != null)
+                {
+                    crosshairAim.distance -= extraPickupDistance;
+                }
+            }
+
             if (isHeld && uiPosition != null)
             {
                 uiPosition.SetUI(false);

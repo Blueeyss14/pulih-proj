@@ -4,6 +4,9 @@ using System.Collections;
 
 public class DropTrashUsingGrabber : MonoBehaviour
 {
+    [Header("Animator")]
+    public Animator animator;
+    // public Animator grabberAnimator;
     [Header("Character Position & Rotation")]
     public Vector3 targetPosition;
     public Vector3 targetRotation;
@@ -21,6 +24,14 @@ public class DropTrashUsingGrabber : MonoBehaviour
         trashGrabber = GetComponent<PickupUsingTrashGrabber>();
         aliceController = Object.FindFirstObjectByType<AliceController>();
         dropController = Object.FindFirstObjectByType<DropController>();
+    }
+
+    void Start()
+    {
+        if (animator == null) return;
+        // if (grabberAnimator == null) return;
+        animator.SetBool("DropTrashFromGrabber", false);
+        // grabberAnimator.SetBool("TrashGrabber", false);
     }
 
     void Update()
@@ -74,6 +85,9 @@ public class DropTrashUsingGrabber : MonoBehaviour
 
             if (cc != null) cc.enabled = true;
             aliceController.isTeleporting = false;
+
+            animator.SetBool("DropTrashFromGrabber", true);
+            // grabberAnimator.SetBool("TrashGrabber", true);
         }
 
         yield return new WaitForSeconds(delayDestroy);

@@ -99,7 +99,7 @@ public class PickupController : MonoBehaviour
 
             if (animator != null && !string.IsNullOrEmpty(item.holdAnimation))
             {
-                // animator.SetTrigger(item.holdAnimation);
+                animator.SetTrigger(item.holdAnimation);
             }
             else
             {

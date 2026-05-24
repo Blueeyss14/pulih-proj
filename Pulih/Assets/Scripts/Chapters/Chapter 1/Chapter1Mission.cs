@@ -8,8 +8,7 @@ CHAPTER 1 - MISSIONS
     - find a trash a can
     - pickup a trash with trash can
 ]
-- Find a trash grabber
-- Pick trash from the river
+- Move all the oil barrels
 */
 
 public enum Chapter1Step { Mission1, Mission2Sub1, Mission2Sub2, Mission3, Mission4, Completed }

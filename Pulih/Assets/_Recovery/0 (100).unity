@@ -374540,6 +374540,7 @@ GameObject:
   - component: {fileID: 157057379}
   - component: {fileID: 157057380}
   - component: {fileID: 157057381}
+  - component: {fileID: 3469287837368510740}
   - component: {fileID: 3469287837368510738}
   - component: {fileID: 3469287837368510739}
   m_Layer: 6
@@ -382187,6 +382188,18 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &3469287837368510740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149310929934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f51b5b46c47169d4e87e68566cf18c69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrabberLine
 --- !u!33 &3469287837531974254
 MeshFilter:
   m_ObjectHideFlags: 0

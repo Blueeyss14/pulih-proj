@@ -12,6 +12,10 @@ public class PickupController : MonoBehaviour
 
     public float layerBlendSpeed = 5f;
 
+    [Header("Auto Walk Settings")]
+    public float pickupRange = 1.5f;
+    public float autoWalkSpeed = 2f;
+
     [HideInInspector] public float targetBothWeight = 1f;
     [HideInInspector] public float targetLeftWeight = 0f;
 
@@ -188,22 +192,101 @@ public class PickupController : MonoBehaviour
             return;
         }
 
+        StartCoroutine(WalkAndPickup(item, target));
+    }
+
+    IEnumerator WalkAndPickup(PickupItem item, GameObject target)
+    {
+        isPickupPlaying = true;
+
+        if (aliceController == null)
+        {
+            isPickupPlaying = false;
+            yield break;
+        }
+
+        aliceController.enabled = false;
+
+        CharacterController cc = aliceController.GetComponent<CharacterController>();
+
+        Vector3 playerPos = aliceController.transform.position;
+        Vector3 targetPos = target.transform.position;
+        float dist = Vector3.Distance(new Vector3(playerPos.x, 0f, playerPos.z), new Vector3(targetPos.x, 0f, targetPos.z));
+
+        while (target != null && dist > pickupRange)
+        {
+            Vector3 direction = target.transform.position - aliceController.transform.position;
+            direction.y = 0f;
+
+            if (direction.sqrMagnitude > 0.001f)
+            {
+                aliceController.transform.rotation = Quaternion.LookRotation(direction);
+            }
+
+            aliceController.PlayerWalk();
+
+            Vector3 moveVec = direction.normalized * autoWalkSpeed;
+
+            if (cc != null)
+            {
+                cc.SimpleMove(moveVec);
+            }
+            else
+            {
+                aliceController.transform.position += moveVec * Time.deltaTime;
+            }
+
+            playerPos = aliceController.transform.position;
+            dist = Vector3.Distance(new Vector3(playerPos.x, 0f, playerPos.z), new Vector3(targetPos.x, 0f, targetPos.z));
+
+            yield return null;
+        }
+
+        if (target == null)
+        {
+            if (animator != null)
+            {
+                animator.SetFloat("Move", 0f);
+            }
+            aliceController.enabled = true;
+            isPickupPlaying = false;
+            yield break;
+        }
+
         if (animator != null)
         {
+            animator.SetFloat("Move", 0f);
+
             string triggerName = !string.IsNullOrEmpty(overridePickupAnimation)
                 ? overridePickupAnimation
                 : string.IsNullOrEmpty(item.pickupAnimation)
                     ? "Pickup"
                     : item.pickupAnimation;
 
-            if (aliceController != null)
-            {
-                aliceController.enabled = false;
-            }
-
             animator.SetTrigger(triggerName);
         }
 
+        StartCoroutine(RotatePlayerToTarget(aliceController.transform, target.transform.position, 0.2f));
         StartCoroutine(DelayedPickup(item, target));
+    }
+
+    IEnumerator RotatePlayerToTarget(Transform playerTransform, Vector3 targetPosition, float duration)
+    {
+        float time = 0f;
+        Quaternion startRotation = playerTransform.rotation;
+        Vector3 direction = targetPosition - playerTransform.position;
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            while (time < duration)
+            {
+                playerTransform.rotation = Quaternion.Slerp(startRotation, targetRotation, time / duration);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            playerTransform.rotation = targetRotation;
+        }
     }
 }

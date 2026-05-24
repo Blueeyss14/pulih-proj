@@ -7,8 +7,8 @@ public class PickupItem : MonoBehaviour
     public bool leftFirst;
 
     [Header("Animation")]
-    public string pickupAnimation = "Pickup"; 
-    public string holdAnimation = ""; 
+    public string pickupAnimation = "Pickup";
+    public string holdAnimation = "";
     public float delayPickup = 0.5f;
 
     [Header("Right Hand / Both Hand Offset")]

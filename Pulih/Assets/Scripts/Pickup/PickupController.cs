@@ -7,14 +7,13 @@ public class PickupController : MonoBehaviour
     public Transform rightHandTransform;
     public Transform leftHandTransform;
     public Transform bothHandTransform;
-
     public Animator animator;
-
     public float layerBlendSpeed = 5f;
 
-    [Header("Auto Walk Settings")]
-    public float pickupRange = 1.5f;
-    public float autoWalkSpeed = 2f;
+    [Header("Pickup Range Settings")]
+    public float pickupDistance = 1.5f; 
+    public float approachSpeed = 2f;    
+    public float rotationSpeed = 10f;   
 
     [HideInInspector] public float targetBothWeight = 1f;
     [HideInInspector] public float targetLeftWeight = 0f;
@@ -23,15 +22,15 @@ public class PickupController : MonoBehaviour
     [HideInInspector] public GameObject leftHandItem;
     [HideInInspector] public GameObject bothHandItem;
 
-    [HideInInspector] public string overridePickupAnimation = "";
-
     AliceController aliceController;
-
+    CharacterController playerController;
     bool isPickupPlaying;
+    bool isApproaching;
 
     void Start()
     {
         aliceController = Object.FindFirstObjectByType<AliceController>();
+        playerController = GetComponent<CharacterController>();
 
         if (animator != null)
         {
@@ -74,7 +73,6 @@ public class PickupController : MonoBehaviour
         handItem = target;
 
         target.transform.SetParent(handTransform);
-
         target.transform.localPosition = Vector3.zero;
         target.transform.localRotation = Quaternion.identity;
 
@@ -91,15 +89,25 @@ public class PickupController : MonoBehaviour
         yield return new WaitForSeconds(item.delayPickup);
 
         Collider col = target.GetComponent<Collider>();
-        if (col != null) col.enabled = false;
+
+        if (col != null)
+            col.enabled = false;
 
         if (item.useBothHands)
         {
             AttachItem(ref bothHandItem, target, bothHandTransform, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
+
+            if (animator != null && !string.IsNullOrEmpty(item.holdAnimation))
+            {
+                animator.SetBool(item.holdAnimation, true);
+            }
+            else
+            {
+                animator.SetBool(item.holdAnimation, false);
+            }
         }
         else if (item.leftFirst)
         {
-            // animator.SetBool(item.holdAnimation, false);
             if (leftHandItem == null)
             {
                 AttachItem(ref leftHandItem, target, leftHandTransform, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
@@ -111,7 +119,6 @@ public class PickupController : MonoBehaviour
         }
         else
         {
-            // animator.SetBool(item.holdAnimation, false);
             if (rightHandItem == null)
             {
                 AttachItem(ref rightHandItem, target, rightHandTransform, item.rightPositionOffset, item.rightRotationOffset, item.rightScaleOffset);
@@ -119,19 +126,6 @@ public class PickupController : MonoBehaviour
             else if (leftHandItem == null)
             {
                 AttachItem(ref leftHandItem, target, leftHandTransform, item.leftPositionOffset, item.leftRotationOffset, item.leftScaleOffset);
-            }
-        }
-
-        if (animator != null)
-        {
-            if (!string.IsNullOrEmpty(item.holdAnimation))
-            {
-                // animator.SetBool(item.holdAnimation, true);
-                animator.SetTrigger(item.holdAnimation);
-            }
-            else
-            {
-                animator.SetTrigger("EmptyHold");
             }
         }
 
@@ -157,12 +151,78 @@ public class PickupController : MonoBehaviour
         }
     }
 
+    IEnumerator ApproachAndPickup(PickupItem item, GameObject target)
+    {
+        isApproaching = true;
+
+        if (aliceController != null)
+        {
+            aliceController.enabled = false;      
+        }
+
+        Vector3 flatTargetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+        float distance = Vector3.Distance(transform.position, flatTargetPos);
+
+        while (distance > pickupDistance)
+        {
+            Vector3 direction = (flatTargetPos - transform.position).normalized;
+
+            if (direction.magnitude > 0.1f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            }
+
+            if (playerController != null)
+            {
+                playerController.Move(direction * approachSpeed * Time.deltaTime);
+            }
+
+            if (animator != null)
+            {
+                animator.SetFloat("Move", 0.5f, 0.1f, Time.deltaTime);
+            }
+
+            distance = Vector3.Distance(transform.position, flatTargetPos);
+            yield return null;
+        }
+
+        if (animator != null)
+        {
+            animator.SetFloat("Move", 0f, 0.1f, Time.deltaTime);
+        }
+
+        ExecutePickupAnimation(item, target);
+        isApproaching = false;
+    }
+
+    void ExecutePickupAnimation(PickupItem item, GameObject target)
+    {
+        Rigidbody rb = target.GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = true;
+            rb.interpolation = RigidbodyInterpolation.None;
+        }
+
+        if (animator != null)
+        {
+            string triggerName = string.IsNullOrEmpty(item.pickupAnimation) ? "Pickup" : item.pickupAnimation;
+            animator.SetTrigger(triggerName);
+        }
+
+        StartCoroutine(DelayedPickup(item, target));
+    }
+
     void PickupObject()
     {
         if (CrosshairAim.currentTarget == null)
             return;
 
-        if (isPickupPlaying)
+        if (isPickupPlaying || isApproaching)
             return;
 
         PickupItem item = CrosshairAim.currentTarget.GetComponent<PickupItem>();
@@ -171,15 +231,6 @@ public class PickupController : MonoBehaviour
             return;
 
         GameObject target = CrosshairAim.currentTarget;
-
-        Rigidbody rb = target.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.isKinematic = true;
-            rb.interpolation = RigidbodyInterpolation.None;
-        }
 
         bool isFull =
             (item.useBothHands && (rightHandItem != null || leftHandItem != null || bothHandItem != null)) ||
@@ -192,101 +243,20 @@ public class PickupController : MonoBehaviour
             return;
         }
 
-        StartCoroutine(WalkAndPickup(item, target));
-    }
+        Vector3 flatTargetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+        float distance = Vector3.Distance(transform.position, flatTargetPos);
 
-    IEnumerator WalkAndPickup(PickupItem item, GameObject target)
-    {
-        isPickupPlaying = true;
-
-        if (aliceController == null)
+        if (distance > pickupDistance)
         {
-            isPickupPlaying = false;
-            yield break;
+            StartCoroutine(ApproachAndPickup(item, target));
         }
-
-        aliceController.enabled = false;
-
-        CharacterController cc = aliceController.GetComponent<CharacterController>();
-
-        Vector3 playerPos = aliceController.transform.position;
-        Vector3 targetPos = target.transform.position;
-        float dist = Vector3.Distance(new Vector3(playerPos.x, 0f, playerPos.z), new Vector3(targetPos.x, 0f, targetPos.z));
-
-        while (target != null && dist > pickupRange)
+        else
         {
-            Vector3 direction = target.transform.position - aliceController.transform.position;
-            direction.y = 0f;
-
-            if (direction.sqrMagnitude > 0.001f)
+            if (aliceController != null)
             {
-                aliceController.transform.rotation = Quaternion.LookRotation(direction);
+                aliceController.enabled = false;
             }
-
-            aliceController.PlayerWalk();
-
-            Vector3 moveVec = direction.normalized * autoWalkSpeed;
-
-            if (cc != null)
-            {
-                cc.SimpleMove(moveVec);
-            }
-            else
-            {
-                aliceController.transform.position += moveVec * Time.deltaTime;
-            }
-
-            playerPos = aliceController.transform.position;
-            dist = Vector3.Distance(new Vector3(playerPos.x, 0f, playerPos.z), new Vector3(targetPos.x, 0f, targetPos.z));
-
-            yield return null;
-        }
-
-        if (target == null)
-        {
-            if (animator != null)
-            {
-                animator.SetFloat("Move", 0f);
-            }
-            aliceController.enabled = true;
-            isPickupPlaying = false;
-            yield break;
-        }
-
-        if (animator != null)
-        {
-            animator.SetFloat("Move", 0f);
-
-            string triggerName = !string.IsNullOrEmpty(overridePickupAnimation)
-                ? overridePickupAnimation
-                : string.IsNullOrEmpty(item.pickupAnimation)
-                    ? "Pickup"
-                    : item.pickupAnimation;
-
-            animator.SetTrigger(triggerName);
-        }
-
-        StartCoroutine(RotatePlayerToTarget(aliceController.transform, target.transform.position, 0.2f));
-        StartCoroutine(DelayedPickup(item, target));
-    }
-
-    IEnumerator RotatePlayerToTarget(Transform playerTransform, Vector3 targetPosition, float duration)
-    {
-        float time = 0f;
-        Quaternion startRotation = playerTransform.rotation;
-        Vector3 direction = targetPosition - playerTransform.position;
-        direction.y = 0f;
-
-        if (direction.sqrMagnitude > 0.001f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            while (time < duration)
-            {
-                playerTransform.rotation = Quaternion.Slerp(startRotation, targetRotation, time / duration);
-                time += Time.deltaTime;
-                yield return null;
-            }
-            playerTransform.rotation = targetRotation;
+            ExecutePickupAnimation(item, target);
         }
     }
 }

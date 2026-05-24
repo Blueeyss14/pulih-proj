@@ -22,7 +22,7 @@ public class Chapter1Mission : BaseChapterMission
     public ObjectiveZone objectiveZone;
     public AuraController auraController;
     public PickupUsingPlastic pickupUsingPlastic;
-    public PickupUsingTrashGrabber pickupUsingGrabber;
+    // public PickupUsingTrashGrabber pickupUsingGrabber;
     public int requiredTrash = 2;
     public int requiredTrashInGrabber = 2;
 
@@ -45,7 +45,7 @@ public class Chapter1Mission : BaseChapterMission
         FindTrashCanMission();
         PickupTrashMission();
         FindTrashGrabber();
-        PickupTrashUsingGrabber();
+        // PickupTrashUsingGrabber();
     }
 
     private void CompleteCurrentMission()
@@ -145,14 +145,14 @@ public class Chapter1Mission : BaseChapterMission
     }
 
     /// MISSION 4: Pickup Trash from the river
-    private void PickupTrashUsingGrabber()
-    {
-        if (trashPickupDoneByGrabber || hasReachedReqTrashByGrabber || !trashGrabberFound) return;
-        if (currentStep != Chapter1Step.Mission4) return;
-        if (pickupUsingGrabber == null || pickupUsingGrabber.currentTrash < requiredTrashInGrabber) return;
+    // private void PickupTrashUsingGrabber()
+    // {
+    //     if (trashPickupDoneByGrabber || hasReachedReqTrashByGrabber || !trashGrabberFound) return;
+    //     if (currentStep != Chapter1Step.Mission4) return;
+    //     if (pickupUsingGrabber == null || pickupUsingGrabber.currentTrash < requiredTrashInGrabber) return;
 
-        hasReachedReqTrashByGrabber = true;
-        CompleteCurrentMission();
-        currentStep = Chapter1Step.Completed;
-    }
+    //     hasReachedReqTrashByGrabber = true;
+    //     CompleteCurrentMission();
+    //     currentStep = Chapter1Step.Completed;
+    // }
 }

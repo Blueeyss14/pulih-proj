@@ -25874,6 +25874,27 @@ MonoBehaviour:
   marginX: 100
   marginY: 100
   activeNumber: 4
+--- !u!114 &157057381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149310929934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4229986d9d6dd2a43bea708f25999125, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupUsingTrashGrabber
+  trashCounterText: {fileID: 1084097485}
+  maxTrash: 5
+  uiPosition: {fileID: 1812779094}
+  smokeAnimation: {fileID: 1634684681}
+  grabberCollider: {fileID: 1812779092}
+  extraPickupDistance: 10
+  pickupAnimation: PickupUsingGrabber
+  currentTrash: 0
+  isHeld: 0
 --- !u!1 &157111056
 GameObject:
   m_ObjectHideFlags: 0
@@ -162245,6 +162266,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4229986d9d6dd2a43bea708f25999125, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickupUsingTrashGrabber
+  trashCounterText: {fileID: 1084097485}
+  maxTrash: 5
+  uiPosition: {fileID: 0}
+  smokeAnimation: {fileID: 0}
+  grabberCollider: {fileID: 0}
+  extraPickupDistance: 0
+  pickupAnimation: PickupUsingGrabber
+  currentTrash: 0
+  isHeld: 0
 --- !u!114 &950745659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344301,6 +344331,7 @@ MonoBehaviour:
   objectiveZone: {fileID: 1861989093}
   auraController: {fileID: 1867025047}
   pickupUsingPlastic: {fileID: 439436178}
+  pickupUsingGrabber: {fileID: 157057381}
   requiredTrash: 2
   requiredTrashInGrabber: 2
   hasReachedRequiredTrash: 0
@@ -374436,11 +374467,14 @@ MonoBehaviour:
   bothHandTransform: {fileID: 6082107163343018907}
   animator: {fileID: 904750622}
   layerBlendSpeed: 5
+  pickupRange: 1.5
+  autoWalkSpeed: 2
   targetBothWeight: 1
   targetLeftWeight: 0
   rightHandItem: {fileID: 0}
   leftHandItem: {fileID: 0}
   bothHandItem: {fileID: 0}
+  overridePickupAnimation: 
 --- !u!114 &919132148850514765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374505,6 +374539,8 @@ GameObject:
   - component: {fileID: 157057377}
   - component: {fileID: 157057379}
   - component: {fileID: 157057380}
+  - component: {fileID: 157057381}
+  - component: {fileID: 3469287837368510738}
   - component: {fileID: 3469287837368510739}
   m_Layer: 6
   m_Name: trash grabber
@@ -382002,6 +382038,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132149310929934}
   m_Mesh: {fileID: -5495902117074765545, guid: 7286cf8ad2d940744b2e29c8d0ac70a3, type: 3}
+--- !u!114 &3469287837368510738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132149310929934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 258debfdcc96dac4f949670538d45c1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropTrashUsingGrabber
+  animator: {fileID: 904750622}
+  targetPosition: {x: -13.93817, y: 1.046641, z: -75.58276}
+  targetRotation: {x: 0, y: 151.907, z: 0}
+  delayDestroy: 0.5
+  moveSpeed: 5
 --- !u!120 &3469287837368510739
 LineRenderer:
   serializedVersion: 3

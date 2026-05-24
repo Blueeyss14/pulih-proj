@@ -9,14 +9,13 @@ public class PullOilBarrel : MonoBehaviour
 
     [Header("Pulling Settings")]
     public float pullDistance = 1.2f;
-    
+
     public float yOffset = 0f;
 
     public Vector3 rotationOffset = Vector3.zero;
 
     public float pullMoveSpeed = 1.0f;
 
-    public float pullAnimValue = 0.35f;
 
     [Header("Ground Raycast Settings")]
     public float raycastStartOffset = 2.0f;
@@ -109,6 +108,13 @@ public class PullOilBarrel : MonoBehaviour
         {
             if (wasHeldLastFrame)
             {
+                if (playerAnime != null)
+                {
+                    playerAnime.SetBool("IdlePull", false);
+                    playerAnime.SetBool("WalkBackward", false);
+                    playerAnime.SetTrigger("EmptyHold");
+                }
+
                 if (aliceController != null)
                 {
                     aliceController.enabled = true;
@@ -174,14 +180,16 @@ public class PullOilBarrel : MonoBehaviour
 
             if (playerAnime != null)
             {
-                playerAnime.SetFloat("Move", pullAnimValue, 0.1f, Time.deltaTime);
+                playerAnime.SetBool("WalkBackward", true);
+                playerAnime.SetBool("IdlePull", false);
             }
         }
         else
         {
             if (playerAnime != null)
             {
-                playerAnime.SetFloat("Move", 0f, 0.1f, Time.deltaTime);
+                playerAnime.SetBool("IdlePull", true);
+                playerAnime.SetBool("WalkBackward", false);
             }
         }
     }

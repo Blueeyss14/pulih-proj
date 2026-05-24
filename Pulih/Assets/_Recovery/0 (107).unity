@@ -243478,7 +243478,6 @@ MonoBehaviour:
   yOffset: 1
   rotationOffset: {x: -48.3, y: 0, z: 0}
   pullMoveSpeed: 1
-  pullAnimValue: 0.35
   raycastStartOffset: 2
   raycastDistance: 5
   rotationSmoothTime: 0.15

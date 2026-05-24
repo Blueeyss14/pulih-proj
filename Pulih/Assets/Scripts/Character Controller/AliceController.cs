@@ -169,7 +169,7 @@ public class AliceController : MonoBehaviour
                 jumpVelocity = jumpValue;
                 isJumping = true;
                 isGrounded = false;
-                playerAnime.SetBool("isJumping", true);
+                // playerAnime.SetBool("isJumping", true);
             }
         }
         else

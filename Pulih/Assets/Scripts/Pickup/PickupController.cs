@@ -99,11 +99,11 @@ public class PickupController : MonoBehaviour
 
             if (animator != null && !string.IsNullOrEmpty(item.holdAnimation))
             {
-                animator.SetBool(item.holdAnimation, true);
+                // animator.SetTrigger(item.holdAnimation);
             }
             else
             {
-                animator.SetBool(item.holdAnimation, false);
+                // animator.SetTrigger(item.holdAnimation);
             }
         }
         else if (item.leftFirst)

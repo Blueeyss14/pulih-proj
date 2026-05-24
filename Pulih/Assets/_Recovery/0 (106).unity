@@ -162224,12 +162224,27 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7286cf8ad2d940744b2e29c8d0ac70a3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 950745659}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7286cf8ad2d940744b2e29c8d0ac70a3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 950745657}
   m_SourcePrefab: {fileID: 100100000, guid: 7286cf8ad2d940744b2e29c8d0ac70a3, type: 3}
 --- !u!1 &950745656 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7286cf8ad2d940744b2e29c8d0ac70a3, type: 3}
   m_PrefabInstance: {fileID: 950745655}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &950745657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950745656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4229986d9d6dd2a43bea708f25999125, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupUsingTrashGrabber
 --- !u!114 &950745659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243478,7 +243493,6 @@ MonoBehaviour:
   yOffset: 1
   rotationOffset: {x: -48.3, y: 0, z: 0}
   pullMoveSpeed: 1
-  pullAnimValue: 0.35
   raycastStartOffset: 2
   raycastDistance: 5
   rotationSmoothTime: 0.15

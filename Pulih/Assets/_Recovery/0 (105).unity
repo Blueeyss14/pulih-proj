@@ -243411,10 +243411,6 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: f91912e57558da747be57f3dd146fce5, type: 3}
-      propertyPath: m_TagString
-      value: Oil Barrel
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -243428,9 +243424,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f91912e57558da747be57f3dd146fce5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1408221585}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f91912e57558da747be57f3dd146fce5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1408221589}
   m_SourcePrefab: {fileID: 100100000, guid: f91912e57558da747be57f3dd146fce5, type: 3}
 --- !u!1 &1408221582 stripped
 GameObject:
@@ -243488,38 +243481,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd84edc57279a1e48ba0b76f7ffd8127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PullOilBarrel
-  oilBarrelTag: Oil Barrel
-  pullDistance: 1.42
-  yOffset: 1
-  rotationOffset: {x: -48.3, y: 0, z: 0}
-  pullMoveSpeed: 1
-  pullAnimValue: 0.35
-  raycastStartOffset: 2
-  raycastDistance: 5
-  rotationSmoothTime: 0.15
---- !u!114 &1408221589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1408221582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f4bc4732aa492340a96fd913862d21f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PickupItem
-  useBothHands: 1
-  leftFirst: 0
-  pickupAnimation: Pickup
-  holdAnimation: 
-  delayPickup: 0.5
-  rightPositionOffset: {x: 0, y: 0, z: 0}
-  rightRotationOffset: {x: 0, y: 0, z: 0}
-  rightScaleOffset: {x: 0, y: 0, z: 0}
-  leftPositionOffset: {x: 0, y: 0, z: 0}
-  leftRotationOffset: {x: 0, y: 0, z: 0}
-  leftScaleOffset: {x: 0, y: 0, z: 0}
+  pullAnimation: '""'
+  pullSpeed: 1.5
+  holdPositionOffset: {x: 0, y: 0, z: 1}
 --- !u!1001 &1408784162
 PrefabInstance:
   m_ObjectHideFlags: 0

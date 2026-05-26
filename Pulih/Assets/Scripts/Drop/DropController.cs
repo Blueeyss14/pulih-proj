@@ -19,20 +19,36 @@ public class DropController : MonoBehaviour
     {
         GameObject itemToDrop = GetItemToDrop(out string hand);
 
-        if (itemToDrop == null) return;
+        if (itemToDrop == null)
+            return;
 
         DropItem dropItem = itemToDrop.GetComponent<DropItem>();
 
-        if (dropItem == null) return;
+        if (dropItem == null)
+            return;
 
         StartCoroutine(DropRoutine(itemToDrop, dropItem, hand));
     }
 
     GameObject GetItemToDrop(out string hand)
     {
-        if (pickupController.bothHandItem  != null) { hand = "both";  return pickupController.bothHandItem;  }
-        if (pickupController.rightHandItem != null) { hand = "right"; return pickupController.rightHandItem; }
-        if (pickupController.leftHandItem  != null) { hand = "left";  return pickupController.leftHandItem;  }
+        if (pickupController.bothHandItem != null)
+        {
+            hand = "both";
+            return pickupController.bothHandItem;
+        }
+
+        if (pickupController.rightHandItem != null)
+        {
+            hand = "right";
+            return pickupController.rightHandItem;
+        }
+
+        if (pickupController.leftHandItem != null)
+        {
+            hand = "left";
+            return pickupController.leftHandItem;
+        }
 
         hand = null;
         return null;
@@ -42,20 +58,27 @@ public class DropController : MonoBehaviour
     {
         switch (hand)
         {
-            case "both":  pickupController.bothHandItem  = null; break;
-            case "right": pickupController.rightHandItem = null; break;
-            case "left":  pickupController.leftHandItem  = null; break;
+            case "both":
+                pickupController.bothHandItem = null;
+                break;
+
+            case "right":
+                pickupController.rightHandItem = null;
+                break;
+
+            case "left":
+                pickupController.leftHandItem = null;
+                break;
         }
 
         if (pickupController.rightHandItem == null &&
-            pickupController.leftHandItem  == null &&
-            pickupController.bothHandItem  == null)
+            pickupController.leftHandItem == null &&
+            pickupController.bothHandItem == null)
         {
             pickupController.targetBothWeight = 0f;
             pickupController.targetLeftWeight = 0f;
+            animator.SetTrigger("EmptyHold");
         }
-
-        animator.SetTrigger("EmptyHold");
     }
 
     IEnumerator DropRoutine(GameObject item, DropItem dropItem, string hand)
@@ -65,8 +88,12 @@ public class DropController : MonoBehaviour
         if (animator != null && !string.IsNullOrEmpty(dropItem.dropAnimation))
             animator.SetTrigger(dropItem.dropAnimation);
 
-        if (pickupItem != null && animator != null && !string.IsNullOrEmpty(pickupItem.holdAnimation))
+        if (pickupItem != null &&
+            animator != null &&
+            !string.IsNullOrEmpty(pickupItem.holdAnimation))
+
             // animator.SetBool(pickupItem.holdAnimation, false);
+
             animator.SetTrigger("EmptyHold");
 
         pickupController.targetBothWeight = 1f;
@@ -79,9 +106,11 @@ public class DropController : MonoBehaviour
         item.transform.SetParent(null);
 
         Collider col = item.GetComponent<Collider>();
+
         if (col != null)
         {
             col.enabled = true;
+
             if (col is MeshCollider meshCol)
             {
                 meshCol.convex = true;
@@ -89,17 +118,21 @@ public class DropController : MonoBehaviour
         }
 
         Rigidbody rb = item.GetComponent<Rigidbody>();
-        if (rb == null) rb = item.AddComponent<Rigidbody>();
+
+        if (rb == null)
+            rb = item.AddComponent<Rigidbody>();
 
         rb.isKinematic = false;
         rb.useGravity = true;
         rb.constraints = RigidbodyConstraints.None;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+
         Vector3 targetPoint;
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100f))
@@ -118,6 +151,7 @@ public class DropController : MonoBehaviour
         rb.AddTorque(Random.insideUnitSphere * dropItem.throwForce * 0.3f, ForceMode.Impulse);
 
         AliceController aliceController = Object.FindFirstObjectByType<AliceController>();
+
         if (aliceController != null)
             aliceController.enabled = true;
     }

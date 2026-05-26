@@ -16,7 +16,6 @@ public class PullOilBarrel : MonoBehaviour
 
     public float pullMoveSpeed = 1.0f;
 
-
     [Header("Ground Raycast Settings")]
     public float raycastStartOffset = 2.0f;
 
@@ -66,6 +65,7 @@ public class PullOilBarrel : MonoBehaviour
             else
             {
                 Camera camComponent = Object.FindFirstObjectByType<Camera>();
+
                 if (camComponent != null)
                 {
                     cameraTransform = camComponent.transform;
@@ -119,6 +119,7 @@ public class PullOilBarrel : MonoBehaviour
                 {
                     aliceController.enabled = true;
                 }
+
                 wasHeldLastFrame = false;
             }
         }
@@ -137,7 +138,8 @@ public class PullOilBarrel : MonoBehaviour
 
     bool IsHeld()
     {
-        if (pickupController == null) return false;
+        if (pickupController == null)
+            return false;
 
         return pickupController.bothHandItem == gameObject ||
                pickupController.rightHandItem == gameObject ||
@@ -146,7 +148,8 @@ public class PullOilBarrel : MonoBehaviour
 
     void HandlePullingMovement()
     {
-        if (playerController == null) return;
+        if (playerController == null)
+            return;
 
         bool isPressingBackward = false;
 
@@ -196,7 +199,8 @@ public class PullOilBarrel : MonoBehaviour
 
     void HandleRotation()
     {
-        if (cameraTransform == null || playerController == null) return;
+        if (cameraTransform == null || playerController == null)
+            return;
 
         float currentAngle = playerController.transform.eulerAngles.y;
         float targetAngle = cameraTransform.eulerAngles.y;
@@ -213,14 +217,20 @@ public class PullOilBarrel : MonoBehaviour
 
     void UpdateBarrelPosition()
     {
-        if (playerController == null) return;
+        if (playerController == null)
+            return;
 
         Transform playerTrans = playerController.transform;
 
         Vector3 targetPos = playerTrans.position + playerTrans.forward * pullDistance;
 
         float groundY = playerTrans.position.y;
-        Ray ray = new Ray(targetPos + Vector3.up * raycastStartOffset, Vector3.down);
+
+        Ray ray = new Ray(
+            targetPos + Vector3.up * raycastStartOffset,
+            Vector3.down
+        );
+
         RaycastHit hit;
 
         int playerLayer = playerTrans.gameObject.layer;
@@ -232,8 +242,14 @@ public class PullOilBarrel : MonoBehaviour
             groundY = hit.point.y;
         }
 
-        transform.position = new Vector3(targetPos.x, groundY + yOffset, targetPos.z);
+        transform.position = new Vector3(
+            targetPos.x,
+            groundY + yOffset,
+            targetPos.z
+        );
 
-        transform.rotation = Quaternion.LookRotation(playerTrans.forward) * Quaternion.Euler(rotationOffset);
+        transform.rotation =
+            Quaternion.LookRotation(playerTrans.forward) *
+            Quaternion.Euler(rotationOffset);
     }
 }

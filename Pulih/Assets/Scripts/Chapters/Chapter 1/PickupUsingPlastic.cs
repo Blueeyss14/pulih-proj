@@ -13,10 +13,12 @@ public class PickupUsingPlastic : MonoBehaviour
     private PickupController pickupController;
     private bool isHeld = false;
 
+    private Animator animator;
+
     void Start()
     {
+        if (animator != null) animator = GetComponent<Animator>();
         if (uiPosition != null) uiPosition.SetUI(false);
-
         UpdateUI();
     }
 
@@ -28,37 +30,19 @@ public class PickupUsingPlastic : MonoBehaviour
 
             if (foundController != null)
             {
-                if (!isHeld)
-                {
-                    pickupController = foundController;
-                    isHeld = true;
+                pickupController = foundController;
+                isHeld = true;
 
-                    if (uiPosition != null)
-                    {
-                        uiPosition.SetUI(true);
-                    }
-                }
+                if (uiPosition != null) uiPosition.SetUI(true);
             }
             else
             {
-                if (isHeld && uiPosition != null)
-                {
-                    uiPosition.SetUI(false);
-                }
-
-                isHeld = false;
-                pickupController = null;
+                ResetPickupState();
             }
         }
         else
         {
-            if (isHeld && uiPosition != null)
-            {
-                uiPosition.SetUI(false);
-            }
-
-            isHeld = false;
-            pickupController = null;
+            ResetPickupState();
         }
 
         if (isHeld && pickupController != null)
@@ -66,6 +50,18 @@ public class PickupUsingPlastic : MonoBehaviour
             CheckHandForTrash(pickupController.rightHandTransform);
             CheckHandForTrash(pickupController.leftHandTransform);
         }
+    }
+
+    void ResetPickupState()
+    {
+        if (isHeld && uiPosition != null)
+        {
+            uiPosition.SetUI(false);
+        }
+
+        isHeld = false;
+        if (animator != null) animator.SetTrigger("EmptyHold");
+        pickupController = null;
     }
 
     void CheckHandForTrash(Transform handTransform)
@@ -76,12 +72,11 @@ public class PickupUsingPlastic : MonoBehaviour
         {
             Transform child = handTransform.GetChild(i);
 
-            if (child.CompareTag("Trash"))
+            if (child.CompareTag("Trash") && child.gameObject != this.gameObject)
             {
                 if (currentTrash < maxTrash)
                 {
                     currentTrash++;
-
                     UpdateUI();
 
                     if (smokeAnimation != null)

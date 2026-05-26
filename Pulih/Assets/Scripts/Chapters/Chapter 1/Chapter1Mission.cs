@@ -20,7 +20,6 @@ public class Chapter1Mission : BaseChapterMission
     public ChapterProgress chapterProgress;
     public ObjectiveZone objectiveZone;
     public AuraController auraController;
-    public PickupUsingPlastic pickupUsingPlastic;
     // public PickupUsingTrashGrabber pickupUsingGrabber;
     public int requiredTrash = 2;
     public int requiredTrashInGrabber = 2;
@@ -89,15 +88,24 @@ public class Chapter1Mission : BaseChapterMission
         if (trashCanFound) return;
         if (currentStep != Chapter1Step.Mission2Sub1) return;
 
-        GameObject trashCan = GameObject.FindGameObjectWithTag("Trash Can");
-        if (trashCan == null || trashCan.transform.parent == null || trashCan.GetComponentInParent<PickupController>() == null) return;
+        PickupUsingPlastic[] trashCans = FindObjectsOfType<PickupUsingPlastic>();
 
-        CompleteCurrentSubMission();
-        trashCanFound = true;
-        ActiveObjectUi.SetCurrentActiveNumber(0);
-        chapterProgress?.GenerateChapterUI();
+        foreach (PickupUsingPlastic trashCan in trashCans)
+        {
+            if (!trashCan.CompareTag("Trash Can")) continue;
 
-        currentStep = Chapter1Step.Mission2Sub2;
+            if (trashCan.transform.parent != null &&
+                trashCan.GetComponentInParent<PickupController>() != null)
+            {
+                CompleteCurrentSubMission();
+                trashCanFound = true;
+                ActiveObjectUi.SetCurrentActiveNumber(0);
+                chapterProgress?.GenerateChapterUI();
+
+                currentStep = Chapter1Step.Mission2Sub2;
+                return;
+            }
+        }
     }
 
     /* MISSION 2
@@ -108,10 +116,20 @@ public class Chapter1Mission : BaseChapterMission
     {
         if (trashPickupDone || hasReachedRequiredTrash || !trashCanFound) return;
         if (currentStep != Chapter1Step.Mission2Sub2) return;
-        if (pickupUsingPlastic == null || pickupUsingPlastic.currentTrash < requiredTrash) return;
 
-        hasReachedRequiredTrash = true;
-        ActiveObjectUi.SetCurrentActiveNumber(3);
+        PickupUsingPlastic[] trashCans = FindObjectsOfType<PickupUsingPlastic>();
+
+        foreach (PickupUsingPlastic trashCan in trashCans)
+        {
+            if (!trashCan.CompareTag("Trash Can")) continue;
+
+            if (trashCan.currentTrash >= requiredTrash)
+            {
+                hasReachedRequiredTrash = true;
+                ActiveObjectUi.SetCurrentActiveNumber(3);
+                return;
+            }
+        }
     }
 
     public void OnTrashDumped()

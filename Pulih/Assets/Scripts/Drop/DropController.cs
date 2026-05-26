@@ -54,6 +54,8 @@ public class DropController : MonoBehaviour
             pickupController.targetBothWeight = 0f;
             pickupController.targetLeftWeight = 0f;
         }
+
+        animator.SetTrigger("EmptyHold");
     }
 
     IEnumerator DropRoutine(GameObject item, DropItem dropItem, string hand)

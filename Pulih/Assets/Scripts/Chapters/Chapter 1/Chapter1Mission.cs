@@ -1,49 +1,55 @@
 using UnityEngine;
+using TMPro;
 
 /*
 CHAPTER 1 - MISSIONS
 
-- Go to the object
-- Pick up trash [
+- Mission 1: Go to the object
+- Mission 2 : Pick up trash [
     - find a trash a can
     - pickup a trash with trash can
 ]
-- Move all the oil barrels
+- Mission 3: Move all the oil barrels
 */
 
-public enum Chapter1Step { Mission1, Mission2Sub1, Mission2Sub2, Mission3, Mission4, Completed }
+public enum Chapter1Step { Mission1, Mission2Sub1, Mission2Sub2, Mission3, Completed }
 
 public class Chapter1Mission : BaseChapterMission
 {
     public Chapter1Step currentStep = Chapter1Step.Mission1;
 
     public ChapterProgress chapterProgress;
-    public ObjectiveZone objectiveZone;
     public AuraController auraController;
-    // public PickupUsingTrashGrabber pickupUsingGrabber;
-    public int requiredTrash = 2;
-    public int requiredTrashInGrabber = 2;
 
+    [Header("Mission 1")]
+    public ObjectiveZone objectiveZone;
+    [Header("Mission 2")]
+    public int requiredTrash = 2;
     private bool trashCanFound;
     private bool trashPickupDone;
     public bool hasReachedRequiredTrash;
 
-    private bool trashGrabberFound;
-    private bool trashPickupDoneByGrabber;
-    public bool hasReachedReqTrashByGrabber;
+    [Header("Mission 3")]
+    public int requiredOilBarrels = 3;
+    public Collider oilBarrelPlace;
+    public PickupController pickupController;
+    public TMP_Text oilBarrelProgressText;
+
 
     void Start()
     {
         ActiveObjectUi.SetCurrentActiveNumber(1);
         if (objectiveZone != null) objectiveZone.onObjectiveReached.AddListener(OnObjectiveHit);
+
+        if (oilBarrelProgressText != null)
+            oilBarrelProgressText.text = "0/" + requiredOilBarrels;
     }
 
     void Update()
     {
         FindTrashCanMission();
         PickupTrashMission();
-        FindTrashGrabber();
-        // PickupTrashUsingGrabber();
+        MoveAllOilBarrels();
     }
 
     private void CompleteCurrentMission()
@@ -145,31 +151,35 @@ public class Chapter1Mission : BaseChapterMission
         currentStep = Chapter1Step.Mission3;
     }
 
-    /// MISSION 3: find a trash grabber
-    private void FindTrashGrabber()
+    /// MISSION 3: Move all the oil barrels
+    private void MoveAllOilBarrels()
     {
-        if (trashGrabberFound) return;
         if (currentStep != Chapter1Step.Mission3) return;
+        if (oilBarrelPlace == null) return;
 
-        GameObject trashGrabber = GameObject.FindGameObjectWithTag("Trash Grabber");
-        if (trashGrabber == null || trashGrabber.transform.parent == null || trashGrabber.GetComponentInParent<PickupController>() == null) return;
+        GameObject[] barrels = GameObject.FindGameObjectsWithTag("Oil Barrel");
+        int count = 0;
 
-        CompleteCurrentMission();
-        trashGrabberFound = true;
-        ActiveObjectUi.SetCurrentActiveNumber(0);
+        foreach (GameObject barrel in barrels)
+        {
+            bool isHeld = pickupController != null && (pickupController.bothHandItem == barrel || pickupController.rightHandItem == barrel || pickupController.leftHandItem == barrel);
 
-        currentStep = Chapter1Step.Mission4;
+            if (!isHeld && oilBarrelPlace.bounds.Contains(barrel.transform.position))
+            {
+                count++;
+            }
+        }
+
+        if (oilBarrelProgressText != null)
+        {
+            oilBarrelProgressText.text = count + "/" + requiredOilBarrels;
+        }
+
+        if (count >= requiredOilBarrels)
+        {
+            CompleteCurrentMission();
+            ActiveObjectUi.SetCurrentActiveNumber(0);
+            currentStep = Chapter1Step.Completed;
+        }
     }
-
-    /// MISSION 4: Pickup Trash from the river
-    // private void PickupTrashUsingGrabber()
-    // {
-    //     if (trashPickupDoneByGrabber || hasReachedReqTrashByGrabber || !trashGrabberFound) return;
-    //     if (currentStep != Chapter1Step.Mission4) return;
-    //     if (pickupUsingGrabber == null || pickupUsingGrabber.currentTrash < requiredTrashInGrabber) return;
-
-    //     hasReachedReqTrashByGrabber = true;
-    //     CompleteCurrentMission();
-    //     currentStep = Chapter1Step.Completed;
-    // }
 }

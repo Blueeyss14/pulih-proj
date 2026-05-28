@@ -30,6 +30,11 @@ public class PickupUsingPlastic : MonoBehaviour
 
             if (foundController != null)
             {
+                if (!isHeld)
+                {
+                    UpdateUI();
+                }
+
                 pickupController = foundController;
                 isHeld = true;
 
@@ -49,6 +54,12 @@ public class PickupUsingPlastic : MonoBehaviour
         {
             CheckHandForTrash(pickupController.rightHandTransform);
             CheckHandForTrash(pickupController.leftHandTransform);
+
+            if (currentTrash >= maxTrash)
+            {
+                pickupController.rightHandItem = this.gameObject;
+                pickupController.leftHandItem = this.gameObject;
+            }
         }
     }
 
@@ -94,7 +105,7 @@ public class PickupUsingPlastic : MonoBehaviour
     {
         if (trashCounterText != null)
         {
-            trashCounterText.text = currentTrash + "/" + maxTrash;
+            trashCounterText.text = "Current Trash: " + currentTrash + "/" + maxTrash;
         }
     }
 }

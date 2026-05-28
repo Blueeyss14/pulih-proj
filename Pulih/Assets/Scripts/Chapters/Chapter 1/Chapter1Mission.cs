@@ -23,14 +23,16 @@ public class Chapter1Mission : BaseChapterMission
 
     [Header("Mission 1")]
     public ObjectiveZone objectiveZone;
+    
     [Header("Mission 2")]
-    public int requiredTrash = 2;
+    public int requiredTrash = 20;
+    public TMP_Text requiredTrashText;
     private bool trashCanFound;
     private bool trashPickupDone;
     public bool hasReachedRequiredTrash;
 
     [Header("Mission 3")]
-    public int requiredOilBarrels = 3;
+    public int requiredOilBarrels = 6;
     public Collider oilBarrelPlace;
     public PickupController pickupController;
     public TMP_Text oilBarrelProgressText;
@@ -40,6 +42,9 @@ public class Chapter1Mission : BaseChapterMission
     {
         ActiveObjectUi.SetCurrentActiveNumber(1);
         if (objectiveZone != null) objectiveZone.onObjectiveReached.AddListener(OnObjectiveHit);
+
+        if (requiredTrashText != null)
+            requiredTrashText.text = "Required Trash: " + "0/" + requiredTrash;
 
         if (oilBarrelProgressText != null)
             oilBarrelProgressText.text = "0/" + requiredOilBarrels;
@@ -129,6 +134,11 @@ public class Chapter1Mission : BaseChapterMission
         {
             if (!trashCan.CompareTag("Trash Can")) continue;
 
+            if (requiredTrashText != null)
+            {
+                requiredTrashText.text = "Required Trash: " + trashCan.currentTrash + "/" + requiredTrash;
+            }
+
             if (trashCan.currentTrash >= requiredTrash)
             {
                 hasReachedRequiredTrash = true;
@@ -145,7 +155,7 @@ public class Chapter1Mission : BaseChapterMission
 
         CompleteCurrentSubMission();
         trashPickupDone = true;
-        ActiveObjectUi.SetCurrentActiveNumber(4);
+        ActiveObjectUi.SetCurrentActiveNumber(0);
         chapterProgress?.GenerateChapterUI();
 
         currentStep = Chapter1Step.Mission3;
@@ -168,7 +178,7 @@ public class Chapter1Mission : BaseChapterMission
             {
                 count++;
             }
-        }
+        }   
 
         if (oilBarrelProgressText != null)
         {

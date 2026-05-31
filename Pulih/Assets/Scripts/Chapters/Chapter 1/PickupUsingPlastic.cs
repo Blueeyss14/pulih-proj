@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.InputSystem; 
 
 public class PickupUsingPlastic : MonoBehaviour
 {
@@ -57,8 +58,14 @@ public class PickupUsingPlastic : MonoBehaviour
 
             if (currentTrash >= maxTrash)
             {
-                pickupController.rightHandItem = this.gameObject;
-                pickupController.leftHandItem = this.gameObject;
+                if (pickupController.rightHandItem == null) pickupController.rightHandItem = this.gameObject;
+                if (pickupController.leftHandItem == null) pickupController.leftHandItem = this.gameObject;
+            }
+
+            if (Keyboard.current.gKey.wasPressedThisFrame)
+            {
+                if (pickupController.rightHandItem == this.gameObject) pickupController.rightHandItem = null;
+                if (pickupController.leftHandItem == this.gameObject) pickupController.leftHandItem = null;
             }
         }
     }
@@ -68,6 +75,12 @@ public class PickupUsingPlastic : MonoBehaviour
         if (isHeld && uiPosition != null)
         {
             uiPosition.SetUI(false);
+        }
+
+        if (pickupController != null)
+        {
+            if (pickupController.rightHandItem == this.gameObject) pickupController.rightHandItem = null;
+            if (pickupController.leftHandItem == this.gameObject) pickupController.leftHandItem = null;
         }
 
         isHeld = false;

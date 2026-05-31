@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 /*
 CHAPTER 1 - MISSIONS
@@ -25,18 +26,20 @@ public class Chapter1Mission : BaseChapterMission
     public ObjectiveZone objectiveZone;
     
     [Header("Mission 2")]
-    public int requiredTrash = 20;
+    public int requiredTrash = 2;
     public TMP_Text requiredTrashText;
     private bool trashCanFound;
     private bool trashPickupDone;
     public bool hasReachedRequiredTrash;
+
+    private int totalCollectedTrash = 0;
+    private Dictionary<PickupUsingPlastic, int> trashCanTracker = new Dictionary<PickupUsingPlastic, int>();
 
     [Header("Mission 3")]
     public int requiredOilBarrels = 6;
     public Collider oilBarrelPlace;
     public PickupController pickupController;
     public TMP_Text oilBarrelProgressText;
-
 
     void Start()
     {
@@ -134,17 +137,29 @@ public class Chapter1Mission : BaseChapterMission
         {
             if (!trashCan.CompareTag("Trash Can")) continue;
 
-            if (requiredTrashText != null)
+            if (!trashCanTracker.ContainsKey(trashCan))
             {
-                requiredTrashText.text = "Required Trash: " + trashCan.currentTrash + "/" + requiredTrash;
+                trashCanTracker[trashCan] = 0;
             }
 
-            if (trashCan.currentTrash >= requiredTrash)
+            int difference = trashCan.currentTrash - trashCanTracker[trashCan];
+            if (difference > 0)
             {
-                hasReachedRequiredTrash = true;
-                ActiveObjectUi.SetCurrentActiveNumber(3);
-                return;
+                totalCollectedTrash += difference;
             }
+            
+            trashCanTracker[trashCan] = trashCan.currentTrash;
+        }
+
+        if (requiredTrashText != null)
+        {
+            requiredTrashText.text = "Required Trash: " +  totalCollectedTrash + "/" + requiredTrash;
+        }
+
+        if (totalCollectedTrash >= requiredTrash)
+        {
+            hasReachedRequiredTrash = true;
+            ActiveObjectUi.SetCurrentActiveNumber(3);
         }
     }
 

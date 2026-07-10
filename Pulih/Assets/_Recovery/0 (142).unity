@@ -162245,9 +162245,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: da5db5482c3209f41940f15febd2d1c8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 890925031}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: da5db5482c3209f41940f15febd2d1c8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 890925032}
   m_SourcePrefab: {fileID: 100100000, guid: da5db5482c3209f41940f15febd2d1c8, type: 3}
 --- !u!1 &890925025 stripped
 GameObject:
@@ -162352,28 +162349,6 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   marginX: 50
   marginY: 50
---- !u!114 &890925032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 890925025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59cd6eccf399b2447a7ac52c5307b285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ThrowWithLineRender
-  minThrowForce: 3
-  maxThrowForce: 20
-  scrollSensitivity: 0.05
-  startColor: {r: 0, g: 1, b: 1, a: 1}
-  endColor: {r: 0, g: 1, b: 0, a: 1}
-  lineWidth: 0.05
-  trajectoryResolution: 45
-  timeStep: 0.05
-  customLandingMarker: {fileID: 0}
-  markerScale: 0.25
 --- !u!1 &892000663
 GameObject:
   m_ObjectHideFlags: 0
@@ -217176,9 +217151,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: da5db5482c3209f41940f15febd2d1c8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1172753718}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: da5db5482c3209f41940f15febd2d1c8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1172753723}
   m_SourcePrefab: {fileID: 100100000, guid: da5db5482c3209f41940f15febd2d1c8, type: 3}
 --- !u!4 &1172753716 stripped
 Transform:
@@ -217283,28 +217255,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3430946, y: 0.40832725, z: 0.3419916}
   m_Center: {x: 0.0003150031, y: -0.19642432, z: -0.002993852}
---- !u!114 &1172753723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1172753717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59cd6eccf399b2447a7ac52c5307b285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ThrowWithLineRender
-  minThrowForce: 3
-  maxThrowForce: 20
-  scrollSensitivity: 0.05
-  startColor: {r: 0, g: 1, b: 1, a: 1}
-  endColor: {r: 0, g: 1, b: 0, a: 1}
-  lineWidth: 0.05
-  trajectoryResolution: 45
-  timeStep: 0.05
-  customLandingMarker: {fileID: 0}
-  markerScale: 0.25
 --- !u!1 &1173166334
 GameObject:
   m_ObjectHideFlags: 0
@@ -278246,7 +278196,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1515947152
 Transform:
   m_ObjectHideFlags: 0
@@ -337849,9 +337799,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: da5db5482c3209f41940f15febd2d1c8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1841561002}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: da5db5482c3209f41940f15febd2d1c8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1841561007}
   m_SourcePrefab: {fileID: 100100000, guid: da5db5482c3209f41940f15febd2d1c8, type: 3}
 --- !u!4 &1841561000 stripped
 Transform:
@@ -337956,28 +337903,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3430946, y: 0.40832725, z: 0.3419916}
   m_Center: {x: 0.0003150031, y: -0.19642432, z: -0.002993852}
---- !u!114 &1841561007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1841561001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59cd6eccf399b2447a7ac52c5307b285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ThrowWithLineRender
-  minThrowForce: 3
-  maxThrowForce: 20
-  scrollSensitivity: 0.05
-  startColor: {r: 0, g: 1, b: 1, a: 1}
-  endColor: {r: 0, g: 1, b: 0, a: 1}
-  lineWidth: 0.05
-  trajectoryResolution: 45
-  timeStep: 0.05
-  customLandingMarker: {fileID: 0}
-  markerScale: 0.25
 --- !u!1 &1842031662
 GameObject:
   m_ObjectHideFlags: 0
@@ -394235,7 +394160,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 127
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &919132149594750686
 GameObject:
   m_ObjectHideFlags: 0

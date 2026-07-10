@@ -12,7 +12,13 @@ public class DropController : MonoBehaviour
     void Update()
     {
         if (Keyboard.current.gKey.wasPressedThisFrame)
+        {
+            GameObject itemToDrop = GetItemToDrop(out _);
+            if (itemToDrop != null && itemToDrop.GetComponent<ThrowWithLineRender>() != null)
+                return;
+
             TryDrop();
+        }
     }
 
     void TryDrop()

@@ -64,8 +64,11 @@ public class PickupUsingPlastic : MonoBehaviour
 
             if (Keyboard.current.gKey.wasPressedThisFrame)
             {
-                if (pickupController.rightHandItem == this.gameObject) pickupController.rightHandItem = null;
-                if (pickupController.leftHandItem == this.gameObject) pickupController.leftHandItem = null;
+                if (GetComponent<ThrowWithLineRender>() == null)
+                {
+                    if (pickupController.rightHandItem == this.gameObject) pickupController.rightHandItem = null;
+                    if (pickupController.leftHandItem == this.gameObject) pickupController.leftHandItem = null;
+                }
             }
         }
     }

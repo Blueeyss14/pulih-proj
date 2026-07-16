@@ -17,7 +17,7 @@ public class ThrowWithLineRender : MonoBehaviour
     public int trajectoryResolution = 45;
     public float timeStep = 0.05f;
 
-    [Header("Landing Marker")]
+    [Header("Landing Markerr")]
     public GameObject customLandingMarker;
     public float markerScale = 0.25f;
 

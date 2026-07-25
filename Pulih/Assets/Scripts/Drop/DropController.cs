@@ -100,7 +100,6 @@ public class DropController : MonoBehaviour
 
             // animator.SetBool(pickupItem.holdAnimation, false);
 
-            animator.SetTrigger("EmptyHold");
 
         pickupController.targetBothWeight = 1f;
         pickupController.targetLeftWeight = 0f;

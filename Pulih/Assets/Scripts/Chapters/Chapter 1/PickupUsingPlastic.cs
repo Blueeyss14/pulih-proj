@@ -84,6 +84,15 @@ public class PickupUsingPlastic : MonoBehaviour
         {
             if (pickupController.rightHandItem == this.gameObject) pickupController.rightHandItem = null;
             if (pickupController.leftHandItem == this.gameObject) pickupController.leftHandItem = null;
+
+            if (pickupController.rightHandItem == null &&
+                pickupController.leftHandItem == null &&
+                pickupController.bothHandItem == null)
+            {
+                pickupController.targetBothWeight = 0f;
+                pickupController.targetLeftWeight = 0f;
+                if (pickupController.animator != null) pickupController.animator.SetTrigger("EmptyHold");
+            }
         }
 
         isHeld = false;

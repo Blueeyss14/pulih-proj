@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.Playables;
 
 /*
 CHAPTER 1 - MISSIONS
@@ -17,6 +18,7 @@ public enum Chapter1Step { Mission1, Mission2Sub1, Mission2Sub2, Mission3, Compl
 
 public class Chapter1Mission : BaseChapterMission
 {
+
     public Chapter1Step currentStep = Chapter1Step.Mission1;
 
     public ChapterProgress chapterProgress;
@@ -24,7 +26,11 @@ public class Chapter1Mission : BaseChapterMission
 
     [Header("Mission 1")]
     public ObjectiveZone objectiveZone;
-    
+    public PlayableDirector mission1CutsceneDirector;
+    public GameObject cutsceneTimelineObject;
+    public GameObject playerController;
+    public Camera gameplayCamera;
+
     [Header("Mission 2")]
     public int requiredTrash = 2;
     public TMP_Text requiredTrashText;
@@ -45,6 +51,7 @@ public class Chapter1Mission : BaseChapterMission
     {
         ActiveObjectUi.SetCurrentActiveNumber(1);
         if (objectiveZone != null) objectiveZone.onObjectiveReached.AddListener(OnObjectiveHit);
+
 
         if (requiredTrashText != null)
             requiredTrashText.text = "Required Trash: " + "0/" + requiredTrash;
@@ -87,6 +94,31 @@ public class Chapter1Mission : BaseChapterMission
     private void OnObjectiveHit()
     {
         if (currentStep != Chapter1Step.Mission1) return;
+
+        if (playerController != null) playerController.SetActive(false);
+        if (gameplayCamera != null) gameplayCamera.gameObject.SetActive(false);
+
+        if (cutsceneTimelineObject != null) cutsceneTimelineObject.SetActive(true);
+
+        if (mission1CutsceneDirector != null)
+        {
+            mission1CutsceneDirector.stopped += OnMission1CutsceneEnd;
+            mission1CutsceneDirector.Play();
+        }
+        else
+        {
+            OnMission1CutsceneEnd(null);
+        }
+    }
+
+    public void OnMission1CutsceneEnd(PlayableDirector director)
+    {
+        if (director != null) director.stopped -= OnMission1CutsceneEnd;
+
+        if (cutsceneTimelineObject != null) cutsceneTimelineObject.SetActive(false);
+
+        if (playerController != null) playerController.SetActive(true);
+        if (gameplayCamera != null) gameplayCamera.gameObject.SetActive(true);
 
         ActiveObjectUi.SetCurrentActiveNumber(2);
         CompleteCurrentMission();
@@ -147,13 +179,13 @@ public class Chapter1Mission : BaseChapterMission
             {
                 totalCollectedTrash += difference;
             }
-            
+
             trashCanTracker[trashCan] = trashCan.currentTrash;
         }
 
         if (requiredTrashText != null)
         {
-            requiredTrashText.text = "Required Trash: " +  totalCollectedTrash + "/" + requiredTrash;
+            requiredTrashText.text = "Required Trash: " + totalCollectedTrash + "/" + requiredTrash;
         }
 
         if (totalCollectedTrash >= requiredTrash)
@@ -193,7 +225,7 @@ public class Chapter1Mission : BaseChapterMission
             {
                 count++;
             }
-        }   
+        }
 
         if (oilBarrelProgressText != null)
         {

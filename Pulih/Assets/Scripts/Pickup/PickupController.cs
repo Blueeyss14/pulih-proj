@@ -103,7 +103,7 @@ public class PickupController : MonoBehaviour
             }
             else
             {
-                // animator.SetTrigger(item.holdAnimation);
+                // animator.SetTrigger("EmptyHold");
             }
         }
         else if (item.leftFirst)
@@ -139,7 +139,7 @@ public class PickupController : MonoBehaviour
                 yield return null;
             }
 
-            targetBothWeight = 1f;
+            targetBothWeight = (bothHandItem != null) ? 1f : 0f;
             targetLeftWeight = 0f;
         }
 

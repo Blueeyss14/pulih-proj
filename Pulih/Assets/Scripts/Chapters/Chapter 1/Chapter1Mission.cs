@@ -46,6 +46,7 @@ public class Chapter1Mission : BaseChapterMission
     public Collider oilBarrelPlace;
     public PickupController pickupController;
     public TMP_Text oilBarrelProgressText;
+    private bool oilBarrelPulled;
 
     void Start()
     {
@@ -202,7 +203,7 @@ public class Chapter1Mission : BaseChapterMission
 
         CompleteCurrentSubMission();
         trashPickupDone = true;
-        ActiveObjectUi.SetCurrentActiveNumber(0);
+        ActiveObjectUi.SetCurrentActiveNumber(4);
         chapterProgress?.GenerateChapterUI();
 
         currentStep = Chapter1Step.Mission3;
@@ -221,6 +222,12 @@ public class Chapter1Mission : BaseChapterMission
         {
             bool isHeld = pickupController != null && (pickupController.bothHandItem == barrel || pickupController.rightHandItem == barrel || pickupController.leftHandItem == barrel);
 
+            if (isHeld && !oilBarrelPulled)
+            {
+                oilBarrelPulled = true;
+                ActiveObjectUi.SetCurrentActiveNumber(5);
+            }
+
             if (!isHeld && oilBarrelPlace.bounds.Contains(barrel.transform.position))
             {
                 count++;
@@ -235,7 +242,7 @@ public class Chapter1Mission : BaseChapterMission
         if (count >= requiredOilBarrels)
         {
             CompleteCurrentMission();
-            ActiveObjectUi.SetCurrentActiveNumber(0);
+            ActiveObjectUi.SetCurrentActiveNumber(6);
             currentStep = Chapter1Step.Completed;
         }
     }

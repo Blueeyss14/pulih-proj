@@ -22,11 +22,7 @@ public class ChapterManager : MonoBehaviour
         bool found = false;
         for (int i = 0; i < allMissions.Length; i++)
         {
-            bool isActive = allMissions[i].chapterNumber == currentChapter;
-            
-            allMissions[i].enabled = isActive;
-
-            if (isActive)
+            if (allMissions[i].chapterNumber == currentChapter)
             {
                 chapterProgress.currentChapterIndex = i;
                 found = true;

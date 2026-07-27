@@ -18,9 +18,13 @@ public class Chapter2Mission : BaseChapterMission
     public CraftManager craftManager;
     public Chapter1Mission chapter1Mission;
 
+    // private ChapterManager chapterManager;
+    private bool craftMenuUnlocked = false;
+
     void Start()
     {
-        ActiveObjectUi.SetCurrentActiveNumber(1);
+        // chapterManager = FindObjectOfType<ChapterManager>();
+        // ActiveObjectUi.SetCurrentActiveNumber(1);
     }
 
     void Update()
@@ -54,21 +58,32 @@ public class Chapter2Mission : BaseChapterMission
     // Mission 1: Open Crafting Menu
     private void OpenCraftingMenuMission()
     {
-        if (currentStep != Chapter2Step.Mission1) return;
-        if (chapter1Mission != null && chapter1Mission.currentStep != Chapter1Step.Completed) return;
+        if (!craftMenuUnlocked)
+        {
+            if (currentStep != Chapter2Step.Mission1) return;
+            if (chapter1Mission != null && chapter1Mission.currentStep != Chapter1Step.Completed) return;
+        }
+
         if (CrosshairAim.currentTarget == null) return;
 
         CraftManager targeted = CrosshairAim.currentTarget.GetComponentInParent<CraftManager>();
         if (targeted == null) return;
 
         if (craftManager == null || targeted == craftManager)
+    // || (chapterManager != null && chapterManager.currentChapter == 2)
+
         {
             if (Keyboard.current.eKey.wasPressedThisFrame)
             {
                 targeted.OpenCraftingMenu();
-                CompleteCurrentMission();
-                ActiveObjectUi.SetCurrentActiveNumber(2);
-                currentStep = Chapter2Step.Completed;
+
+                if (!craftMenuUnlocked)
+                {
+                    craftMenuUnlocked = true;
+                    CompleteCurrentMission();
+                    ActiveObjectUi.SetCurrentActiveNumber(0);
+                    currentStep = Chapter2Step.Completed;
+                }
             }
         }
     }

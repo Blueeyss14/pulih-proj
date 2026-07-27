@@ -372355,10 +372355,8 @@ MonoBehaviour:
     subMissions:
     - subMissionTitle: Find trash can
       isCompleted: 0
-      auraPoint: 0
     - subMissionTitle: Pickup at least 20 trash
       isCompleted: 0
-      auraPoint: 0
   - missionTitle: Move the oil barrel to the point
     isCompleted: 0
     auraPoint: 100
@@ -372393,13 +372391,9 @@ MonoBehaviour:
   chapterNumber: 2
   objectiveHint: apa apa ap ap apap
   missions:
-  - missionTitle: Open crafting menu
+  - missionTitle: SDSFSF
     isCompleted: 0
-    auraPoint: 100
-    subMissions: []
-  - missionTitle: Find something to craft
-    isCompleted: 0
-    auraPoint: 150
+    auraPoint: 0
     subMissions: []
   currentStep: 0
   chapterProgress: {fileID: 1867025048}

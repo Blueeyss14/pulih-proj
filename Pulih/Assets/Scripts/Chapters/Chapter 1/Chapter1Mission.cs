@@ -23,6 +23,7 @@ public class Chapter1Mission : BaseChapterMission
 
     public ChapterProgress chapterProgress;
     public AuraController auraController;
+    private ChapterManager chapterManager;
 
     [Header("Mission 1")]
     public ObjectiveZone objectiveZone;
@@ -32,7 +33,7 @@ public class Chapter1Mission : BaseChapterMission
     public Camera gameplayCamera;
 
     [Header("Mission 2")]
-    public int requiredTrash = 2;
+    public int requiredTrash = 10;
     public TMP_Text requiredTrashText;
     private bool trashCanFound;
     private bool trashPickupDone;
@@ -50,6 +51,7 @@ public class Chapter1Mission : BaseChapterMission
 
     void Start()
     {
+        chapterManager = FindObjectOfType<ChapterManager>();
         ActiveObjectUi.SetCurrentActiveNumber(1);
         if (objectiveZone != null) objectiveZone.onObjectiveReached.AddListener(OnObjectiveHit);
 
@@ -70,24 +72,22 @@ public class Chapter1Mission : BaseChapterMission
 
     private void CompleteCurrentMission()
     {
-        var mission = missions.Find(x => !x.isCompleted);
-        if (mission != null)
-        {
-            mission.isCompleted = true;
-            if (auraController != null) auraController.AddAura(mission.auraPoint);
-        }
-        chapterProgress?.GenerateChapterUI();
+        chapterManager?.CompleteCurrentMission(missions, auraController, chapterProgress);
     }
 
     private void CompleteCurrentSubMission()
     {
-        var mission = missions.Find(x => !x.isCompleted);
-        var subMission = mission?.subMissions.Find(x => !x.isCompleted);
-        if (subMission != null) subMission.isCompleted = true;
+        chapterManager?.CompleteCurrentSubMission(missions, auraController);
+    }
 
-        if (mission != null && mission.subMissions.TrueForAll(x => x.isCompleted))
+    public override void ForceComplete()
+    {
+        currentStep = Chapter1Step.Completed;
+        foreach (var mission in missions)
         {
             mission.isCompleted = true;
+            foreach (var sub in mission.subMissions)
+                sub.isCompleted = true;
         }
     }
 

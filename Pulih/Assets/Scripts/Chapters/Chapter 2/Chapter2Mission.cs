@@ -4,7 +4,8 @@ using UnityEngine.InputSystem;
 /*
 CHAPTER 2 - MISSIONS
 
-- Mission 1: Open Crafting Menu
+- Mission 1: Open crafting menu
+- Mission 2: Find something to craft
 */
 
 public enum Chapter2Step { Mission1, Completed }
@@ -15,16 +16,15 @@ public class Chapter2Mission : BaseChapterMission
 
     public ChapterProgress chapterProgress;
     public AuraController auraController;
+    private ChapterManager chapterManager;
     public CraftManager craftManager;
     public Chapter1Mission chapter1Mission;
 
-    // private ChapterManager chapterManager;
     private bool craftMenuUnlocked = false;
 
     void Start()
     {
-        // chapterManager = FindObjectOfType<ChapterManager>();
-        // ActiveObjectUi.SetCurrentActiveNumber(1);
+        chapterManager = FindObjectOfType<ChapterManager>();
     }
 
     void Update()
@@ -34,24 +34,22 @@ public class Chapter2Mission : BaseChapterMission
 
     private void CompleteCurrentMission()
     {
-        var mission = missions.Find(x => !x.isCompleted);
-        if (mission != null)
-        {
-            mission.isCompleted = true;
-            if (auraController != null) auraController.AddAura(mission.auraPoint);
-        }
-        chapterProgress?.GenerateChapterUI();
+        chapterManager?.CompleteCurrentMission(missions, auraController, chapterProgress);
     }
 
     private void CompleteCurrentSubMission()
     {
-        var mission = missions.Find(x => !x.isCompleted);
-        var subMission = mission?.subMissions.Find(x => !x.isCompleted);
-        if (subMission != null) subMission.isCompleted = true;
+        chapterManager?.CompleteCurrentSubMission(missions, auraController);
+    }
 
-        if (mission != null && mission.subMissions.TrueForAll(x => x.isCompleted))
+    public override void ForceComplete()
+    {
+        currentStep = Chapter2Step.Completed;
+        foreach (var mission in missions)
         {
             mission.isCompleted = true;
+            foreach (var sub in mission.subMissions)
+                sub.isCompleted = true;
         }
     }
 
@@ -70,7 +68,7 @@ public class Chapter2Mission : BaseChapterMission
         if (targeted == null) return;
 
         if (craftManager == null || targeted == craftManager)
-    // || (chapterManager != null && chapterManager.currentChapter == 2)
+    // 
 
         {
             if (Keyboard.current.eKey.wasPressedThisFrame)

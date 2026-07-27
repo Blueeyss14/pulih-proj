@@ -10,6 +10,7 @@ public abstract class BaseChapterMission : MonoBehaviour
     public class SubMission {
         public string subMissionTitle;
         public bool isCompleted;
+        public float auraPoint;
     }
 
     [System.Serializable]
@@ -21,4 +22,7 @@ public abstract class BaseChapterMission : MonoBehaviour
     }
 
     public List<Mission> missions = new List<Mission>();
+
+    // Dipanggil ChapterManager saat chapter ini di-skip (testing)
+    public virtual void ForceComplete() { }
 }

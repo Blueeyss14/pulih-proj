@@ -11,6 +11,7 @@ TagManager:
   - Dumpster
   - Trash Grabber
   - Oil Barrel
+  - Crafting
   layers:
   - Default
   - TransparentFX

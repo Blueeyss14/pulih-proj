@@ -373346,6 +373346,10 @@ MonoBehaviour:
     - subMissionTitle: Save item to inventory
       isCompleted: 0
       auraPoint: 70
+  - missionTitle: Starts crafting
+    isCompleted: 0
+    auraPoint: 120
+    subMissions: []
   currentStep: 0
   chapterProgress: {fileID: 1867025048}
   auraController: {fileID: 1867025047}

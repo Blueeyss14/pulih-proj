@@ -66,7 +66,7 @@ public class Chapter2Mission : BaseChapterMission
         }
     }
 
-    // Mission 1: Open Crafting Menu
+    ///Mission 1: Open Crafting Menu
     private void OpenCraftingMenuMission()
     {
         if (!craftMenuUnlocked)
@@ -154,7 +154,7 @@ public class Chapter2Mission : BaseChapterMission
             }
         }
     }
-
+    ///Mission 3: Starts crafting
     private void StartsCrafting() {
         currentStep = Chapter2Step.Completed;
     }

@@ -3,12 +3,14 @@ using UnityEngine.InputSystem;
 
 /*
 CHAPTER 2 - MISSIONS
-
 - Mission 1: Open crafting menu
-- Mission 2: Find something to craft
+- Mission 2: Find something to craft [
+    - pickup item
+    - save item to inventory
+]
 */
 
-public enum Chapter2Step { Mission1, Completed }
+public enum Chapter2Step { Mission1, Mission2, Completed }
 
 public class Chapter2Mission : BaseChapterMission
 {
@@ -84,5 +86,19 @@ public class Chapter2Mission : BaseChapterMission
                 }
             }
         }
+    }
+
+    /* MISSION 2
+    Submission 1: pickup item
+    */
+    private void PickupItemToCraft() {
+        
+    }
+    
+    /* MISSION 2
+    Submission 2: save item to inventory
+    */
+    private void SaveItemToInventory() {
+
     }
 }

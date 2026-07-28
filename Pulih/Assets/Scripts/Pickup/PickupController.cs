@@ -57,6 +57,11 @@ public class PickupController : MonoBehaviour
         {
             PickupObject();
         }
+
+        if (Keyboard.current.qKey.wasPressedThisFrame)
+        {
+            SaveHeldItemToInventory();
+        }
     }
 
     void ApplyHoldTransform(GameObject target, Vector3 posOffset, Vector3 rotOffset, Vector3 scaleOffset)
@@ -257,6 +262,36 @@ public class PickupController : MonoBehaviour
                 aliceController.enabled = false;
             }
             ExecutePickupAnimation(item, target);
+        }
+    }
+
+    void SaveHeldItemToInventory()
+    {
+        GameObject currentItem = rightHandItem;
+        if (currentItem == null) currentItem = leftHandItem;
+        if (currentItem == null) currentItem = bothHandItem;
+
+        if (currentItem != null)
+        {
+            InventoryItem invItem = currentItem.GetComponent<InventoryItem>();
+            if (invItem != null)
+            {
+                InventoryController[] controllers = Resources.FindObjectsOfTypeAll<InventoryController>();
+                if (controllers.Length > 0)
+                {
+                    InventoryController invController = controllers[0];
+                    invController.AddItemToInventory(invItem.itemData);
+                    
+                    if (currentItem == rightHandItem) rightHandItem = null;
+                    if (currentItem == leftHandItem) leftHandItem = null;
+                    if (currentItem == bothHandItem) bothHandItem = null;
+
+                    targetBothWeight = 0f;
+                    targetLeftWeight = 0f;
+
+                    Destroy(currentItem);   
+                }
+            }
         }
     }
 }

@@ -141,6 +141,7 @@ public class InventoryManager : MonoBehaviour
                 pickupItem.rightPositionOffset, pickupItem.rightRotationOffset, pickupItem.rightScaleOffset);
 
         RemoveSelectedFromInventory();
+        CloseInventoryMenu();
         dropController.TryDrop();
     }
 

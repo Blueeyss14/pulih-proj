@@ -170,6 +170,7 @@ public class PickupController : MonoBehaviour
 
         while (distance > pickupDistance)
         {
+            flatTargetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
             Vector3 direction = (flatTargetPos - transform.position).normalized;
 
             if (direction.magnitude > 0.1f)
@@ -180,7 +181,7 @@ public class PickupController : MonoBehaviour
 
             if (playerController != null)
             {
-                playerController.Move(direction * approachSpeed * Time.deltaTime);
+                playerController.Move((direction * approachSpeed + Physics.gravity) * Time.deltaTime);
             }
 
             if (animator != null)

@@ -73441,7 +73441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &384704243
 RectTransform:
   m_ObjectHideFlags: 0
@@ -119307,7 +119307,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 517.55, y: -69.55}
+  m_AnchoredPosition: {x: 687.55, y: -69.55}
   m_SizeDelta: {x: 216.1, y: 60.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &631887258
@@ -144301,7 +144301,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 284.75, y: -69.55}
+  m_AnchoredPosition: {x: 454.75, y: -69.55}
   m_SizeDelta: {x: 229.5, y: 60.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &759190738
@@ -197729,6 +197729,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 708707049}
+  - {fileID: 1988184934}
   - {fileID: 1225326569}
   - {fileID: 974605675}
   - {fileID: 514829072}
@@ -343457,7 +343458,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80, y: -69.55}
+  m_AnchoredPosition: {x: 250, y: -69.55}
   m_SizeDelta: {x: 160, y: 60.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1827076658
@@ -351342,6 +351343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIAction
   uiPressGToDrop: {fileID: 1827076656}
+  uiSaveItem: {fileID: 384704242}
   uiHoldGToDrop: {fileID: 759190736}
   tabInventory: {fileID: 631887255}
 --- !u!114 &1867025052
@@ -372979,12 +372981,19 @@ MonoBehaviour:
   - missionTitle: Find something to craft
     isCompleted: 0
     auraPoint: 150
-    subMissions: []
+    subMissions:
+    - subMissionTitle: Pickup item
+      isCompleted: 0
+      auraPoint: 20
+    - subMissionTitle: Save item to inventory
+      isCompleted: 0
+      auraPoint: 70
   currentStep: 0
   chapterProgress: {fileID: 1867025048}
   auraController: {fileID: 1867025047}
   craftManager: {fileID: 1285433711}
   chapter1Mission: {fileID: 1987639859}
+  pickupController: {fileID: 0}
 --- !u!114 &1987639861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373089,6 +373098,77 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1987933083}
   m_Mesh: {fileID: -7864871885195177695, guid: 40940d1cccc6f2b42a14ef6089565cc8, type: 3}
+--- !u!1 &1988184933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1988184934}
+  - component: {fileID: 1988184936}
+  - component: {fileID: 1988184935}
+  m_Layer: 0
+  m_Name: 7th Objective
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1988184934
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988184933}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.052284814, y: -0.81318355, z: 0.008215627, w: 0.57959586}
+  m_LocalPosition: {x: -9.536, y: 15.915, z: -154.284}
+  m_LocalScale: {x: 0.4761067, y: 0.4761068, z: 0.47610664}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1060216672}
+  m_LocalEulerAnglesHint: {x: 4.242, y: -109.202, z: -4.342}
+--- !u!114 &1988184935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988184933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 724ad489ec5add743b37012b67967a4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveObjectUi
+  uiElement: {fileID: 1086437554}
+  offset: {x: 0, y: 0, z: 0}
+  marginX: 100
+  marginY: 100
+  activeNumber: 7
+--- !u!65 &1988184936
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988184933}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1988650372
 GameObject:
   m_ObjectHideFlags: 0

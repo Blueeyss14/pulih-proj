@@ -10,7 +10,7 @@ CHAPTER 2 - MISSIONS
 ]
 */
 
-public enum Chapter2Step { Mission1, Mission2, Completed }
+public enum Chapter2Step { Mission1, Mission2Sub1, Mission2Sub2, Completed }
 
 public class Chapter2Mission : BaseChapterMission
 {
@@ -22,16 +22,26 @@ public class Chapter2Mission : BaseChapterMission
     public CraftManager craftManager;
     public Chapter1Mission chapter1Mission;
 
+    public PickupController pickupController;
+    private InventoryController inventoryController;
+    private bool itemPickedUp = false;
+    private bool itemSaved = false;
+
     private bool craftMenuUnlocked = false;
 
     void Start()
     {
         chapterManager = FindObjectOfType<ChapterManager>();
+        pickupController = FindObjectOfType<PickupController>();
+        var invControllers = Resources.FindObjectsOfTypeAll<InventoryController>();
+        if (invControllers.Length > 0) inventoryController = invControllers[0];
     }
 
     void Update()
     {
         OpenCraftingMenuMission();
+        PickupItemToCraft();
+        SaveItemToInventory();
     }
 
     private void CompleteCurrentMission()
@@ -70,8 +80,6 @@ public class Chapter2Mission : BaseChapterMission
         if (targeted == null) return;
 
         if (craftManager == null || targeted == craftManager)
-    // 
-
         {
             if (Keyboard.current.eKey.wasPressedThisFrame)
             {
@@ -81,8 +89,8 @@ public class Chapter2Mission : BaseChapterMission
                 {
                     craftMenuUnlocked = true;
                     CompleteCurrentMission();
-                    ActiveObjectUi.SetCurrentActiveNumber(0);
-                    currentStep = Chapter2Step.Completed;
+                    ActiveObjectUi.SetCurrentActiveNumber(7);
+                    currentStep = Chapter2Step.Mission2Sub1;
                 }
             }
         }
@@ -91,14 +99,58 @@ public class Chapter2Mission : BaseChapterMission
     /* MISSION 2
     Submission 1: pickup item
     */
-    private void PickupItemToCraft() {
-        
+    private void PickupItemToCraft() 
+    {
+        if (itemPickedUp) return;
+        if (currentStep != Chapter2Step.Mission2Sub1) return;
+
+        if (pickupController != null)
+        {
+            bool hasItem = false;
+            if (pickupController.bothHandItem != null && pickupController.bothHandItem.CompareTag("Item")) hasItem = true;
+            if (pickupController.rightHandItem != null && pickupController.rightHandItem.CompareTag("Item")) hasItem = true;
+            if (pickupController.leftHandItem != null && pickupController.leftHandItem.CompareTag("Item")) hasItem = true;
+
+            if (hasItem)
+            {
+                CompleteCurrentSubMission();
+                itemPickedUp = true;
+                ActiveObjectUi.SetCurrentActiveNumber(0);
+                chapterProgress?.GenerateChapterUI();
+                currentStep = Chapter2Step.Mission2Sub2;
+            }
+        }
     }
-    
+
     /* MISSION 2
     Submission 2: save item to inventory
     */
-    private void SaveItemToInventory() {
+    private void SaveItemToInventory() 
+    {
+        if (itemSaved) return;
+        if (currentStep != Chapter2Step.Mission2Sub2) return;
 
+        if (inventoryController != null)
+        {
+            bool hasSavedItem = false;
+            foreach (var item in inventoryController.savedItems)
+            {
+                if (item.worldObject != null && item.worldObject.CompareTag("Item"))
+                {
+                    hasSavedItem = true;
+                    break;
+                }
+            }
+
+            if (hasSavedItem)
+            {
+                CompleteCurrentSubMission();
+                itemSaved = true;
+                chapterProgress?.GenerateChapterUI();
+                
+                CompleteCurrentMission();
+                currentStep = Chapter2Step.Completed;
+            }
+        }
     }
 }

@@ -60,6 +60,14 @@ public class AliceController : MonoBehaviour
         playerController.Move(moveDirection * Time.deltaTime);
     }
 
+    void OnDisable()
+    {
+        if (playerAnime != null)
+        {
+            playerAnime.SetFloat("Move", 0f);
+        }
+    }
+
     private void PlayerMoveFn()
     {
         Vector2 input = Vector2.zero;

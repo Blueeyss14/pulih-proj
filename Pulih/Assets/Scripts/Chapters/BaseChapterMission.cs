@@ -22,7 +22,6 @@ public abstract class BaseChapterMission : MonoBehaviour
     }
 
     public List<Mission> missions = new List<Mission>();
-
-    // Dipanggil ChapterManager saat chapter ini di-skip (testing)
+    ///for testing
     public virtual void ForceComplete() { }
 }

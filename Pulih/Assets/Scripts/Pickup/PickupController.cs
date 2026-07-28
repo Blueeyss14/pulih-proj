@@ -73,7 +73,7 @@ public class PickupController : MonoBehaviour
             target.transform.localScale = scaleOffset;
     }
 
-    void AttachItem(ref GameObject handItem, GameObject target, Transform handTransform, Vector3 positionOffset, Vector3 rotationOffset, Vector3 scaleOffset)
+    public void AttachItem(ref GameObject handItem, GameObject target, Transform handTransform, Vector3 positionOffset, Vector3 rotationOffset, Vector3 scaleOffset)
     {
         handItem = target;
 
@@ -280,6 +280,7 @@ public class PickupController : MonoBehaviour
                 if (controllers.Length > 0)
                 {
                     InventoryController invController = controllers[0];
+                    invItem.itemData.worldObject = currentItem;
                     invController.AddItemToInventory(invItem.itemData);
                     
                     if (currentItem == rightHandItem) rightHandItem = null;
@@ -289,7 +290,8 @@ public class PickupController : MonoBehaviour
                     targetBothWeight = 0f;
                     targetLeftWeight = 0f;
 
-                    Destroy(currentItem);   
+                    currentItem.transform.SetParent(null);
+                    currentItem.SetActive(false);
                 }
             }
         }

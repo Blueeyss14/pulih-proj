@@ -8,11 +8,14 @@ public class UIAction : MonoBehaviour
     public GameObject tabInventory;
 
     private PickupController pickupController;
+    private InventoryController inventoryController;
 
     void Start()
     {
         pickupController = FindObjectOfType<PickupController>();
-        if (tabInventory != null) tabInventory.SetActive(true);
+        var invControllers = Resources.FindObjectsOfTypeAll<InventoryController>();
+        if (invControllers.Length > 0) inventoryController = invControllers[0];
+        if (tabInventory != null) tabInventory.SetActive(false);
     }
 
     void Update()
@@ -42,7 +45,9 @@ public class UIAction : MonoBehaviour
         {
             if (uiPressGToDrop != null) uiPressGToDrop.SetActive(false);
             if (uiHoldGToDrop != null) uiHoldGToDrop.SetActive(false);
-            if (tabInventory != null) tabInventory.SetActive(true);
+
+            bool hasItems = inventoryController != null && inventoryController.savedItems.Count > 0;
+            if (tabInventory != null) tabInventory.SetActive(hasItems);
         }
     }
 }

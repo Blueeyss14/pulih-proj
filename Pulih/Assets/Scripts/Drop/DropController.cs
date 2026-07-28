@@ -21,7 +21,7 @@ public class DropController : MonoBehaviour
         }
     }
 
-    void TryDrop()
+    public void TryDrop()
     {
         GameObject itemToDrop = GetItemToDrop(out string hand);
 

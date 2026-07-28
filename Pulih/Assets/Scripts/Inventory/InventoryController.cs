@@ -18,6 +18,9 @@ public class InventoryController : MonoBehaviour
     private Sprite selectedNormalSprite;
     private bool isFirstItem = true;
 
+    [HideInInspector] public InventoryItem.ItemData selectedItem;
+    [HideInInspector] public GameObject selectedCard;
+
     public void AddItemToInventory(InventoryItem.ItemData newItem)
     {
         savedItems.Add(newItem);
@@ -51,6 +54,8 @@ public class InventoryController : MonoBehaviour
             selectedNormalSprite = normal;
             if (cardBg) cardBg.sprite = hover;
             itemDetail?.UpdateDetail(captured.thumbnail, captured.itemName, captured.description);
+            selectedItem = captured;
+            selectedCard = card;
         }
 
         AddTrigger(trigger, EventTriggerType.PointerEnter, _ => { 
@@ -69,6 +74,8 @@ public class InventoryController : MonoBehaviour
             selectedNormalSprite = normal;
             if (cardBg) cardBg.sprite = hover;
 
+            selectedItem = captured;
+            selectedCard = card;
             itemDetail?.UpdateDetail(captured.thumbnail, captured.itemName, captured.description);
         });
     }
@@ -78,5 +85,34 @@ public class InventoryController : MonoBehaviour
         var entry = new EventTrigger.Entry { eventID = type };
         entry.callback.AddListener(action);
         trigger.triggers.Add(entry);
+    }
+
+    public void SelectFirstItem()
+    {
+        if (content == null || content.childCount == 0) return;
+
+        GameObject firstCard = content.GetChild(0).gameObject;
+        Image cardBg = firstCard.GetComponent<Image>();
+
+        if (selectedBg != null && selectedBg != cardBg)
+            selectedBg.sprite = selectedNormalSprite;
+
+        int index = 0;
+        for (int i = 0; i < content.childCount; i++)
+        {
+            if (content.GetChild(i).gameObject == firstCard) { index = i; break; }
+        }
+
+        if (index >= savedItems.Count) return;
+
+        InventoryItem.ItemData data = savedItems[index];
+
+        selectedBg            = cardBg;
+        selectedNormalSprite  = data.cardImage;
+        selectedItem          = data;
+        selectedCard          = firstCard;
+
+        if (cardBg) cardBg.sprite = data.cardImageHover;
+        itemDetail?.UpdateDetail(data.thumbnail, data.itemName, data.description);
     }
 }

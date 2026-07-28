@@ -10,6 +10,7 @@ public class InventoryItem : MonoBehaviour
         public Sprite thumbnail;
         public Sprite cardImage;
         public Sprite cardImageHover;
+        [HideInInspector] public GameObject worldObject;
     }
 
     public ItemData itemData;

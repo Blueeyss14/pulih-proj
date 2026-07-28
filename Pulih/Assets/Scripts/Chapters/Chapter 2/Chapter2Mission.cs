@@ -8,9 +8,10 @@ CHAPTER 2 - MISSIONS
     - pickup item
     - save item to inventory
 ]
+- Mission 3: Starts crafting
 */
 
-public enum Chapter2Step { Mission1, Mission2Sub1, Mission2Sub2, Completed }
+public enum Chapter2Step { Mission1, Mission2Sub1, Mission2Sub2, Mission3, Completed }
 
 public class Chapter2Mission : BaseChapterMission
 {
@@ -149,8 +150,12 @@ public class Chapter2Mission : BaseChapterMission
                 chapterProgress?.GenerateChapterUI();
                 
                 CompleteCurrentMission();
-                currentStep = Chapter2Step.Completed;
+                currentStep = Chapter2Step.Mission3;
             }
         }
+    }
+
+    private void StartsCrafting() {
+        currentStep = Chapter2Step.Completed;
     }
 }

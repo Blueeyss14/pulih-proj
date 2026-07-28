@@ -7,6 +7,16 @@ using TMPro;
 public class CraftItem : MonoBehaviour
 {
     [System.Serializable]
+    public class CraftRequirement
+    {
+        public string itemName;
+        public Sprite iconDone;
+        public Sprite iconPartial;
+        public Sprite iconQuestionMark;
+        public int itemCount;
+    }
+
+    [System.Serializable]
     public class ItemData
     {
         public string itemName;
@@ -14,6 +24,8 @@ public class CraftItem : MonoBehaviour
         public Sprite thumbnail;
         public Sprite cardImage;
         public Sprite cardImageHover;
+        public GameObject itemPrefab;
+        public List<CraftRequirement> requirements = new List<CraftRequirement>();
     }
 
     [Header("Item Data")]
@@ -60,7 +72,7 @@ public class CraftItem : MonoBehaviour
             selectedBg = cardBg;
             selectedNormalSprite = normal;
             if (cardBg) cardBg.sprite = hover;
-            itemDetail?.UpdateDetail(captured.thumbnail, captured.itemName, captured.description);
+            itemDetail?.UpdateDetail(captured);
         }
 
         AddTrigger(trigger, EventTriggerType.PointerEnter, _ => { 
@@ -79,7 +91,7 @@ public class CraftItem : MonoBehaviour
             selectedNormalSprite = normal;
             if (cardBg) cardBg.sprite = hover;
 
-            itemDetail?.UpdateDetail(captured.thumbnail, captured.itemName, captured.description);
+            itemDetail?.UpdateDetail(captured);
         });
     }
 

@@ -26,8 +26,16 @@ public class InventoryManager : MonoBehaviour
 
     void Update() 
     {
+        if (inventoryMenu != null && inventoryMenu.activeInHierarchy)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
         if (Keyboard.current.tabKey.wasPressedThisFrame) 
         {
+            if (IsCraftMenuActive()) return;
+
             if (inventoryMenu != null)
             {
                 if (inventoryMenu.activeSelf)
@@ -38,8 +46,22 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    private bool IsCraftMenuActive()
+    {
+        var craftManagers = Resources.FindObjectsOfTypeAll<CraftManager>();
+        foreach (var cm in craftManagers)
+        {
+            if (cm != null && cm.craftingMenu != null && cm.craftingMenu.activeInHierarchy)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void OpenInventoryMenu()
     {
+        if (IsCraftMenuActive()) return;
         if (inventoryController == null || inventoryController.savedItems.Count == 0) return;
         if (inventoryMenu != null) inventoryMenu.SetActive(true);
         if (aliceController != null) aliceController.enabled = false;

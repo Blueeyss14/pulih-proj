@@ -5,6 +5,8 @@ using TMPro;
 
 public class CraftItemDetail : MonoBehaviour
 {
+    public static System.Action OnItemCrafted;
+
     public Image thumbnail;
     public TMP_Text itemName;
     public TMP_Text description;
@@ -161,13 +163,13 @@ public class CraftItemDetail : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("Item Prefab does not have an InventoryItem component!");
                 Destroy(craftedObj);
             }
         
         }
 
         RefreshRequirements();
+        OnItemCrafted?.Invoke();
     }
 
     private void RefreshInventoryUI()

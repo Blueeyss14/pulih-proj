@@ -13,8 +13,32 @@ public class CraftManager : MonoBehaviour
         cameraController = FindObjectOfType<CamerController>();
     }
 
+    void Update()
+    {
+        if (craftingMenu != null && craftingMenu.activeInHierarchy)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
+
+    private bool IsInventoryMenuActive()
+    {
+        var invManagers = Resources.FindObjectsOfTypeAll<InventoryManager>();
+        foreach (var inv in invManagers)
+        {
+            if (inv != null && inv.inventoryMenu != null && inv.inventoryMenu.activeInHierarchy)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void OpenCraftingMenu()
     {
+        if (IsInventoryMenuActive()) return;
+
         if (craftingMenu != null) craftingMenu.SetActive(true);
 
         if (aliceController != null) aliceController.enabled = false;

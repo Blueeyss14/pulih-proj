@@ -46,6 +46,7 @@ public class ResumeMenuController : MonoBehaviour
 
                 if (isActive)
                 {
+                    CloseInventoryAndCraftMenus();
                     Time.timeScale = 0f; 
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
@@ -53,9 +54,28 @@ public class ResumeMenuController : MonoBehaviour
                 }
                 else
                 {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
                     OnResumeButton();
                 }
             }
+        }
+    }
+
+    private void CloseInventoryAndCraftMenus()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        var invManagers = Resources.FindObjectsOfTypeAll<InventoryManager>();
+        foreach (var inv in invManagers)
+        {
+            if (inv != null) inv.CloseInventoryMenu();
+        }
+
+        var craftManagers = Resources.FindObjectsOfTypeAll<CraftManager>();
+        foreach (var cm in craftManagers)
+        {
+            if (cm != null) cm.CloseCraftingMenu();
         }
     }
 

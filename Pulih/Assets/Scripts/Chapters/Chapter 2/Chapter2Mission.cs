@@ -28,7 +28,19 @@ public class Chapter2Mission : BaseChapterMission
     private bool itemPickedUp = false;
     private bool itemSaved = false;
 
+    public CraftItemDetail craftItemDetail;
+    private bool craftStarted = false;
     private bool craftMenuUnlocked = false;
+
+    void OnEnable()
+    {
+        CraftItemDetail.OnItemCrafted += OnCraftSuccess;
+    }
+
+    void OnDisable()
+    {
+        CraftItemDetail.OnItemCrafted -= OnCraftSuccess;
+    }
 
     void Start()
     {
@@ -43,6 +55,7 @@ public class Chapter2Mission : BaseChapterMission
         OpenCraftingMenuMission();
         PickupItemToCraft();
         SaveItemToInventory();
+        StartsCrafting();
     }
 
     private void CompleteCurrentMission()
@@ -149,13 +162,26 @@ public class Chapter2Mission : BaseChapterMission
                 itemSaved = true;
                 chapterProgress?.GenerateChapterUI();
                 
-                CompleteCurrentMission();
                 currentStep = Chapter2Step.Mission3;
             }
         }
     }
+
     ///Mission 3: Starts crafting
-    private void StartsCrafting() {
+    private void StartsCrafting() 
+    {
+        if (craftStarted) return;
+        if (currentStep != Chapter2Step.Mission3) return;
+    }
+
+    private void OnCraftSuccess()
+    {
+        if (craftStarted) return;
+        if (currentStep != Chapter2Step.Mission3) return;
+
+        craftStarted = true;
+        CompleteCurrentMission();
+        chapterProgress?.GenerateChapterUI();
         currentStep = Chapter2Step.Completed;
     }
 }

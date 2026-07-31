@@ -169,12 +169,33 @@ public class InventoryManager : MonoBehaviour
 
     void RemoveSelectedFromInventory()
     {
+        if (inventoryController == null || inventoryController.selectedItem == null) return;
+
+        string removedItemName = inventoryController.selectedItem.itemName;
         inventoryController.savedItems.Remove(inventoryController.selectedItem);
-        if (inventoryController.selectedCard != null)
-            Destroy(inventoryController.selectedCard);
-        inventoryController.selectedItem = null;
-        inventoryController.selectedCard = null;
-        inventoryController.itemDetail?.UpdateDetail(null, "", "");
-        inventoryController.SelectFirstItem();
+
+        int remainingCount = inventoryController.GetItemCount(removedItemName);
+        if (remainingCount > 0)
+        {
+            InventoryItem.ItemData nextItem = inventoryController.GetItemDataByName(removedItemName);
+            inventoryController.selectedItem = nextItem;
+
+            if (nextItem != null && inventoryController.itemDetail != null)
+            {
+                inventoryController.itemDetail.UpdateDetail(nextItem.thumbnail, nextItem.itemName, nextItem.description, remainingCount);
+            }
+        }
+        else
+        {
+            GameObject cardToDestroy = inventoryController.selectedCard;
+            inventoryController.selectedItem = null;
+            inventoryController.selectedCard = null;
+
+            if (cardToDestroy != null)
+                Destroy(cardToDestroy);
+
+            inventoryController.itemDetail?.UpdateDetail(null, "", "", 0);
+            inventoryController.SelectFirstItem(cardToDestroy);
+        }
     }
 }

@@ -86599,7 +86599,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &465884480
 RectTransform:
   m_ObjectHideFlags: 0
@@ -86699,6 +86699,7 @@ MonoBehaviour:
   thumbnail: {fileID: 536306687}
   itemName: {fileID: 111574377}
   description: {fileID: 874392560}
+  itemCount: {fileID: 1203877623}
 --- !u!114 &465884485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262171,7 +262172,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1378955239
 RectTransform:
   m_ObjectHideFlags: 0
@@ -343069,7 +343070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryItem
   itemData:
-    itemName: Cans 2
+    itemName: Cans
     description: Cans 2 desc
     thumbnail: {fileID: 21300000, guid: 1baee5abd60baec46a5749af3c88505d, type: 3}
     cardImage: {fileID: 21300000, guid: ab3321f8d033a9d45a9e4805cb9fb2d6, type: 3}
@@ -373355,7 +373356,8 @@ MonoBehaviour:
   auraController: {fileID: 1867025047}
   craftManager: {fileID: 1285433711}
   chapter1Mission: {fileID: 1987639859}
-  pickupController: {fileID: 0}
+  pickupController: {fileID: 919132148850514764}
+  craftItemDetail: {fileID: 1378955243}
 --- !u!114 &1987639861
 MonoBehaviour:
   m_ObjectHideFlags: 0

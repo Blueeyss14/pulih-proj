@@ -35,9 +35,22 @@ public class CraftManager : MonoBehaviour
         return false;
     }
 
+    private bool IsMapMenuActive()
+    {
+        var mapControllers = Resources.FindObjectsOfTypeAll<MapController>();
+        foreach (var mc in mapControllers)
+        {
+            if (mc != null && mc.mapUi != null && mc.mapUi.activeInHierarchy)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void OpenCraftingMenu()
     {
-        if (IsInventoryMenuActive()) return;
+        if (IsInventoryMenuActive() || IsMapMenuActive()) return;
 
         if (craftingMenu != null) craftingMenu.SetActive(true);
 

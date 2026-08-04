@@ -34,7 +34,7 @@ public class InventoryManager : MonoBehaviour
 
         if (Keyboard.current.tabKey.wasPressedThisFrame) 
         {
-            if (IsCraftMenuActive()) return;
+            if (IsCraftMenuActive() || IsMapMenuActive()) return;
 
             if (inventoryMenu != null)
             {
@@ -59,9 +59,22 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
 
+    private bool IsMapMenuActive()
+    {
+        var mapControllers = Resources.FindObjectsOfTypeAll<MapController>();
+        foreach (var mc in mapControllers)
+        {
+            if (mc != null && mc.mapUi != null && mc.mapUi.activeInHierarchy)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void OpenInventoryMenu()
     {
-        if (IsCraftMenuActive()) return;
+        if (IsCraftMenuActive() || IsMapMenuActive()) return;
         if (inventoryController == null || inventoryController.savedItems.Count == 0) return;
         if (inventoryMenu != null) inventoryMenu.SetActive(true);
         if (aliceController != null) aliceController.enabled = false;

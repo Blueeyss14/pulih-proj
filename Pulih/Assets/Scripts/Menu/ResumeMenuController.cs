@@ -35,10 +35,25 @@ public class ResumeMenuController : MonoBehaviour
         UpdateHoverAlpha(0);
     }
 
+    private bool IsMapMenuActive()
+    {
+        var mapControllers = Resources.FindObjectsOfTypeAll<MapController>();
+        foreach (var mc in mapControllers)
+        {
+            if (mc != null && mc.mapUi != null && mc.mapUi.activeInHierarchy)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     void Update()
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
+            if (IsMapMenuActive()) return;
+
             if (resumeMenu != null)
             {
                 bool isActive = !resumeMenu.activeSelf;
@@ -76,6 +91,12 @@ public class ResumeMenuController : MonoBehaviour
         foreach (var cm in craftManagers)
         {
             if (cm != null) cm.CloseCraftingMenu();
+        }
+
+        var mapControllers = Resources.FindObjectsOfTypeAll<MapController>();
+        foreach (var mc in mapControllers)
+        {
+            if (mc != null) mc.CloseMap();
         }
     }
 

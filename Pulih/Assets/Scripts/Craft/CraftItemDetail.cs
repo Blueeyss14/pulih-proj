@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,8 +17,15 @@ public class CraftItemDetail : MonoBehaviour
     public Transform collectItemContent;
     public Button craftButton;
 
+    [Header("Crafting Progress UI")]
+    public Slider progressSlider;
+    public TMP_Text progressText;
+    public float craftDuration = 2f;
+
     private CraftItem.ItemData currentItemData;
     private InventoryController inventoryController;
+    private bool isCrafting = false;
+    private Coroutine craftCoroutine;
 
     void Start()
     {
@@ -36,15 +44,50 @@ public class CraftItemDetail : MonoBehaviour
     void OnEnable()
     {
         RefreshRequirements();
+        ResetProgressUI();
+    }
+
+    void OnDisable()
+    {
+        if (craftCoroutine != null)
+        {
+            StopCoroutine(craftCoroutine);
+            craftCoroutine = null;
+        }
+        isCrafting = false;
+        if (craftButton != null) craftButton.interactable = true;
+    }
+
+    private void ResetProgressUI()
+    {
+        if (progressSlider != null)
+        {
+            progressSlider.minValue = 0f;
+            progressSlider.maxValue = 1f;
+            progressSlider.value = 0f;
+        }
+        if (progressText != null)
+        {
+            progressText.text = "Crafting (0%)";
+        }
     }
 
     public void UpdateDetail(CraftItem.ItemData itemData)
     {
+        if (isCrafting && craftCoroutine != null)
+        {
+            StopCoroutine(craftCoroutine);
+            craftCoroutine = null;
+            isCrafting = false;
+            if (craftButton != null) craftButton.interactable = true;
+        }
+
         currentItemData = itemData;
         if (thumbnail != null) thumbnail.sprite = itemData.thumbnail;
         if (itemName != null) itemName.text = itemData.itemName;
         if (description != null) description.text = itemData.description;
 
+        ResetProgressUI();
         RefreshRequirements();
     }
 
@@ -109,6 +152,7 @@ public class CraftItemDetail : MonoBehaviour
             }
         }
     }
+
     private int GetOwnedItemCount(string reqItemName)
     {
         if (inventoryController == null) return 0;
@@ -125,7 +169,7 @@ public class CraftItemDetail : MonoBehaviour
 
     private void OnCraftButtonClicked()
     {
-        if (currentItemData == null || inventoryController == null) return;
+        if (isCrafting || currentItemData == null || inventoryController == null) return;
 
         foreach (var req in currentItemData.requirements)
         {
@@ -134,6 +178,29 @@ public class CraftItemDetail : MonoBehaviour
                 return;
             }
         }
+
+        craftCoroutine = StartCoroutine(CraftProgressRoutine());
+    }
+
+    private IEnumerator CraftProgressRoutine()
+    {
+        isCrafting = true;
+        if (craftButton != null) craftButton.interactable = false;
+
+        ResetProgressUI();
+
+        float elapsedTime = 0f;
+        while (elapsedTime < craftDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float progress = Mathf.Clamp01(elapsedTime / craftDuration);
+            if (progressSlider != null) progressSlider.value = progress;
+            if (progressText != null) progressText.text = $"Crafting ({Mathf.FloorToInt(progress * 100)}%)";
+            yield return null;
+        }
+
+        if (progressSlider != null) progressSlider.value = 1f;
+        if (progressText != null) progressText.text = "Crafting (100%)";
 
         foreach (var req in currentItemData.requirements)
         {
@@ -165,11 +232,13 @@ public class CraftItemDetail : MonoBehaviour
             {
                 Destroy(craftedObj);
             }
-        
         }
 
         RefreshRequirements();
         OnItemCrafted?.Invoke();
+
+        isCrafting = false;
+        if (craftButton != null) craftButton.interactable = true;
     }
 
     private void RefreshInventoryUI()

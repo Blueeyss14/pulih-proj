@@ -14,6 +14,7 @@ public enum Chapter3Step { Mission1, Mission2Sub1, Completed }
 public class Chapter3Mission : BaseChapterMission
 {
     public Chapter3Step currentStep = Chapter3Step.Mission1;
+    public GameObject openMapButton;
 
     public ChapterProgress chapterProgress;
     public AuraController auraController;
@@ -35,10 +36,20 @@ public class Chapter3Mission : BaseChapterMission
     {
         chapterManager = FindObjectOfType<ChapterManager>();
         if (mapController == null) mapController = FindObjectOfType<MapController>();
+        if (openMapButton != null) openMapButton.SetActive(false);
     }
 
     void Update()
     {
+        if (chapterManager.currentChapter == 3)
+        {
+            if (openMapButton != null) openMapButton.SetActive(true);
+        }
+        else
+        {
+            if (openMapButton != null) openMapButton.SetActive(false);
+        }
+
         CheckChapterStatus();
         Buyy();
     }

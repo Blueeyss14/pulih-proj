@@ -376139,7 +376139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f3ac4142a92f14bb89e4c0432838db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChapterManager
-  currentChapter: 1
+  currentChapter: 3
   chapterProgress: {fileID: 1867025048}
 --- !u!114 &1987639862
 MonoBehaviour:

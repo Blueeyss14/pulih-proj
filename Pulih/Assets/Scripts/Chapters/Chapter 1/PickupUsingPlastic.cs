@@ -75,7 +75,9 @@ public class PickupUsingPlastic : MonoBehaviour
             if (InteractUI != null)
             {
                 bool aimingTrash = CrosshairAim.currentTarget != null &&
-                                   CrosshairAim.currentTarget.CompareTag("Trash");
+                                   (CrosshairAim.currentTarget.CompareTag("Trash") ||
+                                    CrosshairAim.currentTarget.transform.parent != null &&
+                                    CrosshairAim.currentTarget.transform.parent.CompareTag("Trash"));
                 InteractUI.SetActive(aimingTrash);
             }
         }

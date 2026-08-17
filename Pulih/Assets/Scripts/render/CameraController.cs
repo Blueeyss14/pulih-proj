@@ -11,6 +11,12 @@ public class CamerController : MonoBehaviour
     public float heightOffset = 3f;
     public float sideOffset = 0.43f;
 
+    private const float LOD_BIAS         = 0.05f;
+    private const float SHADOW_DISTANCE  = 0f;
+    private const int   PIXEL_LIGHT_COUNT = 0;
+    private const int   ANTI_ALIASING    = 0;
+    private const int   TARGET_FRAMERATE = 60;
+
     [Header("Mouse Settings")]
     public float sensitivity = 1.5f;
     public float minYAngle = -40f;
@@ -29,6 +35,17 @@ public class CamerController : MonoBehaviour
     void Awake()
     {
         cachedCamera = GetComponent<Camera>();
+
+        QualitySettings.lodBias                  = LOD_BIAS;
+        QualitySettings.shadowDistance           = SHADOW_DISTANCE;
+        QualitySettings.shadows                  = ShadowQuality.Disable;
+        QualitySettings.pixelLightCount          = PIXEL_LIGHT_COUNT;
+        QualitySettings.antiAliasing             = ANTI_ALIASING;
+        QualitySettings.anisotropicFiltering     = AnisotropicFiltering.Disable;
+        QualitySettings.realtimeReflectionProbes = false;
+        QualitySettings.softParticles            = false;
+        Application.targetFrameRate              = TARGET_FRAMERATE;
+        QualitySettings.vSyncCount               = 0;
     }
 
     void Start()

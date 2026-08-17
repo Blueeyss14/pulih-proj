@@ -49,6 +49,7 @@ public class Chapter1Mission : BaseChapterMission
     public PickupController pickupController;
     public TMP_Text oilBarrelProgressText;
     private bool oilBarrelPulled;
+    private System.Collections.Generic.HashSet<GameObject> pulledBarrels = new System.Collections.Generic.HashSet<GameObject>();
 
     void Start()
     {
@@ -225,13 +226,17 @@ public class Chapter1Mission : BaseChapterMission
         {
             bool isHeld = pickupController != null && (pickupController.bothHandItem == barrel || pickupController.rightHandItem == barrel || pickupController.leftHandItem == barrel);
 
-            if (isHeld && !oilBarrelPulled)
+            if (isHeld)
             {
-                oilBarrelPulled = true;
-                ActiveObjectUi.SetCurrentActiveNumber(5);
+                pulledBarrels.Add(barrel);
+                if (!oilBarrelPulled)
+                {
+                    oilBarrelPulled = true;
+                    ActiveObjectUi.SetCurrentActiveNumber(5);
+                }
             }
 
-            if (!isHeld && oilBarrelPlace.bounds.Contains(barrel.transform.position))
+            if (!isHeld && pulledBarrels.Contains(barrel) && oilBarrelPlace.bounds.Contains(barrel.transform.position))
             {
                 count++;
             }

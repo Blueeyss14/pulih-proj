@@ -12,6 +12,7 @@ TagManager:
   - Trash Grabber
   - Oil Barrel
   - Crafting
+  - Plant
   layers:
   - Default
   - TransparentFX

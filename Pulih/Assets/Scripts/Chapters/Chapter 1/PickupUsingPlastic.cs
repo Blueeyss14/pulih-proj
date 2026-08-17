@@ -7,6 +7,7 @@ public class PickupUsingPlastic : MonoBehaviour
     public TMP_Text trashCounterText;
     public int maxTrash = 10;
     public InteractUiPosition uiPosition;
+    public GameObject InteractUI;
 
     public SmokeAnimation smokeAnimation;
 
@@ -70,6 +71,18 @@ public class PickupUsingPlastic : MonoBehaviour
                     if (pickupController.leftHandItem == this.gameObject) pickupController.leftHandItem = null;
                 }
             }
+
+            if (InteractUI != null)
+            {
+                bool aimingTrash = CrosshairAim.currentTarget != null &&
+                                   CrosshairAim.currentTarget.CompareTag("Trash");
+                InteractUI.SetActive(aimingTrash);
+            }
+        }
+        else
+        {
+            if (InteractUI != null)
+                InteractUI.SetActive(false);
         }
     }
 

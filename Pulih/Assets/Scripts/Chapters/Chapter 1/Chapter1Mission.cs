@@ -31,6 +31,7 @@ public class Chapter1Mission : BaseChapterMission
     public GameObject cutsceneTimelineObject;
     public GameObject playerController;
     public Camera gameplayCamera;
+    public GameObject allTrash;
 
     [Header("Mission 2")]
     public int requiredTrash = 10;
@@ -95,6 +96,7 @@ public class Chapter1Mission : BaseChapterMission
     private void OnObjectiveHit()
     {
         if (currentStep != Chapter1Step.Mission1) return;
+        ActiveObjectUi.SetCurrentActiveNumber(0);
 
         if (playerController != null) playerController.SetActive(false);
         if (gameplayCamera != null) gameplayCamera.gameObject.SetActive(false);
@@ -202,6 +204,7 @@ public class Chapter1Mission : BaseChapterMission
         if (currentStep != Chapter1Step.Mission2Sub2) return;
 
         CompleteCurrentSubMission();
+        Destroy(allTrash);
         trashPickupDone = true;
         ActiveObjectUi.SetCurrentActiveNumber(4);
         chapterProgress?.GenerateChapterUI();

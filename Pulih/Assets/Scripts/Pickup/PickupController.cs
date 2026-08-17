@@ -238,6 +238,26 @@ public class PickupController : MonoBehaviour
 
         GameObject target = CrosshairAim.currentTarget;
 
+        if (target.CompareTag("Trash"))
+        {
+            bool holdingPlastic =
+                (rightHandItem != null && rightHandItem.GetComponent<PickupUsingPlastic>() != null) ||
+                (leftHandItem  != null && leftHandItem.GetComponent<PickupUsingPlastic>()  != null) ||
+                (bothHandItem  != null && bothHandItem.GetComponent<PickupUsingPlastic>()  != null);
+
+            if (!holdingPlastic)
+            {
+                Debug.Log("need trash can to pick up trash");
+                return;
+            }
+        }
+
+        if (target.CompareTag("Item") && !Chapter2Mission.canPickupItem)
+        {
+            Debug.Log("Cannot pick this item");
+            return;
+        }
+
         bool isFull =
             (item.useBothHands && (rightHandItem != null || leftHandItem != null || bothHandItem != null)) ||
             (!item.useBothHands && item.leftFirst && (leftHandItem != null && rightHandItem != null)) ||

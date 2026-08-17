@@ -13,6 +13,12 @@ public class InteractUi : MonoBehaviour
 
         if (target != null && target.TryGetComponent(out InventoryItem item))
         {
+            if (target.CompareTag("Item") && !Chapter2Mission.canPickupItem)
+            {
+                interactUi.SetActive(false);
+                return;
+            }
+
             itemNameText.text = item.itemData.itemName;
             interactUi.SetActive(true);
         }

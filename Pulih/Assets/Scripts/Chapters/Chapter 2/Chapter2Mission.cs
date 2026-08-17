@@ -16,6 +16,7 @@ public enum Chapter2Step { Mission1, Mission2Sub1, Mission2Sub2, Mission3, Compl
 public class Chapter2Mission : BaseChapterMission
 {
     public Chapter2Step currentStep = Chapter2Step.Mission1;
+    public static bool canPickupItem = false;
 
     public ChapterProgress chapterProgress;
     public AuraController auraController;
@@ -101,6 +102,7 @@ public class Chapter2Mission : BaseChapterMission
 
                 if (!craftMenuUnlocked)
                 {
+                    canPickupItem = true;
                     craftMenuUnlocked = true;
                     CompleteCurrentMission();
                     ActiveObjectUi.SetCurrentActiveNumber(7);

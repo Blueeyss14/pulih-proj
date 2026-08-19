@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlantInteract : MonoBehaviour
+public class PlantController : MonoBehaviour
 {
     public RectTransform uiElement;
     public Vector3 offset;

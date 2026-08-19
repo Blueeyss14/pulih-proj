@@ -1,0 +1,176 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &666158418532892051
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 886642534615862676}
+  - component: {fileID: 8834210936042496943}
+  - component: {fileID: 785027485333417459}
+  - component: {fileID: 252129574339303192}
+  - component: {fileID: 4487319707230639025}
+  - component: {fileID: 5287974140215448533}
+  - component: {fileID: 4574699977166360353}
+  m_Layer: 6
+  m_Name: hammer
+  m_TagString: Item
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &886642534615862676
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666158418532892051}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.60007167, y: 0.25231713, z: -0.38902918, w: 0.65184844}
+  m_LocalPosition: {x: 50.178986, y: -0.25699997, z: -42.099}
+  m_LocalScale: {x: 0.08923858, y: 0.08923858, z: 0.089238584}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 78.133, y: -42.131, z: -96.383}
+--- !u!33 &8834210936042496943
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666158418532892051}
+  m_Mesh: {fileID: -243027862669885827, guid: bd226c9104457f84e8f1e97839f34ea6, type: 3}
+--- !u!23 &785027485333417459
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666158418532892051}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7d689c063034a614387d3d5449658d3c, type: 2}
+  - {fileID: 2100000, guid: 6d27632f6715d5f4b991327c72b3b12a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &252129574339303192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666158418532892051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4bc4732aa492340a96fd913862d21f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupItem
+  useBothHands: 0
+  leftFirst: 0
+  pickupAnimation: Pickup
+  holdAnimation: 
+  delayPickup: 0.5
+  rightPositionOffset: {x: 0.03, y: 0.069, z: -0.136}
+  rightRotationOffset: {x: 176.584, y: 92.906, z: 107.996}
+  rightScaleOffset: {x: 0.03246737, y: 0.03246737, z: 0.03246737}
+  leftPositionOffset: {x: 0.016, y: 0.088, z: -0.131}
+  leftRotationOffset: {x: 8.878, y: -104.873, z: -73.925}
+  leftScaleOffset: {x: 0.03246737, y: 0.03246737, z: 0.03246737}
+--- !u!114 &4487319707230639025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666158418532892051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8e56701d5f4af41adcd38d2fc8e172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropItem
+  dropAnimation: Drop
+  delayDrop: 0.3
+  throwForce: 10
+  throwUpwardForce: 10
+--- !u!65 &5287974140215448533
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666158418532892051}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.6728725, y: 20.28452, z: 2.2872703}
+  m_Center: {x: -0.81634974, y: 10.039153, z: -0.11702133}
+--- !u!114 &4574699977166360353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 666158418532892051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5fb3beaf828f2647a7911710cf05da0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryItem
+  itemData:
+    itemName: Hammer
+    description: A hammer can be used to repair broken objects
+    thumbnail: {fileID: 21300000, guid: 83e4bfd0875ae2a4a9acdb92c1c0834d, type: 3}
+    cardImage: {fileID: 21300000, guid: ab3321f8d033a9d45a9e4805cb9fb2d6, type: 3}
+    cardImageHover: {fileID: 21300000, guid: 9cddaccc2b4ed6d4ebab2bbdc124641a, type: 3}
+    worldObject: {fileID: 0}

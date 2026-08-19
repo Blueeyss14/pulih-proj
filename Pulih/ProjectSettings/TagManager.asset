@@ -13,6 +13,7 @@ TagManager:
   - Oil Barrel
   - Crafting
   - Plant
+  - Seed Seller
   layers:
   - Default
   - TransparentFX

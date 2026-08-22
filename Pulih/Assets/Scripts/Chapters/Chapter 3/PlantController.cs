@@ -1,33 +1,161 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using System.Collections;
 
 public class PlantController : MonoBehaviour
 {
     public RectTransform uiElement;
     public Vector3 offset;
 
+    public GameObject mouseUi;
+    public GameObject smokeEffect;
+
     private Camera mainCamera;
+    private bool isHolding = false;
+
+    public Animator animator;
+
+    [Header("Planting Settings")]
+    public float plantingDistance = 1.5f;
+    public float approachSpeed = 2f;
+    public float rotationSpeed = 10f;
+
+    private bool isApproaching = false;
+    public AliceController aliceController;
+    public CharacterController playerController;
 
     void Awake()
     {
         mainCamera = Camera.main;
     }
 
+    void Start() {
+        if (smokeEffect != null) smokeEffect.SetActive(false);
+    }
+
     void LateUpdate()
     {
-        if (uiElement == null) return;
+        if (uiElement == null || mouseUi == null) return;
+
+        bool leftPressed = Mouse.current.leftButton.isPressed;
+
+        if (CrosshairAim.currentTarget == gameObject && Mouse.current.leftButton.wasPressedThisFrame)
+            isHolding = true;
+
+        if (!leftPressed)
+        {
+            if (isHolding)
+            {
+                StopAllCoroutines();
+                isApproaching = false;
+                if (aliceController != null) aliceController.enabled = true;
+                if (animator != null) animator.SetFloat("Move", 0f);
+            }
+            isHolding = false;
+        }
+
+        if (isHolding) {
+            uiElement.gameObject.SetActive(false);
+            mouseUi.SetActive(false);
+
+            if (aliceController != null && !isApproaching)
+            {
+                Vector3 flatPlayer = new Vector3(aliceController.transform.position.x, 0f, aliceController.transform.position.z);
+                Vector3 flatPlant  = new Vector3(transform.position.x, 0f, transform.position.z);
+
+                if (Vector3.Distance(flatPlayer, flatPlant) > plantingDistance)
+                    StartCoroutine(ApproachAndPlant());
+                else
+                {
+                    Vector3 dir = transform.position - aliceController.transform.position;
+                    dir.y = 0f;
+                    if (dir.magnitude > 0.01f)
+                    {
+                        Quaternion targetRot = Quaternion.LookRotation(dir.normalized);
+                        aliceController.transform.rotation = Quaternion.Slerp(
+                            aliceController.transform.rotation, targetRot, Time.deltaTime * rotationSpeed
+                        );
+                    }
+
+                    aliceController.enabled = false;
+                    if (smokeEffect != null) smokeEffect.SetActive(true);
+                    if (animator != null) animator.SetBool("Planting", true);
+                    Debug.Log("Planting...");
+                }
+            }
+
+            return;
+        } else {
+            if (animator != null) animator.SetBool("Planting", false);
+            if (smokeEffect != null) smokeEffect.SetActive(false);
+        }
 
         if (PlayerInZone.isInZone) {
             if (CrosshairAim.currentTarget == gameObject) {
                 uiElement.gameObject.SetActive(false);
+                mouseUi.SetActive(true);
             } else {
                 uiElement.gameObject.SetActive(true);
+                mouseUi.SetActive(false);
+                if (smokeEffect != null) smokeEffect.SetActive(false);
             }
         }
         else {
             uiElement.gameObject.SetActive(false);
+            mouseUi.SetActive(false);
+            if (smokeEffect != null) smokeEffect.SetActive(false);
         }
+
         Vector3 screenPos = mainCamera.WorldToScreenPoint(transform.position + offset);
         screenPos.z = 0;
         uiElement.position = screenPos;
+    }
+
+    IEnumerator ApproachAndPlant()
+    {
+        isApproaching = true;
+        if (aliceController != null) aliceController.enabled = false;
+
+        while (isHolding)
+        {
+            Vector3 flatPlant  = new Vector3(transform.position.x, aliceController.transform.position.y, transform.position.z);
+            Vector3 flatPlayer = new Vector3(aliceController.transform.position.x, aliceController.transform.position.y, aliceController.transform.position.z);
+            float distance = Vector3.Distance(flatPlayer, flatPlant);
+
+            if (distance <= plantingDistance)
+                break;
+
+            Vector3 direction = (flatPlant - flatPlayer).normalized;
+
+            if (direction.magnitude > 0.1f)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(direction);
+                aliceController.transform.rotation = Quaternion.Slerp(
+                    aliceController.transform.rotation, targetRot, Time.deltaTime * rotationSpeed
+                );
+            }
+
+            if (playerController != null)
+                playerController.Move((direction * approachSpeed + Physics.gravity) * Time.deltaTime);
+
+            if (animator != null)
+                animator.SetFloat("Move", 0.5f, 0.1f, Time.deltaTime);
+
+            yield return null;
+        }
+
+        if (animator != null)
+            animator.SetFloat("Move", 0f, 0.1f, Time.deltaTime);
+
+        isApproaching = false;
+
+        if (isHolding)
+        {
+            if (animator != null) animator.SetBool("Planting", true);
+        }
+        else
+        {
+            if (aliceController != null) aliceController.enabled = true;
+        }
     }
 }

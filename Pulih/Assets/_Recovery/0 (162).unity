@@ -107285,13 +107285,7 @@ MonoBehaviour:
   uiElement: {fileID: 1449089776}
   offset: {x: 0, y: 2, z: 0}
   mouseUi: {fileID: 194847721}
-  smokeEffect: {fileID: 0}
   animator: {fileID: 0}
-  plantingDistance: 1.5
-  approachSpeed: 2
-  rotationSpeed: 10
-  aliceController: {fileID: 0}
-  playerController: {fileID: 0}
 --- !u!1 &604648490
 GameObject:
   m_ObjectHideFlags: 0
@@ -207149,7 +207143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1086437554
 RectTransform:
   m_ObjectHideFlags: 0
@@ -285465,7 +285459,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1449089776
 RectTransform:
   m_ObjectHideFlags: 0
@@ -294035,13 +294029,7 @@ MonoBehaviour:
   uiElement: {fileID: 581721943}
   offset: {x: 0, y: 2, z: 0}
   mouseUi: {fileID: 194847721}
-  smokeEffect: {fileID: 0}
-  animator: {fileID: 904750622}
-  plantingDistance: 1.5
-  approachSpeed: 2
-  rotationSpeed: 10
-  aliceController: {fileID: 904750623}
-  playerController: {fileID: 904750621}
+  animator: {fileID: 0}
 --- !u!1 &1497867038
 GameObject:
   m_ObjectHideFlags: 0
@@ -356529,7 +356517,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1889878852}
-  - {fileID: 1977316129}
   - {fileID: 1480375732}
   m_Father: {fileID: 806964354}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -376141,13 +376128,7 @@ MonoBehaviour:
   uiElement: {fileID: 538460786}
   offset: {x: 0, y: 2, z: 0}
   mouseUi: {fileID: 194847721}
-  smokeEffect: {fileID: 1977316125}
-  animator: {fileID: 904750622}
-  plantingDistance: 1.5
-  approachSpeed: 2
-  rotationSpeed: 10
-  aliceController: {fileID: 904750623}
-  playerController: {fileID: 904750621}
+  animator: {fileID: 0}
 --- !u!65 &1889878859
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -392486,12 +392467,12 @@ GameObject:
   - component: {fileID: 1977316127}
   - component: {fileID: 1977316126}
   m_Layer: 0
-  m_Name: SMOKE fx
+  m_Name: Dumpster SMOKE fx (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1977316126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397319,12 +397300,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1977316125}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.457527, y: -0.5391374, z: -0.5391372, w: 0.45752716}
-  m_LocalPosition: {x: 0.022, y: 0.56500006, z: -0.098}
-  m_LocalScale: {x: 0.035675135, y: 0.035675123, z: 0.044504713}
+  m_LocalRotation: {x: -0.45752698, y: -0.53913736, z: -0.5391371, w: 0.45752713}
+  m_LocalPosition: {x: 584.34, y: 7.33, z: 486.37}
+  m_LocalScale: {x: 0.04194653, y: 0.041946527, z: 0.041946527}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1820022261}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -89.719, y: -71.183, z: -16.998}
 --- !u!1 &1978091240
 GameObject:
@@ -455314,14 +455295,15 @@ SceneRoots:
   - {fileID: 1676089263}
   - {fileID: 2013410475}
   - {fileID: 1627253123}
-  - {fileID: 701676274}
   - {fileID: 278876691}
+  - {fileID: 701676274}
   - {fileID: 1141790501}
   - {fileID: 719319580}
   - {fileID: 474649220}
   - {fileID: 543450653584910004}
   - {fileID: 950745655}
   - {fileID: 806964354}
+  - {fileID: 1977316129}
   - {fileID: 482026838}
   - {fileID: 1986150073}
   - {fileID: 306098738}

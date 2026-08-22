@@ -317,7 +317,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 0.39215687}
+    - _Color: {r: 0.6603774, g: 0.59087414, b: 0.46413314, a: 0.39215687}
     - _ColorAddSubDiff: {r: -1, g: 1, b: 0, a: 0}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
@@ -333,6 +333,6 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
-    - _UnlitColor: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 0.39215687}
+    - _UnlitColor: {r: 0.6603774, g: 0.5908742, b: 0.46413317, a: 0.39215687}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

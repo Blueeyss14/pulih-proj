@@ -10,11 +10,14 @@ public class SeedSellerController : MonoBehaviour
     [System.Serializable]
     public class ItemData
     {
+        [Header("Card UI")]
         public GameObject item;
-        // public Sprite thumbnail;
         public string name;
         public Sprite cardImage;
         public Sprite cardImageHover;
+
+        [Header("Inventory Data")]
+        public GameObject itemPrefab;
     }
 
     [Header("Item Data")]
@@ -26,6 +29,7 @@ public class SeedSellerController : MonoBehaviour
     public GameObject seedSellerUi;
 
     private ChapterManager chapterManager;
+    private InventoryController inventoryController;
     private ItemData selectedItem = null;
 
     void Start()
@@ -33,6 +37,9 @@ public class SeedSellerController : MonoBehaviour
         if (interactUi != null)   interactUi.SetActive(false);
         if (seedSellerUi != null) seedSellerUi.SetActive(false);
         chapterManager = FindObjectOfType<ChapterManager>();
+
+        var invControllers = Resources.FindObjectsOfTypeAll<InventoryController>();
+        if (invControllers.Length > 0) inventoryController = invControllers[0];
 
         for (int i = 0; i < items.Count; i++)
         {
@@ -84,6 +91,50 @@ public class SeedSellerController : MonoBehaviour
         var entry = new EventTrigger.Entry { eventID = type };
         entry.callback.AddListener(action);
         trigger.triggers.Add(entry);
+    }
+
+    public void BuyItem()
+    {
+        if (selectedItem == null)
+        {
+            Debug.LogWarning("[SeedSeller] Belum ada item yang dipilih.");
+            return;
+        }
+
+        if (selectedItem.itemPrefab == null)
+        {
+            Debug.LogWarning($"[SeedSeller] Item '{selectedItem.name}' tidak punya itemPrefab.");
+            return;
+        }
+
+        if (inventoryController == null)
+        {
+            Debug.LogWarning("[SeedSeller] InventoryController tidak ditemukan.");
+            return;
+        }
+
+        InventoryItem invItemScript = selectedItem.itemPrefab.GetComponent<InventoryItem>();
+        if (invItemScript == null)
+        {
+            Debug.LogWarning($"[SeedSeller] Prefab '{selectedItem.itemPrefab.name}' tidak punya InventoryItem script!");
+            return;
+        }
+
+        GameObject worldObj = Instantiate(selectedItem.itemPrefab);
+        worldObj.SetActive(false);
+
+        InventoryItem.ItemData invItem = new InventoryItem.ItemData
+        {
+            itemName       = invItemScript.itemData.itemName,
+            description    = invItemScript.itemData.description,
+            thumbnail      = invItemScript.itemData.thumbnail,
+            cardImage      = invItemScript.itemData.cardImage,
+            cardImageHover = invItemScript.itemData.cardImageHover,
+            worldObject    = worldObj
+        };
+
+        inventoryController.AddItemToInventory(invItem);
+        Debug.Log($"[SeedSeller] Berhasil membeli: {invItem.itemName}");
     }
 
     void Update()

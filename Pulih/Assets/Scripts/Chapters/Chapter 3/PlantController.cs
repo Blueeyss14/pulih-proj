@@ -9,6 +9,8 @@ public class PlantController : MonoBehaviour
 
     public GameObject mouseUi;
     public GameObject smokeEffect;
+    public GameObject progressUi;
+    public GameObject perfectTimingUi;
 
     private Camera mainCamera;
     private bool isHolding = false;
@@ -31,6 +33,8 @@ public class PlantController : MonoBehaviour
 
     void Start() {
         if (smokeEffect != null) smokeEffect.SetActive(false);
+        if (progressUi != null) progressUi.SetActive(false);
+        if (perfectTimingUi != null) perfectTimingUi.SetActive(false);
     }
 
     void LateUpdate()
@@ -80,6 +84,7 @@ public class PlantController : MonoBehaviour
                     aliceController.enabled = false;
                     if (smokeEffect != null) smokeEffect.SetActive(true);
                     if (animator != null) animator.SetBool("Planting", true);
+                    if (progressUi != null) progressUi.SetActive(true);
                     Debug.Log("Planting...");
                 }
             }
@@ -88,6 +93,8 @@ public class PlantController : MonoBehaviour
         } else {
             if (animator != null) animator.SetBool("Planting", false);
             if (smokeEffect != null) smokeEffect.SetActive(false);
+            if (progressUi != null) progressUi.SetActive(false);
+            if (perfectTimingUi != null) perfectTimingUi.SetActive(false);
         }
 
         if (PlayerInZone.isInZone) {

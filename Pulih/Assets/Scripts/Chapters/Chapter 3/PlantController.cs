@@ -17,12 +17,20 @@ public class PlantController : MonoBehaviour
 
     public Animator animator;
 
+    [Header("Object")]
+    public GameObject plantObj;
+    public GameObject plantObjDone;
+
     [Header("Planting Settings")]
     public float plantingDistance = 1.5f;
     public float approachSpeed = 2f;
     public float rotationSpeed = 10f;
+    public float maxDuration = 10f;
+    public int perfectTimingCount = 4;
+    public float failPenaltySeconds = 2f;
 
     private bool isApproaching = false;
+    private bool isFinished = false;
     public AliceController aliceController;
     public CharacterController playerController;
 
@@ -32,13 +40,23 @@ public class PlantController : MonoBehaviour
     }
 
     void Start() {
-        if (smokeEffect != null) smokeEffect.SetActive(false);
         if (progressUi != null) progressUi.SetActive(false);
+        if (smokeEffect != null) smokeEffect.SetActive(false);
         if (perfectTimingUi != null) perfectTimingUi.SetActive(false);
+        if (plantObjDone != null) plantObjDone.SetActive(false);
     }
 
     void LateUpdate()
     {
+        if (isFinished)
+        {
+            if (uiElement != null) uiElement.gameObject.SetActive(false);
+            if (mouseUi != null) mouseUi.SetActive(false);
+            if (progressUi != null) progressUi.SetActive(false);
+            if (perfectTimingUi != null) perfectTimingUi.SetActive(false);
+            return;
+        }
+
         if (uiElement == null || mouseUi == null) return;
 
         bool leftPressed = Mouse.current.leftButton.isPressed;
@@ -84,7 +102,25 @@ public class PlantController : MonoBehaviour
                     aliceController.enabled = false;
                     if (smokeEffect != null) smokeEffect.SetActive(true);
                     if (animator != null) animator.SetBool("Planting", true);
-                    if (progressUi != null) progressUi.SetActive(true);
+                    if (progressUi != null)
+                    {
+                        if (!progressUi.activeSelf) progressUi.SetActive(true);
+
+                        SliderController slider = progressUi.GetComponent<SliderController>();
+                        if (slider != null)
+                        {
+                            slider.maxDuration = maxDuration;
+                            slider.perfectTimingCount = perfectTimingCount;
+                            slider.failPenaltySeconds = failPenaltySeconds;
+                            slider.perfectTimingUi = perfectTimingUi;
+
+                            if (slider.sliderValue >= 1f)
+                            {
+                                OnPlantingComplete();
+                                return;
+                            }
+                        }
+                    }
                     Debug.Log("Planting...");
                 }
             }
@@ -92,9 +128,9 @@ public class PlantController : MonoBehaviour
             return;
         } else {
             if (animator != null) animator.SetBool("Planting", false);
-            if (smokeEffect != null) smokeEffect.SetActive(false);
             if (progressUi != null) progressUi.SetActive(false);
             if (perfectTimingUi != null) perfectTimingUi.SetActive(false);
+            if (smokeEffect != null) smokeEffect.SetActive(false);
         }
 
         if (PlayerInZone.isInZone) {
@@ -104,13 +140,11 @@ public class PlantController : MonoBehaviour
             } else {
                 uiElement.gameObject.SetActive(true);
                 mouseUi.SetActive(false);
-                if (smokeEffect != null) smokeEffect.SetActive(false);
             }
         }
         else {
             uiElement.gameObject.SetActive(false);
             mouseUi.SetActive(false);
-            if (smokeEffect != null) smokeEffect.SetActive(false);
         }
 
         Vector3 screenPos = mainCamera.WorldToScreenPoint(transform.position + offset);
@@ -164,5 +198,29 @@ public class PlantController : MonoBehaviour
         {
             if (aliceController != null) aliceController.enabled = true;
         }
+    }
+
+    void OnPlantingComplete()
+    {
+        isFinished = true;
+        isHolding = false;
+        isApproaching = false;
+        StopAllCoroutines();
+
+        if (aliceController != null) aliceController.enabled = true;
+        if (animator != null)
+        {
+            animator.SetBool("Planting", false);
+            animator.SetFloat("Move", 0f);
+        }
+        
+        if (smokeEffect != null) smokeEffect.SetActive(false);
+        if (progressUi != null) progressUi.SetActive(false);
+        if (perfectTimingUi != null) perfectTimingUi.SetActive(false);
+        if (uiElement != null) uiElement.gameObject.SetActive(false);
+        if (mouseUi != null) mouseUi.SetActive(false);
+
+        if (plantObj != null) plantObj.SetActive(false);
+        if (plantObjDone != null) plantObjDone.SetActive(true);
     }
 }

@@ -392673,6 +392673,7 @@ GameObject:
   - component: {fileID: 1977316129}
   - component: {fileID: 1977316128}
   - component: {fileID: 1977316127}
+  - component: {fileID: 1977316126}
   m_Layer: 0
   m_Name: SMOKE fx
   m_TagString: Untagged
@@ -392680,6 +392681,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!114 &1977316126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977316125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7189aa5866ef834cb4f0c24a4f4e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SmokeAnimation
+  smokeEffect: {fileID: 1977316128}
+  alpha: 100
+  delayStart: 1.5
+  duration: 0.2
 --- !u!199 &1977316127
 ParticleSystemRenderer:
   serializedVersion: 7

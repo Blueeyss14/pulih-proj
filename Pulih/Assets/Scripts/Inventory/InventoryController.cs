@@ -26,7 +26,7 @@ public class InventoryController : MonoBehaviour
         int count = 0;
         for (int i = 0; i < savedItems.Count; i++)
         {
-            if (savedItems[i] != null && savedItems[i].itemName == itemName)
+            if (savedItems[i] != null && string.Equals(savedItems[i].itemName?.Trim(), itemName.Trim(), System.StringComparison.OrdinalIgnoreCase))
             {
                 count++;
             }
@@ -39,7 +39,7 @@ public class InventoryController : MonoBehaviour
         if (string.IsNullOrEmpty(itemName)) return null;
         for (int i = 0; i < savedItems.Count; i++)
         {
-            if (savedItems[i] != null && savedItems[i].itemName == itemName)
+            if (savedItems[i] != null && string.Equals(savedItems[i].itemName?.Trim(), itemName.Trim(), System.StringComparison.OrdinalIgnoreCase))
             {
                 return savedItems[i];
             }
@@ -52,7 +52,7 @@ public class InventoryController : MonoBehaviour
         if (string.IsNullOrEmpty(itemName)) return false;
         for (int i = 0; i < savedItems.Count; i++)
         {
-            if (savedItems[i] != null && savedItems[i].itemName == itemName)
+            if (savedItems[i] != null && string.Equals(savedItems[i].itemName?.Trim(), itemName.Trim(), System.StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }

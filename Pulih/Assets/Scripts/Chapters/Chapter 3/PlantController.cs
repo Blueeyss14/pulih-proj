@@ -20,6 +20,33 @@ public class PlantController : MonoBehaviour
 
     public Animator animator;
 
+    [Header("Requierment")]
+    public string requiredItemName = "";
+    public int requiredItemCount = 1;
+
+    private InventoryController inventoryController;
+
+    private InventoryController GetInventoryController()
+    {
+        if (inventoryController == null)
+        {
+            inventoryController = FindObjectOfType<InventoryController>(true);
+        }
+        return inventoryController;
+    }
+
+    public bool HasRequiredItem()
+    {
+        if (string.IsNullOrEmpty(requiredItemName)) return true;
+
+        InventoryController inv = GetInventoryController();
+        if (inv != null)
+        {
+            return inv.GetItemCount(requiredItemName) >= requiredItemCount;
+        }
+        return false;
+    }
+
     [Header("Object")]
     public GameObject plantObj;
     public GameObject plantObjDone;
@@ -40,9 +67,18 @@ public class PlantController : MonoBehaviour
     void Awake()
     {
         mainCamera = Camera.main;
+        if (aliceController == null) aliceController = FindObjectOfType<AliceController>();
+        if (playerController == null && aliceController != null) playerController = aliceController.GetComponent<CharacterController>();
+        if (playerController == null) playerController = FindObjectOfType<CharacterController>();
+        if (animator == null && aliceController != null) animator = aliceController.GetComponentInChildren<Animator>();
     }
 
     void Start() {
+        if (aliceController == null) aliceController = FindObjectOfType<AliceController>();
+        if (playerController == null && aliceController != null) playerController = aliceController.GetComponent<CharacterController>();
+        if (playerController == null) playerController = FindObjectOfType<CharacterController>();
+        if (animator == null && aliceController != null) animator = aliceController.GetComponentInChildren<Animator>();
+
         if (progressUi != null && activePlant == null) progressUi.SetActive(false);
         if (smokeEffect != null) smokeEffect.SetActive(false);
         if (perfectTimingUi != null && activePlant == null) perfectTimingUi.SetActive(false);
@@ -67,10 +103,17 @@ public class PlantController : MonoBehaviour
 
         if (uiElement == null) return;
 
+        if (activePlant != null && activePlant != this)
+        {
+            if (uiElement != null) uiElement.gameObject.SetActive(false);
+            if (mouseUi != null) mouseUi.SetActive(false);
+            return;
+        }
+
         bool leftPressed = Mouse.current.leftButton.isPressed;
         bool isTargeted = CrosshairAim.currentTarget == gameObject;
 
-        if (isTargeted && Mouse.current.leftButton.wasPressedThisFrame)
+        if (HasRequiredItem() && isTargeted && Mouse.current.leftButton.wasPressedThisFrame)
         {
             isHolding = true;
             activePlant = this;
@@ -95,7 +138,7 @@ public class PlantController : MonoBehaviour
             isHolding = false;
         }
 
-        if (isHolding) {
+        if (isHolding && HasRequiredItem()) {
             if (uiElement != null) uiElement.gameObject.SetActive(false);
             if (mouseUi != null) mouseUi.SetActive(false);
 
@@ -239,6 +282,51 @@ public class PlantController : MonoBehaviour
         isApproaching = false;
         if (activePlant == this) activePlant = null;
         StopAllCoroutines();
+
+        if (!string.IsNullOrEmpty(requiredItemName) && requiredItemCount > 0)
+        {
+            InventoryController inv = GetInventoryController();
+            if (inv != null && inv.savedItems != null)
+            {
+                int toRemove = requiredItemCount;
+                for (int i = inv.savedItems.Count - 1; i >= 0 && toRemove > 0; i--)
+                {
+                    if (inv.savedItems[i] != null && string.Equals(inv.savedItems[i].itemName?.Trim(), requiredItemName.Trim(), System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        inv.savedItems.RemoveAt(i);
+                        toRemove--;
+                    }
+                }
+
+                if (inv.content != null)
+                {
+                    foreach (Transform child in inv.content)
+                    {
+                        Destroy(child.gameObject);
+                    }
+
+                    var itemsToKeep = new System.Collections.Generic.List<InventoryItem.ItemData>(inv.savedItems);
+                    inv.savedItems.Clear();
+
+                    inv.selectedItem = null;
+                    inv.selectedCard = null;
+                    if (inv.itemDetail != null)
+                    {
+                        inv.itemDetail.UpdateDetail(null, "", "");
+                    }
+
+                    foreach (var item in itemsToKeep)
+                    {
+                        inv.AddItemToInventory(item);
+                    }
+
+                    if (inv.savedItems.Count > 0)
+                    {
+                        inv.SelectFirstItem();
+                    }
+                }
+            }
+        }
 
         if (aliceController != null) aliceController.enabled = true;
         if (animator != null)

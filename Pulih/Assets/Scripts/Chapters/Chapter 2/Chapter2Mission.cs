@@ -72,6 +72,7 @@ public class Chapter2Mission : BaseChapterMission
     public override void ForceComplete()
     {
         currentStep = Chapter2Step.Completed;
+        canPickupItem = true;
         foreach (var mission in missions)
         {
             mission.isCompleted = true;

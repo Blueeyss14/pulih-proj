@@ -5,6 +5,7 @@ using System.Collections;
 public class PlantController : MonoBehaviour
 {
     public static PlantController activePlant;
+    public static bool showActiveObjectiveUI = false;
 
     public RectTransform uiElement;
     public Vector3 offset;
@@ -199,7 +200,7 @@ public class PlantController : MonoBehaviour
             }
         }
 
-        if (PlayerInZone.isInZone) {
+        if (PlayerInZone.isInZone && showActiveObjectiveUI) {
             if (isTargeted) {
                 uiElement.gameObject.SetActive(false);
                 if (mouseUi != null) mouseUi.SetActive(true);

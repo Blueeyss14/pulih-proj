@@ -73,6 +73,7 @@ public class Chapter2Mission : BaseChapterMission
     {
         currentStep = Chapter2Step.Completed;
         canPickupItem = true;
+        craftMenuUnlocked = true;
         foreach (var mission in missions)
         {
             mission.isCompleted = true;

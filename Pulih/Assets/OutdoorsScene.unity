@@ -156477,7 +156477,7 @@ MonoBehaviour:
   perfectTimingUi: {fileID: 415193698}
   isCompleted: 0
   animator: {fileID: 904750622}
-  requiredItemName: Stone
+  requiredItemName: Hammer
   requiredItemCount: 1
   plantObj: {fileID: 821761942}
   plantObjDone: {fileID: 695437637}
@@ -377269,7 +377269,7 @@ MonoBehaviour:
   perfectTimingUi: {fileID: 415193698}
   isCompleted: 0
   animator: {fileID: 904750622}
-  requiredItemName: Stone
+  requiredItemName: Hammer
   requiredItemCount: 1
   plantObj: {fileID: 1889878849}
   plantObjDone: {fileID: 1796402788}

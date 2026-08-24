@@ -11,7 +11,7 @@ CHAPTER 3 - MISSIONS
     - Completed restoration
 ]
 */
-public enum Chapter3Step { Mission1, Mission2Sub1, Mission2Sub2, Mission3Sub1, Completed }
+public enum Chapter3Step { Mission1, Mission2Sub1, Mission2Sub2, Mission3Sub1, Mission3Sub2, Completed }
 
 public class Chapter3Mission : BaseChapterMission
 {
@@ -29,6 +29,7 @@ public class Chapter3Mission : BaseChapterMission
 
     private InventoryController inventoryController;
     private bool seedBought = false;
+    private bool restorationCompleted = false;
 
     void OnEnable()
     {
@@ -67,6 +68,7 @@ public class Chapter3Mission : BaseChapterMission
 
         CheckChapterStatus();
         BuySeed();
+        CompletedRestoration();
     }
 
     private void CheckChapterStatus()
@@ -180,15 +182,36 @@ public class Chapter3Mission : BaseChapterMission
         ActiveObjectUi.SetCurrentActiveNumber(0);
         PlantController.showActiveObjectiveUI = true;
         chapterProgress?.GenerateChapterUI();
-        currentStep = Chapter3Step.Completed;
+        currentStep = Chapter3Step.Mission3Sub2;
     }
 
     /* MISSION 3
     Submission 2: Completed Restoration
     */
-
     private void CompletedRestoration() {
-        
+        if (restorationCompleted) return;
+        if (currentStep != Chapter3Step.Mission3Sub2) return;
+
+        PlantingManager[] plantingManagers = FindObjectsOfType<PlantingManager>();
+        if (plantingManagers.Length == 0) return;
+
+        bool allCompleted = true;
+        foreach (PlantingManager pm in plantingManagers)
+        {
+            if (pm != null && !pm.isAreaCompleted)
+            {
+                allCompleted = false;
+                break;
+            }
+        }
+
+        if (allCompleted)
+        {
+            restorationCompleted = true;
+            CompleteCurrentSubMission();
+            chapterProgress?.GenerateChapterUI();
+            currentStep = Chapter3Step.Completed;
+        }
     }
 
 }
